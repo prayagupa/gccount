@@ -10,12 +10,12 @@
 	<g:checkBox name="active" value="${userInstance?.active}" />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'name', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'username', 'error')} ">
 	<label for="name">
-		<g:message code="user.name.label" default="Name" />
+		<g:message code="user.username.label" default="Username" />
 		
 	</label>
-	<g:textField name="name" value="${userInstance?.name}"/>
+	<g:textField name="username" value="${userInstance?.username}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} ">
