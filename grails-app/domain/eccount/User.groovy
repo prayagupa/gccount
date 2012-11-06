@@ -1,9 +1,10 @@
 package eccount
 
-class User {
-    String name;
+class User{
+    String username;
     String password;
-    Boolean active;
+    Boolean active=true;
     static constraints = {
+         active(display:false)
     }
 }
