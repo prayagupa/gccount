@@ -3,7 +3,7 @@ package eccount
 import org.springframework.dao.DataIntegrityViolationException
 
 class UserController {
-
+    def scaffold = true 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index() {
