@@ -4,20 +4,35 @@ dataSource {
     username = "sa"
     password = ""
 }
+//mongo_conf = Off
+//this is throwing error
+/*
+grails { 
+  mongo { 
+    host ="localhost"
+    port = 27107 
+    username = ""
+    password="" 
+    databaseName = "eccount" 
+  } 
+}
+*/
 hibernate {
     cache.use_second_level_cache = true
     cache.use_query_cache = false
     cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory'
 }
 // environment specific settings
+// for your SQL Server database
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
-            driverClassName = "com.mysql.jdbc.Driver"
-            url = "jdbc:mysql://10.13.212.4:3306/eccount"
-            username = "esewa"
-            password = "esewa"
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            driverClassName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+	    url = "jdbc:sqlserver://192.168.2.19:1433;databaseName=cps"
+	    dialect = "org.hibernate.dialect.SQLServerDialect"
+            username = "sa"
+            password = ""
         }
     }
     test {
