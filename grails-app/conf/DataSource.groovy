@@ -25,6 +25,7 @@ hibernate {
 // environment specific settings
 // for your SQL Server database
 environments {
+/*
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
@@ -35,6 +36,7 @@ environments {
             password = ""
         }
     }
+/*/
     test {
         dataSource {
             dbCreate = "update"
