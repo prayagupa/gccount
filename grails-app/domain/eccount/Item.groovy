@@ -1,15 +1,19 @@
 package eccount
 /**
   * @author  : Prayag Upd
-  * @created : 9 Nov, 2012
+  * @created : 4 Dec, 2012
   */
-class User{
-    String username;
-    String password;
+class Item{
+    String name;
+    Date created;
     Boolean active=true;
+    Category category;
+    static belongsTo = Category;
+
     static mapWith="mongo"
+
     static constraints = {
-         password(password:true)
+         created(display:false)
          active(display:false)
     }
 }

@@ -1,15 +1,17 @@
 package eccount
 /**
   * @author  : Prayag Upd
-  * @created : 9 Nov, 2012
+  * @created : 9 Dec, 2012
   */
-class User{
-    String username;
-    String password;
+
+class Customer{
+    String firstName;
+    String middleName;
+    String lastName;	
     Boolean active=true;
+
     static mapWith="mongo"
     static constraints = {
-         password(password:true)
          active(display:false)
     }
 }
