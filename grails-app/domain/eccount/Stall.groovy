@@ -11,7 +11,7 @@ class Stall{
     static hasMany = [items:Item]
     //static mappedBy = [items:"category"]
 
-    static mapWith="mongo"
+    //static mapWith="mongo"
 
     static constraints = {
          created(display:false)

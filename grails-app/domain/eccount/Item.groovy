@@ -10,7 +10,7 @@ class Item{
     Category category;
     static belongsTo = Category;
 
-    static mapWith="mongo"
+    //static mapWith="mongo"
 
     static constraints = {
          created(display:false)

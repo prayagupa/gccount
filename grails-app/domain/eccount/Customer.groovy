@@ -10,7 +10,8 @@ class Customer{
     String lastName;	
     Boolean active=true;
 
-    static mapWith="mongo"
+    //static mapWith="mongo"
+
     static constraints = {
          active(display:false)
     }

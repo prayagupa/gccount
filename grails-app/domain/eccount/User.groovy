@@ -7,7 +7,9 @@ class User{
     String username;
     String password;
     Boolean active=true;
-    static mapWith="mongo"
+    
+    //static mapWith="mongo"
+    
     static constraints = {
          password(password:true)
          active(display:false)
