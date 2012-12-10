@@ -37,6 +37,17 @@ environments {
         }
     }
 /*/
+/*conf for MySQL database*/
+    development {
+        dataSource {
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            driverClassName = "com.mysql.jdbc.Driver"
+            url = "jdbc:mysql://localhost:3306/cashless"
+            username = "root"
+            password = "mysql55"
+        }
+    }
+
     test {
         dataSource {
             dbCreate = "update"
