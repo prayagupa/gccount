@@ -5,7 +5,7 @@ package eccount
   */
 class Stall{
     String name;
-    Date created;
+    Date created = new Date();
     Boolean active=true;
     
     static hasMany = [items:Item]
