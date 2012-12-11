@@ -3,7 +3,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
+		<!-- 
+		-- @author   : Prayag Upd
+		-- @modified : 10 Dec, 2012
+		-- @desc     : add bootstrap to content
+		-->
+		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'category.label', default: 'Category')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
