@@ -34,11 +34,14 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
+	//mysql_dependency:off
         runtime 'mysql:mysql-connector-java:5.1.20'
+	
+	//compile ":mongodb:1.0.0.GA"
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
+       // runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"
 
@@ -52,5 +55,11 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.1"
 
         compile ':cache:1.0.0'
+	
+	// install twitter-bootstrap resources plugin
+	// https://github.com/iPrayag/twitter-bootstrap-scaffolding
+	runtime ":twitter-bootstrap:2.1.1"
+	// install Fields plugin
+	runtime ":fields:1.3"
     }
 }
