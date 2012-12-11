@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
+		<!-- 
+		-- @author   : Prayag Upd
+		-- @modified : 10 Dec, 2012
+		-- @desc     : add bootstrap to content
+		-->
+		<meta name="layout" content="bootstrap"/>
+		<title>Cashless - Star Mall</title>
 		<style type="text/css" media="screen">
 			#status {
-				background-color: #eee;
+				background-color: #333;
 				border: .2em solid #fff;
 				margin: 2em 2em 1em;
 				padding: 1em;
@@ -109,7 +114,11 @@
 -->
 				<ul>
 					<li><g:link controller="category">Category</g:link></li>
-					<li><g:link controller="category">Item</g:link></li>
+					<li><g:link controller="item">    Item</g:link></li>
+					<li><g:link controller="stall">   Stall</g:link></li>
+					<li><g:link controller="user">    Staff</g:link></li>
+					<li><g:link controller="customer">    Customer</g:link></li>
+					<li><g:link controller="transactions">    Transactions</g:link></li>
 				</ul>
 			</div>
 		</div>
