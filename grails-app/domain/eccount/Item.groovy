@@ -5,7 +5,7 @@ package eccount
   */
 class Item{
     String name;
-    Date created;
+    Date created = new Date();
     Boolean active=true;
     Category category;
     static belongsTo = Category;
