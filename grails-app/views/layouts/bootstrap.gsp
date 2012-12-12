@@ -37,8 +37,11 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					
-					<a class="brand" href="${createLink(uri: '/')}">Grails Twitter Bootstrap</a>
+				        <!--
+                                           @author : Prayag
+                                           @modified : 12-12-2012
+                                        -->	
+					<a class="brand" href="${createLink(uri: '/')}">Prab Food Court</a>
 
 					<div class="nav-collapse">
 						<ul class="nav">							
@@ -58,7 +61,7 @@
 			<hr>
 
 			<footer>
-				<p>&copy; Company 2011</p>
+				<p>&copy; Company 2012</p>
 			</footer>
 		</div>
 
