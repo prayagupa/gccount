@@ -20,4 +20,9 @@ class Category{
          created(display:false)
          active(display:false)
     }
+
+    String toString(){
+         "${name}"
+    }
+
 }
