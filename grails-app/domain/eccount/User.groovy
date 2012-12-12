@@ -14,6 +14,9 @@ class User{
     //static mapWith="mongo"
     
     static constraints = {
+         firstName(blank:false)
+         middleName(blank:true)
+         lastName(blank:false)
          password(password:true)
          active(display:false)
          created(display:false)

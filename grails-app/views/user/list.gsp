@@ -44,17 +44,17 @@
 					<thead>
 						<tr>
 						
+							<g:sortableColumn property="firstName" title="${message(code: 'user.firstName.label', default: 'First Name')}" />
+						
+							<g:sortableColumn property="middleName" title="${message(code: 'user.middleName.label', default: 'Middle Name')}" />
+						
+							<g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
+						
 							<g:sortableColumn property="password" title="${message(code: 'user.password.label', default: 'Password')}" />
 						
 							<g:sortableColumn property="active" title="${message(code: 'user.active.label', default: 'Active')}" />
 						
 							<g:sortableColumn property="created" title="${message(code: 'user.created.label', default: 'Created')}" />
-						
-							<g:sortableColumn property="firstName" title="${message(code: 'user.firstName.label', default: 'First Name')}" />
-						
-							<g:sortableColumn property="lastName" title="${message(code: 'user.lastName.label', default: 'Last Name')}" />
-						
-							<g:sortableColumn property="middleName" title="${message(code: 'user.middleName.label', default: 'Middle Name')}" />
 						
 							<th></th>
 						</tr>
@@ -63,17 +63,17 @@
 					<g:each in="${userInstanceList}" var="userInstance">
 						<tr>
 						
+							<td>${fieldValue(bean: userInstance, field: "firstName")}</td>
+						
+							<td>${fieldValue(bean: userInstance, field: "middleName")}</td>
+						
+							<td>${fieldValue(bean: userInstance, field: "lastName")}</td>
+						
 							<td>${fieldValue(bean: userInstance, field: "password")}</td>
 						
 							<td><g:formatBoolean boolean="${userInstance.active}" /></td>
 						
 							<td><g:formatDate date="${userInstance.created}" /></td>
-						
-							<td>${fieldValue(bean: userInstance, field: "firstName")}</td>
-						
-							<td>${fieldValue(bean: userInstance, field: "lastName")}</td>
-						
-							<td>${fieldValue(bean: userInstance, field: "middleName")}</td>
 						
 							<td class="link">
 								<g:link action="show" id="${userInstance.id}" class="btn btn-small">Show &raquo;</g:link>

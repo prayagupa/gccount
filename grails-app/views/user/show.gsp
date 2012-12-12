@@ -42,6 +42,27 @@
 
 				<dl>
 				
+					<g:if test="${userInstance?.firstName}">
+						<dt><g:message code="user.firstName.label" default="First Name" /></dt>
+						
+							<dd><g:fieldValue bean="${userInstance}" field="firstName"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${userInstance?.middleName}">
+						<dt><g:message code="user.middleName.label" default="Middle Name" /></dt>
+						
+							<dd><g:fieldValue bean="${userInstance}" field="middleName"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${userInstance?.lastName}">
+						<dt><g:message code="user.lastName.label" default="Last Name" /></dt>
+						
+							<dd><g:fieldValue bean="${userInstance}" field="lastName"/></dd>
+						
+					</g:if>
+				
 					<g:if test="${userInstance?.password}">
 						<dt><g:message code="user.password.label" default="Password" /></dt>
 						
@@ -60,27 +81,6 @@
 						<dt><g:message code="user.created.label" default="Created" /></dt>
 						
 							<dd><g:formatDate date="${userInstance?.created}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.firstName}">
-						<dt><g:message code="user.firstName.label" default="First Name" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="firstName"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.lastName}">
-						<dt><g:message code="user.lastName.label" default="Last Name" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="lastName"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.middleName}">
-						<dt><g:message code="user.middleName.label" default="Middle Name" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="middleName"/></dd>
 						
 					</g:if>
 				
