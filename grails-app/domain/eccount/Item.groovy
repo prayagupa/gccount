@@ -13,6 +13,8 @@ class Item{
     //static mapWith="mongo"
 
     static constraints = {
+         name(blank:false)
+         category(blank:false)
          created(display:false)
          active(display:false)
     }

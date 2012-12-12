@@ -14,7 +14,8 @@ class Stall{
     //static mapWith="mongo"
 
     static constraints = {
-         created(display:false)
+         name(blank:false)
+	 created(display:false)
          active(display:false)
     }
 }

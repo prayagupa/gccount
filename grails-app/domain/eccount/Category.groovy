@@ -15,6 +15,8 @@ class Category{
     //static mapWith="mongo"
 
     static constraints = {
+         name(blank:false)
+         items(display:false) 
          created(display:false)
          active(display:false)
     }
