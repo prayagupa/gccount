@@ -1,79 +1,95 @@
 
 <%@ page import="eccount.Category" %>
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
-		<!-- 
-		-- @author   : Prayag Upd
-		-- @modified : 10 Dec, 2012
-		-- @desc     : add bootstrap to content
-		-->
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'category.label', default: 'Category')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<a href="#show-category" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="show-category" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<ol class="property-list category">
+		<div class="row-fluid">
 			
-				<g:if test="${categoryInstance?.created}">
-				<li class="fieldcontain">
-					<span id="created-label" class="property-label"><g:message code="category.created.label" default="Created" /></span>
-					
-						<span class="property-value" aria-labelledby="created-label"><g:formatDate date="${categoryInstance?.created}" /></span>
-					
-				</li>
+			<div class="span3">
+				<div class="well">
+					<ul class="nav nav-list">
+						<li class="nav-header">${entityName}</li>
+						<li>
+							<g:link class="list" action="list">
+								<i class="icon-list"></i>
+								<g:message code="default.list.label" args="[entityName]" />
+							</g:link>
+						</li>
+						<li>
+							<g:link class="create" action="create">
+								<i class="icon-plus"></i>
+								<g:message code="default.create.label" args="[entityName]" />
+							</g:link>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="span9">
+
+				<div class="page-header">
+					<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-			
-				<g:if test="${categoryInstance?.active}">
-				<li class="fieldcontain">
-					<span id="active-label" class="property-label"><g:message code="category.active.label" default="Active" /></span>
-					
-						<span class="property-value" aria-labelledby="active-label"><g:formatBoolean boolean="${categoryInstance?.active}" /></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${categoryInstance?.items}">
-				<li class="fieldcontain">
-					<span id="items-label" class="property-label"><g:message code="category.items.label" default="Items" /></span>
-					
-						<g:each in="${categoryInstance.items}" var="i">
-						<span class="property-value" aria-labelledby="items-label"><g:link controller="item" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></span>
-						</g:each>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${categoryInstance?.name}">
-				<li class="fieldcontain">
-					<span id="name-label" class="property-label"><g:message code="category.name.label" default="Name" /></span>
-					
-						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${categoryInstance}" field="name"/></span>
-					
-				</li>
-				</g:if>
-			
-			</ol>
-			<g:form>
-				<fieldset class="buttons">
+
+				<dl>
+				
+					<g:if test="${categoryInstance?.created}">
+						<dt><g:message code="category.created.label" default="Created" /></dt>
+						
+							<dd><g:formatDate date="${categoryInstance?.created}" /></dd>
+						
+					</g:if>
+				
+					<g:if test="${categoryInstance?.active}">
+						<dt><g:message code="category.active.label" default="Active" /></dt>
+						
+							<dd><g:formatBoolean boolean="${categoryInstance?.active}" /></dd>
+						
+					</g:if>
+				
+					<g:if test="${categoryInstance?.items}">
+						<dt><g:message code="category.items.label" default="Items" /></dt>
+						
+							<g:each in="${categoryInstance.items}" var="i">
+							<dd><g:link controller="item" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></dd>
+							</g:each>
+						
+					</g:if>
+				
+					<g:if test="${categoryInstance?.name}">
+						<dt><g:message code="category.name.label" default="Name" /></dt>
+						
+							<dd><g:fieldValue bean="${categoryInstance}" field="name"/></dd>
+						
+					</g:if>
+				
+				</dl>
+
+				<g:form>
 					<g:hiddenField name="id" value="${categoryInstance?.id}" />
-					<g:link class="edit" action="edit" id="${categoryInstance?.id}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
+					<div class="form-actions">
+						<g:link class="btn" action="edit" id="${categoryInstance?.id}">
+							<i class="icon-pencil"></i>
+							<g:message code="default.button.edit.label" default="Edit" />
+						</g:link>
+						<button class="btn btn-danger" type="submit" name="_action_delete">
+							<i class="icon-trash icon-white"></i>
+							<g:message code="default.button.delete.label" default="Delete" />
+						</button>
+					</div>
+				</g:form>
+
+			</div>
+
 		</div>
 	</body>
 </html>
