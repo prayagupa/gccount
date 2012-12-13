@@ -5,6 +5,7 @@ package eccount
   */
 class Item{
     String name;
+    Double price;
     Date created = new Date();
     Boolean active=true;
     Category category;
@@ -14,6 +15,7 @@ class Item{
 
     static constraints = {
          name(blank:false)
+         price(blank:false)
          category(blank:false)
          created(display:false)
          active(display:false)
