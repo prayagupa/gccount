@@ -10,12 +10,14 @@ class Stall{
     
     static hasMany = [items:Item]
     //static mappedBy = [items:"category"]
-
+    User user;
     //static mapWith="mongo"
 
     static constraints = {
          name(blank:false)
 	 created(display:false)
          active(display:false)
+         items()
+         user(blank:true);
     }
 }
