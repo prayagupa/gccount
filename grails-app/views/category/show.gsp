@@ -42,17 +42,10 @@
 
 				<dl>
 				
-					<g:if test="${categoryInstance?.created}">
-						<dt><g:message code="category.created.label" default="Created" /></dt>
+					<g:if test="${categoryInstance?.name}">
+						<dt><g:message code="category.name.label" default="Name" /></dt>
 						
-							<dd><g:formatDate date="${categoryInstance?.created}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${categoryInstance?.active}">
-						<dt><g:message code="category.active.label" default="Active" /></dt>
-						
-							<dd><g:formatBoolean boolean="${categoryInstance?.active}" /></dd>
+							<dd><g:fieldValue bean="${categoryInstance}" field="name"/></dd>
 						
 					</g:if>
 				
@@ -65,10 +58,17 @@
 						
 					</g:if>
 				
-					<g:if test="${categoryInstance?.name}">
-						<dt><g:message code="category.name.label" default="Name" /></dt>
+					<g:if test="${categoryInstance?.created}">
+						<dt><g:message code="category.created.label" default="Created" /></dt>
 						
-							<dd><g:fieldValue bean="${categoryInstance}" field="name"/></dd>
+							<dd><g:formatDate date="${categoryInstance?.created}" /></dd>
+						
+					</g:if>
+				
+					<g:if test="${categoryInstance?.active}">
+						<dt><g:message code="category.active.label" default="Active" /></dt>
+						
+							<dd><g:formatBoolean boolean="${categoryInstance?.active}" /></dd>
 						
 					</g:if>
 				

@@ -44,11 +44,11 @@
 					<thead>
 						<tr>
 						
+							<g:sortableColumn property="name" title="${message(code: 'category.name.label', default: 'Name')}" />
+						
 							<g:sortableColumn property="created" title="${message(code: 'category.created.label', default: 'Created')}" />
 						
 							<g:sortableColumn property="active" title="${message(code: 'category.active.label', default: 'Active')}" />
-						
-							<g:sortableColumn property="name" title="${message(code: 'category.name.label', default: 'Name')}" />
 						
 							<th></th>
 						</tr>
@@ -57,11 +57,11 @@
 					<g:each in="${categoryInstanceList}" var="categoryInstance">
 						<tr>
 						
+							<td>${fieldValue(bean: categoryInstance, field: "name")}</td>
+						
 							<td><g:formatDate date="${categoryInstance.created}" /></td>
 						
 							<td><g:formatBoolean boolean="${categoryInstance.active}" /></td>
-						
-							<td>${fieldValue(bean: categoryInstance, field: "name")}</td>
 						
 							<td class="link">
 								<g:link action="show" id="${categoryInstance.id}" class="btn btn-small">Show &raquo;</g:link>
