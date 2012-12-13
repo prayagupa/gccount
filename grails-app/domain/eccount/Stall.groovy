@@ -9,7 +9,7 @@ class Stall{
     Boolean active=true;
     
     static hasMany = [items:Item]
-    //static mappedBy = [items:"category"]
+    //static mappedBy = [items:"stall"]
     User user;
     //static mapWith="mongo"
 
