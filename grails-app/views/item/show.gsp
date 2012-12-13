@@ -42,6 +42,27 @@
 
 				<dl>
 				
+					<g:if test="${itemInstance?.name}">
+						<dt><g:message code="item.name.label" default="Name" /></dt>
+						
+							<dd><g:fieldValue bean="${itemInstance}" field="name"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${itemInstance?.price}">
+						<dt><g:message code="item.price.label" default="Price" /></dt>
+						
+							<dd><g:fieldValue bean="${itemInstance}" field="price"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${itemInstance?.category}">
+						<dt><g:message code="item.category.label" default="Category" /></dt>
+						
+							<dd><g:link controller="category" action="show" id="${itemInstance?.category?.id}">${itemInstance?.category?.encodeAsHTML()}</g:link></dd>
+						
+					</g:if>
+				
 					<g:if test="${itemInstance?.created}">
 						<dt><g:message code="item.created.label" default="Created" /></dt>
 						
@@ -53,20 +74,6 @@
 						<dt><g:message code="item.active.label" default="Active" /></dt>
 						
 							<dd><g:formatBoolean boolean="${itemInstance?.active}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${itemInstance?.category}">
-						<dt><g:message code="item.category.label" default="Category" /></dt>
-						
-							<dd><g:link controller="category" action="show" id="${itemInstance?.category?.id}">${itemInstance?.category?.encodeAsHTML()}</g:link></dd>
-						
-					</g:if>
-				
-					<g:if test="${itemInstance?.name}">
-						<dt><g:message code="item.name.label" default="Name" /></dt>
-						
-							<dd><g:fieldValue bean="${itemInstance}" field="name"/></dd>
 						
 					</g:if>
 				

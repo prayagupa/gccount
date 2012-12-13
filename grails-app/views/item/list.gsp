@@ -44,13 +44,15 @@
 					<thead>
 						<tr>
 						
-							<g:sortableColumn property="created" title="${message(code: 'item.created.label', default: 'Created')}" />
+							<g:sortableColumn property="name" title="${message(code: 'item.name.label', default: 'Name')}" />
 						
-							<g:sortableColumn property="active" title="${message(code: 'item.active.label', default: 'Active')}" />
+							<g:sortableColumn property="price" title="${message(code: 'item.price.label', default: 'Price')}" />
 						
 							<th class="header"><g:message code="item.category.label" default="Category" /></th>
 						
-							<g:sortableColumn property="name" title="${message(code: 'item.name.label', default: 'Name')}" />
+							<g:sortableColumn property="created" title="${message(code: 'item.created.label', default: 'Created')}" />
+						
+							<g:sortableColumn property="active" title="${message(code: 'item.active.label', default: 'Active')}" />
 						
 							<th></th>
 						</tr>
@@ -59,13 +61,15 @@
 					<g:each in="${itemInstanceList}" var="itemInstance">
 						<tr>
 						
-							<td><g:formatDate date="${itemInstance.created}" /></td>
+							<td>${fieldValue(bean: itemInstance, field: "name")}</td>
 						
-							<td><g:formatBoolean boolean="${itemInstance.active}" /></td>
+							<td>${fieldValue(bean: itemInstance, field: "price")}</td>
 						
 							<td>${fieldValue(bean: itemInstance, field: "category")}</td>
 						
-							<td>${fieldValue(bean: itemInstance, field: "name")}</td>
+							<td><g:formatDate date="${itemInstance.created}" /></td>
+						
+							<td><g:formatBoolean boolean="${itemInstance.active}" /></td>
 						
 							<td class="link">
 								<g:link action="show" id="${itemInstance.id}" class="btn btn-small">Show &raquo;</g:link>
