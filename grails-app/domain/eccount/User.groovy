@@ -21,4 +21,7 @@ class User{
          active(display:false)
          created(display:false)
     }
+    String toString(){
+         "${firstName}";
+    }
 }
