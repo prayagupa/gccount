@@ -17,4 +17,8 @@ class Account {
        created(display:false)
        active(display:false)	
     }
+
+    String toString(){
+         "${customer.firstName+" "+customer.lastName}+" "+customer.lastName}"
+    }
 }
