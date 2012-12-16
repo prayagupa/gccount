@@ -6,10 +6,15 @@ package eccount
 class Account {
     Customer customer;
     Double balance;
-    //Card rfid;
+    RfidCard rfid;
+    Date created = new Date();
+    Boolean active=true;
+
     static constraints = {
        customer(blank:false);
-       //rfid();
+       rfid(blank:false);
        balance(blank:false);
+       created(display:false)
+       active(display:false)	
     }
 }
