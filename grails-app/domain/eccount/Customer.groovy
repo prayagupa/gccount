@@ -19,4 +19,7 @@ class Customer{
          active(display:false)
          created(blank:false);
     }
+    String toString(){
+         "${firstName+" "+lastName}";
+    }
 }
