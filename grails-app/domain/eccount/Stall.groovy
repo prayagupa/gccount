@@ -5,19 +5,19 @@ package eccount
   */
 class Stall{
     String name;
-    Date created = new Date();
-    Boolean active=true;
-    
+       
     static hasMany = [items:Item]
     //static mappedBy = [items:"stall"]
     User user;
+    Date created = new Date();
+    Boolean active=true;
     //static mapWith="mongo"
 
     static constraints = {
          name(blank:false)
-	 created(display:false)
-         active(display:false)
          items()
          user(blank:true);
+       	 created(display:false)
+	 active(display:false)
     }
 }
