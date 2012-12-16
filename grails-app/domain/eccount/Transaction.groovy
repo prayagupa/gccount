@@ -9,13 +9,19 @@ class Transaction {
     Account account;
     static belongsTo = Account;
     Double amount;
-    Date created = new Date();   
+    static hasMany  = [transactionDetails:TransactionDetails];
+    static mappedBy = [transactionDetails:"transaction"]
+    Date created = new Date();
     User approvedBy;
-
+    
     static constraints = {
            account(blank:false);
            amount(blank:false);
+	   transactionDetails();
            created();
            approvedBy(blank:false);
+    }
+    String toString(){
+         "${account.rfid}"
     }
 }
