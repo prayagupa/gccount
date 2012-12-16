@@ -13,4 +13,7 @@ class RfidCard {
          created(display:false)
          active(display:false)
     }
+    String toString(){
+         "${identifier}";
+    }
 }
