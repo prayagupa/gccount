@@ -13,5 +13,9 @@ class Transaction {
     User approvedBy;
 
     static constraints = {
+           account(blank:false);
+           amount(blank:false);
+           created();
+           approvedBy(blank:false);
     }
 }
