@@ -11,7 +11,8 @@ import org.junit.*
 @TestFor(User)
 class UserTests {
 
-    void testSomething() {
-       fail "Implement me"
+    void testCreateUser() {
+       User user = new User(firstName:"Prayag")	
+	   assertEquals "Prayag", user.firstName
     }
 }
