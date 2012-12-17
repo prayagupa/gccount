@@ -22,6 +22,6 @@ class User{
          created(display:false)
     }
     String toString(){
-         "${firstName}";
+         "${firstName+" "+middleName+" "+lastName}";
     }
 }
