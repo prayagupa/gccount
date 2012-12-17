@@ -4,10 +4,12 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
+//
+//google.appengine.sdk = "/opt/appengine-java-sdk-1.7.3"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 /**
-  * @author   : prayag
+  * @author   : Prayag Upd
   * @created  : Nov, 2012
   */
 
@@ -39,10 +41,10 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
-	//mysql_dependency:off
+		//mysql_dependency:off
         runtime 'mysql:mysql-connector-java:5.1.20'
 	
-	//compile ":mongodb:1.0.0.GA"
+	
     }
 
     plugins {
@@ -61,10 +63,16 @@ grails.project.dependency.resolution = {
 
         compile ':cache:1.0.0'
 	
-	// install twitter-bootstrap resources plugin
-	// https://github.com/iPrayag/twitter-bootstrap-scaffolding
-	runtime ":twitter-bootstrap:2.1.1"
-	// install Fields plugin
-	runtime ":fields:1.3"
+		// install twitter-bootstrap resources plugin
+		// https://github.com/iPrayag/twitter-bootstrap-scaffolding
+		runtime ":twitter-bootstrap:2.1.1"
+		
+		// install Fields plugin
+		runtime ":fields:1.3"
+		
+		//compile ":mongodb:1.0.0.GA"
+		
+		//Test Code Coverage Plugin
+		test ":code-coverage:1.2.5"
     }
 }
