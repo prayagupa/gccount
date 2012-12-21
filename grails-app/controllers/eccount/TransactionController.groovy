@@ -125,4 +125,17 @@ class TransactionController {
 	//println results.totalCount;
 	[transactionInstanceList: results, transactionInstanceTotal: results.totalCount]
     }//end of daily
+
+
+    def anyRange() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def fromDate  = new Date(); //fromDate = = params.searchDate;
+	def toDate  = new Date();
+	//creating criteria
+	def results = Transaction.withCriteria() {
+		    between('created', fromDate-1, toDate+1)
+	}
+	//println results.totalCount;
+	[transactionInstanceList: results, transactionInstanceTotal: results.count]
+    }//end of daily
 }
