@@ -19,6 +19,6 @@ class Account {
     }
 
     String toString(){
-         "${customer.firstName+" "+customer.lastName+" "+customer.lastName}"
+        "${customer.firstName+" "+customer.middleName+" "+customer.lastName}"
     }
 }
