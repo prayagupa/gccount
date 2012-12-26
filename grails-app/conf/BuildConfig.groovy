@@ -32,6 +32,8 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 
+	//neo4j
+	//mavenRepo "http://repo.grails.org/grails/repo/"
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
@@ -63,16 +65,21 @@ grails.project.dependency.resolution = {
 
         compile ':cache:1.0.0'
 	
-		// install twitter-bootstrap resources plugin
-		// https://github.com/iPrayag/twitter-bootstrap-scaffolding
-		runtime ":twitter-bootstrap:2.1.1"
+	// install twitter-bootstrap resources plugin
+	// https://github.com/iPrayag/twitter-bootstrap-scaffolding
+	runtime ":twitter-bootstrap:2.1.1"
 		
-		// install Fields plugin
-		runtime ":fields:1.3"
-		
-		//compile ":mongodb:1.0.0.GA"
-		
-		//Test Code Coverage Plugin
-		test ":code-coverage:1.2.5"
+	// install Fields plugin
+	runtime ":fields:1.3"
+	
+	//compile ":mongodb:1.0.0.GA"
+	
+	//Test Code Coverage Plugin
+	test ":code-coverage:1.2.5"
+	
+	//		
+	//compile ":neo4j:1.0.0.M5"
+	//
+	//compile ":neo4j:latest.version"
     }
 }
