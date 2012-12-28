@@ -8,9 +8,12 @@ class BootStrap {
 
 	def init = { servletContext ->
 		new User(firstName:"Prayag",
+			 middleName:"",			 
 			 lastName:"Upd",
 			 username:"prayag.upd@gmail.com",
-                         password:"123456").save()
+                         password:"123456",
+                         active:true).save()
+		println("user created");		
 	}
 	def destroy = {
 	}
