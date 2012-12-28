@@ -106,4 +106,18 @@ class UserController {
             redirect action: 'show', id: params.id
         }
     }
+
+	def login = {
+	}
+
+	def doLogin = {
+		def user = User.findWhere(username:params['username'],
+		password:params['password'])
+		session.user = user
+		if (user)
+			//redirect(uri:'/index.gsp')
+			render(view:'/index')
+		else
+			redirect(controller:'user',action:'login')
+	}
 }
