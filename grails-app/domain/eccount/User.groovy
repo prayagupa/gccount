@@ -17,6 +17,7 @@ class User{
          firstName(blank:false)
          middleName(blank:true)
          lastName(blank:false)
+	 username(unique:true)
          password(password:true)
          active(display:false)
          created(display:false)
