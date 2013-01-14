@@ -13,7 +13,20 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-				
+				<div>
+                                   <g:form action="daily" method="post">
+					<table class="dailyTrxnForm">
+						<tr>
+							<td><label for="fromDate">From Date</label></td>
+							<td>
+							    <g:datePicker name="fromDate" 
+									  value="${new Date()}"
+									  />
+							</td>
+						</tr>
+					</table>
+ 				   </g:form>
+                                </div>
 				<table class="table table-striped">
 					<thead>
 						<tr>
