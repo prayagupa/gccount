@@ -5,6 +5,7 @@
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'transaction.label', default: 'Transaction')}" />
+		<g:set var="reportType" value="Monthly"/>
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -33,9 +34,34 @@
 			<div class="span9">
 				
 				<div class="page-header">
-					<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+					<h1><g:message code="default.sales" args="[reportType]" /></h1>
 				</div>
-
+                                
+				 <div>
+                                   <g:form class="form-horizontal" action="daily" method="post">
+                                        <table class="dailyTrxnForm">
+                                                <tr>
+                                                        <td><label for="fromDate">From Date</label></td>
+                                                        <td>
+                                                            <g:datePicker name="fromDate" 
+                                                                          value="${new Date()}"
+                                                                          precision="day"
+                                                                          />
+                                                        </td>
+                                                </tr>
+						  <tr>
+                                                        <td><label for="toDate">To Date</label></td>
+                                                        <td>
+                                                            <g:datePicker name="toDate" 
+                                                                          value="${new Date()}"
+                                                                          precision="day"
+                                                                          />
+                                                        </td>
+                                                </tr>
+                                                <tr><td>&nbsp;</td><td><input type="submit" class="btn btn-primary" value="Query"/></td></tr>
+                                        </table>
+                                   </g:form>
+				</div>
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>

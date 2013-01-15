@@ -106,36 +106,61 @@ class TransactionController {
             redirect action: 'show', id: params.id
         }
     }
-
+    /**
+      * list daily transactions	
+      */	
     def daily() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def fromDate  = new Date(); //fromDate = = params.searchDate;
-	/*
-        def query = Transaction.where {
-			(created <= fromDate)
-		}
-	def results = query.list(sort:"created")
-	*/
+       	println "Request : "+request.method
+        
+         switch(request.method){
+             case 'GET':
+	     //	[transactionInstance: new Transaction(params)];
+                 [transactionInstanceList:null, transactionInstanceTotal:0]
+                break;
+             case 'POST':
+	        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+       		def fromDate  = params.fromDate;
+		println "fromDate : " + fromDate;
+		/*
+        		def query = Transaction.where {
+				(created <= fromDate)
+			}
+			def results = query.list(sort:"created")
+		*/
 	
-	//creating criteria
-	def trxnCriteria = Transaction.createCriteria()
-	def results = trxnCriteria.list {
+		//creating criteria
+		def trxnCriteria = Transaction.createCriteria()
+		def results = trxnCriteria.list {
 		    eq("created", fromDate)
-	}
-	//println results.totalCount;
-	[transactionInstanceList: results, transactionInstanceTotal: results.totalCount]
+		    //TODO
+	            //eq("user", user)		
+		}
+		for(result in results){	
+			println "result created : "+result.created
+		}
+		println "count : "+results.count
+		render(view: "daily", model: [transactionInstanceList: results,transactionInstanceTotal: results.count]);
+		//[transactionInstanceList: results, transactionInstanceTotal: results.count]
+          }//end of switch
     }//end of daily
 
 
     def anyRange() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        def fromDate  = new Date(); //fromDate = = params.searchDate;
-	def toDate  = new Date();
-	//creating criteria
-	def results = Transaction.withCriteria() {
+	println request.method
+        switch(request.method){
+             case 'GET':
+		[transactionInstanceList:null, transactionInstanceTotal:0]
+                break;
+             case 'POST':
+        	params.max = Math.min(params.max ? params.int('max') : 10, 100)
+	        def fromDate  = new Date(); //fromDate = = params.searchDate;
+		def toDate  = new Date();
+		//creating criteria
+		def results = Transaction.withCriteria() {
 		    between('created', fromDate-1, toDate+1)
-	}
-	//println results.totalCount;
-	[transactionInstanceList: results, transactionInstanceTotal: results.count]
-    }//end of daily
+		}
+		//println results.totalCount;
+		[transactionInstanceList: results, transactionInstanceTotal: results.count]
+	 }//end of switch
+    }//end of anyRange
 }

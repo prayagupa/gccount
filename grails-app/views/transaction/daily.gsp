@@ -7,23 +7,27 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-
 			<div class="span9">
-
+				 <h3>Daily Sales</h3>
+		                 <g:if test="${transactionInstanceList}">
+                                        <h3> : ${transactionInstanceList.count}</h3>
+                		 </g:if>
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 				<div>
-                                   <g:form action="daily" method="post">
+                                   <g:form class="form-horizontal" action="daily" method="post">
 					<table class="dailyTrxnForm">
 						<tr>
-							<td><label for="fromDate">From Date</label></td>
+							<td><label for="fromDate">Date</label></td>
 							<td>
 							    <g:datePicker name="fromDate" 
 									  value="${new Date()}"
+									  precision="day"
 									  />
 							</td>
 						</tr>
+						<tr><td>&nbsp;</td><td><input type="submit" class="btn btn-primary" value="Query"/></td></tr>
 					</table>
  				   </g:form>
                                 </div>
@@ -42,12 +46,11 @@
 							<th></th>
 						</tr>
 					</thead>
-					<tbody>
 					<g:each in="${transactionInstanceList}" var="transactionInstance">
 						<tr>
 						
 							<td>${fieldValue(bean: transactionInstance, field: "account")}</td>
-						
+
 							<td>${fieldValue(bean: transactionInstance, field: "amount")}</td>
 						
 							<td><g:formatDate date="${transactionInstance.created}" /></td>
@@ -61,9 +64,7 @@
 					</g:each>
 					</tbody>
 				</table>
-				<div class="pagination">
-					<bootstrap:paginate total="${transactionInstanceTotal}" />
-				</div>
+				
 			</div>
 
 		</div>
