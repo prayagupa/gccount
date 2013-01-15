@@ -107,7 +107,7 @@ class TransactionController {
         }
     }
     /**
-      * list daily transactions	
+      * list daily sales for a stall
       */	
     def daily() {
        	println "Request : "+request.method
@@ -144,7 +144,9 @@ class TransactionController {
           }//end of switch
     }//end of daily
 
-
+     /**
+       * list monthly sales for a logged in stall
+       */
     def anyRange() {
 	println request.method
         switch(request.method){
@@ -153,14 +155,14 @@ class TransactionController {
                 break;
              case 'POST':
         	params.max = Math.min(params.max ? params.int('max') : 10, 100)
-	        def fromDate  = new Date(); //fromDate = = params.searchDate;
-		def toDate  = new Date();
+	        def fromDate  = params.fromDate
+		def toDate    = params.toDate
 		//creating criteria
 		def results = Transaction.withCriteria() {
-		    between('created', fromDate-1, toDate+1)
+		    between('created', fromDate, toDate)
 		}
-		//println results.totalCount;
-		[transactionInstanceList: results, transactionInstanceTotal: results.count]
+		println "Count - "+results.count;
+		render(view:"anyRange", model:[transactionInstanceList: results, transactionInstanceTotal: results.count])
 	 }//end of switch
     }//end of anyRange
 }
