@@ -3,17 +3,28 @@
   * @since  : 27.12.2012 
   */
 import eccount.User;
+import eccount.Stall;
 
 class BootStrap {
 
 	def init = { servletContext ->
-		new User(firstName:"Prayag",
+		println("initialising bootstrap")
+		User sandboxUser = new User(firstName:"Prayag",
 			 middleName:"",			 
 			 lastName:"Upd",
 			 username:"prayag.upd@gmail.com",
                          password:"123456",
                          active:true).save()
-		println("user created");		
+                         
+		
+		if(sandboxUser){
+			println("sandbox user created")
+			Stall stall = new Stall(name:"Estonia Food Stall", 
+						        user:sandboxUser)
+			println("stall created with a user")
+		}else{
+			println("user already exists")
+		}
 	}
 	def destroy = {
 	}
