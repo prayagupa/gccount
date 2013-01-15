@@ -38,7 +38,7 @@
 				</div>
                                 
 				 <div>
-                                   <g:form class="form-horizontal" action="daily" method="post">
+                                   <g:form class="form-horizontal" action="anyRange" method="post">
                                         <table class="dailyTrxnForm">
                                                 <tr>
                                                         <td><label for="fromDate">From Date</label></td>
