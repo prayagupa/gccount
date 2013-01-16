@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
 	<head>
-	
+		<meta name="layout" content="main">	
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -12,6 +12,13 @@
 					<div class="dialog">
 						<p>Enter your login details below:</p>
 						<table class="userForm">
+							<tr>
+								<td colspan="2">
+									<g:if test="${flash.message}">
+										<label>${flash.message}</label>
+									</g:if>
+								</td>
+							</tr>
 							<tr class='prop'>
 								<td valign='top' style='text-align:left;' width='20%'>
 								<label for='username'>Username:</label>

@@ -109,7 +109,9 @@ class UserController {
 
 	def login = {
 	}
-
+	/**
+	  * authenticate user
+	  */
 	def doLogin = {
 		def user = User.findWhere(username:params['username'],
 		password:params['password'])
@@ -117,7 +119,9 @@ class UserController {
 		if (user)
 			//redirect(uri:'/index.gsp')
 			render(view:'/index')
-		else
+		else{
+			flash.message = message(code:'wrong.credentials')
 			redirect(controller:'user',action:'login')
+		}
 	}
 }
