@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'transaction.label', default: 'Transaction')}" />
-		<g:set var="reportType" value="Monthly"/>
+		<g:set var="reportType" value="Overall"/>
 		<g:if test="${fromDate}">
 			<g:set var="fromDate" value="${fromDate}"/>
 		</g:if>
@@ -39,6 +39,15 @@
 								<g:message code="default.create.label" args="[entityName]" />
 							</g:link>
 						</li>
+                                                <li>
+                                                        <g:link class="list" action="daily"><i class="icon-list icon-white"></i><g:message code="default.sales" args="["Daily"]"/></g:link>
+                                                </li>
+                                                 <li>
+                                                        <g:link class="list" action="monthly"><i class="icon-list icon-white"></i><g:message code="default.sales" args="["monthly"]"/></g:link>
+                                                </li>
+                                                 <li>
+                                                        <g:link class="list" action="anyRange"><i class="icon-list icon-white"></i><g:message code="default.sales" args="["Overall"]"/></g:link>
+                                                </li>
 					</ul>
 				</div>
 			</div>

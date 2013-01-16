@@ -147,7 +147,7 @@ class TransactionController {
      /**
        * list monthly sales for a logged in stall
        */
-    def anyRange() {
+    def monthly() {
 	println request.method
         switch(request.method){
              case 'GET':
@@ -156,13 +156,37 @@ class TransactionController {
              case 'POST':
         	params.max = Math.min(params.max ? params.int('max') : 10, 100)
 	        def fromDate  = params.fromDate
-		def toDate    = params.toDate
+		def toDate    = fromDate+30
 		//creating criteria
 		def results = Transaction.withCriteria() {
 		    between('created', fromDate, toDate)
 		}
 		println "Count - "+results.count;
-		render(view:"anyRange", model:[fromDate:fromDate, toDate: toDate, transactionInstanceList: results, transactionInstanceTotal: results.count])
+		render(view:"monthly", model:[fromDate:fromDate, transactionInstanceList: results, transactionInstanceTotal: results.count])
 	 }//end of switch
+    }//end of monthly
+
+	
+   /**
+     * list overall sales
+     */
+   def anyRange() {
+        println request.method
+        switch(request.method){
+             case 'GET':
+                [transactionInstanceList:null, transactionInstanceTotal:0]
+                break;
+             case 'POST':
+                params.max = Math.min(params.max ? params.int('max') : 10, 100)
+                def fromDate  = params.fromDate
+                def toDate    = params.toDate
+                //creating criteria
+                def results = Transaction.withCriteria() {
+                    between('created', fromDate, toDate)
+                }
+                println "Count - "+results.count;
+                render(view:"anyRange", model:[fromDate:fromDate, toDate: toDate, transactionInstanceList: results, transactionInstanceTotal: results.count])
+         }//end of switch
     }//end of anyRange
+
 }
