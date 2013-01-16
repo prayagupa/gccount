@@ -19,7 +19,7 @@
                                    <g:form class="form-horizontal" action="daily" method="post">
 					<table class="dailyTrxnForm">
 						<tr>
-							<td><label for="fromDate">Date</label></td>
+							<td><label for="fromDate">Sales Date</label></td>
 							<td>
 							    <g:datePicker name="fromDate" 
 									  value="${new Date()}"
