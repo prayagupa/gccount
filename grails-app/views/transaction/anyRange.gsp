@@ -6,6 +6,18 @@
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'transaction.label', default: 'Transaction')}" />
 		<g:set var="reportType" value="Monthly"/>
+		<g:if test="${fromDate}">
+			<g:set var="fromDate" value="${fromDate}"/>
+		</g:if>
+		<g:else>
+			<g:set var="fromDate" value="${new Date()}"/>
+		</g:else>
+		<g:if test="${toDate}">
+			<g:set var="toDate" value="${toDate}"/>
+		</g:if>
+		<g:else>
+			<g:set var="toDate" value="${new Date()}"/>
+		</g:else>
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -44,7 +56,7 @@
                                                         <td><label for="fromDate">From Date</label></td>
                                                         <td>
                                                             <g:datePicker name="fromDate" 
-                                                                          value="${new Date()}"
+                                                                          value="${fromDate}"
                                                                           precision="day"
                                                                           />
                                                         </td>
@@ -53,7 +65,7 @@
                                                         <td><label for="toDate">To Date</label></td>
                                                         <td>
                                                             <g:datePicker name="toDate" 
-                                                                          value="${new Date()}"
+                                                                          value="${toDate}"
                                                                           precision="day"
                                                                           />
                                                         </td>

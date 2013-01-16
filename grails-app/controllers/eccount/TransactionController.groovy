@@ -162,7 +162,7 @@ class TransactionController {
 		    between('created', fromDate, toDate)
 		}
 		println "Count - "+results.count;
-		render(view:"anyRange", model:[transactionInstanceList: results, transactionInstanceTotal: results.count])
+		render(view:"anyRange", model:[fromDate:fromDate, toDate: toDate, transactionInstanceList: results, transactionInstanceTotal: results.count])
 	 }//end of switch
     }//end of anyRange
 }
