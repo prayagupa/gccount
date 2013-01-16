@@ -4,6 +4,12 @@
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
+		<g:if test="${salesDate}">
+			<g:set var="salesDate" value="${salesDate}"/>
+		</g:if>
+		<g:else>
+			<g:set var="salesDate" value="${new Date()}"/>
+		</g:else>
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -22,7 +28,7 @@
 							<td><label for="fromDate">Sales Date</label></td>
 							<td>
 							    <g:datePicker name="fromDate" 
-									  value="${new Date()}"
+									  value="${salesDate}"
 									  precision="day"
 									  />
 							</td>

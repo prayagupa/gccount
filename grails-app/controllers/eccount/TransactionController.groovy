@@ -139,7 +139,7 @@ class TransactionController {
 			println "result created : "+result.created
 		}
 		println "count : "+results.count
-		render(view: "daily", model: [transactionInstanceList: results,transactionInstanceTotal: results.count]);
+		render(view: "daily", model: [salesDate:fromDate, transactionInstanceList: results,transactionInstanceTotal: results.count]);
 		//[transactionInstanceList: results, transactionInstanceTotal: results.count]
           }//end of switch
     }//end of daily
