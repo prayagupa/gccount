@@ -54,6 +54,9 @@
                                                                      <g:link controller="${c.logicalPropertyName}">${c.logicalPropertyName.capitalize()}</g:link>
                                                                 </li>
 							</g:each>
+							<li>
+							   <a href="${createLink(uri: '/')}">Logout</a>
+							 </li>
 						</ul>
 					</div>
 				</div>
