@@ -46,7 +46,7 @@
 					<div class="nav-collapse">
 						<ul class="nav">							
 							<li<%= request.forwardURI == "${createLink(uri: '/')}" ? ' class="active"' : '' %>>
-                                                           <a href="${createLink(uri: '/')}">Home</a>
+                                                           <a href="${createLink(uri: '/user')}">Home</a>
                                                          </li>
                                                         <li <%= "category" == controllerName ? ' class="active"' : '' %>>
 								<g:link controller="category">Category</g:link>
