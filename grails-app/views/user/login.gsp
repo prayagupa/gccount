@@ -15,7 +15,7 @@
 							<tr>
 								<td colspan="2">
 									<g:if test="${flash.message}">
-										<label>${flash.message}</label>
+										<label class="errors">${flash.message}</label>
 									</g:if>
 								</td>
 							</tr>
