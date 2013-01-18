@@ -48,12 +48,37 @@
 							<li<%= request.forwardURI == "${createLink(uri: '/')}" ? ' class="active"' : '' %>>
                                                            <a href="${createLink(uri: '/')}">Home</a>
                                                          </li>
-
+                                                        <li <%= "category" == controllerName ? ' class="active"' : '' %>>
+								<g:link controller="category">Category</g:link>
+							</li>
+                                                        <li <%= "item" == controllerName ? ' class="active"' : '' %>>
+								<g:link controller="item">Food Item</g:link>
+							</li>
+                                                        <li <%= "stall" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="stall">Stall</g:link>
+							</li>
+                                                        <li <%= "user" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="user">Staff</g:link>
+							</li>
+							<li <%= "rfidCard" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="rfidCard">RFID Card</g:link>
+							</li>
+                                                        <li <%= "customer" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="customer">Customer</g:link>
+							</li>
+							<li <%= "account" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="account">Customer Account</g:link>
+							</li>
+                                                        <li <%= "transaction" == controllerName ? ' class="active"' :'' %>>
+								<g:link controller="transaction">Transactions</g:link>
+							</li>
+<!--
 							<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
 								<li<%= c.logicalPropertyName == controllerName ? ' class="active"' : '' %>>
                                                                      <g:link controller="${c.logicalPropertyName}">${c.logicalPropertyName.capitalize()}</g:link>
                                                                 </li>
 							</g:each>
+-->
 							<li>
 							   <a href="${createLink(uri: '/')}">Logout</a>
 							 </li>
