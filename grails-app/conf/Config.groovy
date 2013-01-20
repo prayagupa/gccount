@@ -76,6 +76,14 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+    
+    /**
+      * @author : Prayag Upd
+      * for hibernate logging
+      */
+    // Enable Hibernate SQL logging with param values
+    trace 'org.hibernate.type'
+    debug 'org.hibernate.SQL'
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
