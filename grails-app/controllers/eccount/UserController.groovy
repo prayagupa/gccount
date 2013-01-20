@@ -23,6 +23,7 @@ class UserController {
 		case 'POST':
 	        def userInstance = new User(params)
 	        if (!userInstance.save(flush: true)) {
+                    println "user persisted";
 	            render view: 'create', model: [userInstance: userInstance]
 	            return
 	        }
@@ -107,12 +108,17 @@ class UserController {
         }
     }
 
+        /**
+          * automatically redirects to login.gsp
+          */
 	def login = {
 	}
 	/**
 	  * authenticate user
 	  */
 	def doLogin = {
+           if(params['username']!=''){
+             if(params['password']!=''){
 		def user = User.findWhere(username:params['username'],
 		password:params['password'])
 		session.user = user
@@ -123,5 +129,13 @@ class UserController {
 			flash.message = message(code:'wrong.credentials')
 			redirect(controller:'user',action:'login')
 		}
+           }else{
+                flash.message=message(code:'blank.password')
+                redirect(controller:'user', action:'login')
+           }
+          }else{
+               flash.message = message(code:'blank.username')
+	       redirect(controller:'user', action:'login')
+          }
 	}
 }
