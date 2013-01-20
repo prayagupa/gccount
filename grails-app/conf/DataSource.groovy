@@ -45,6 +45,7 @@ environments {
             url = "jdbc:mysql://localhost:3306/cashless"
             username = "root"
             password = "mysql55"
+            logSql = true
         }
     }
 
