@@ -67,10 +67,10 @@
 								<g:link controller="customer">Customer</g:link>
 							</li>
 							<li <%= "account" == controllerName ? ' class="active"' :'' %>>
-								<g:link controller="account">Customer Account</g:link>
+								<g:link controller="account">Topup Balance</g:link>
 							</li>
                                                         <li <%= "transaction" == controllerName ? ' class="active"' :'' %>>
-								<g:link controller="transaction">Transactions</g:link>
+								<g:link controller="transaction">Transaction</g:link>
 							</li>
 <!--
 							<g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
