@@ -19,5 +19,8 @@ class Item{
          category(blank:false)
          created(display:false)
          active(display:false)
+    } 
+    String toString(){
+         "${name}"
     }
 }
