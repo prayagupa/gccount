@@ -39,6 +39,9 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+	
+	//for atmosphere
+	mavenRepo "https://oss.sonatype.org/content/repositories/releases/"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -81,5 +84,8 @@ grails.project.dependency.resolution = {
 	//compile ":neo4j:1.0.0.M5"
 	//
 	//compile ":neo4j:latest.version"
+	
+	//atmosphere plugin for trxn notification
+	compile ":atmosphere:0.4.2.1"
     }
 }
