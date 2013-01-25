@@ -81,5 +81,8 @@ grails.project.dependency.resolution = {
 	//compile ":neo4j:1.0.0.M5"
 	//
 	//compile ":neo4j:latest.version"
+
+	//spring sec plugin
+	compile ':spring-security-core:1.2.7.3'
     }
 }
