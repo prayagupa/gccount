@@ -6,15 +6,19 @@ import eccount.User;
 import eccount.Stall;
 
 class BootStrap {
-
+	def springSecurityService
+	
 	def init = { servletContext ->
 		println("initialising bootstrap")
 		User sandboxUser = new User(firstName:"Prayag",
 			 middleName:"",			 
 			 lastName:"Upd",
 			 username:"prayag.upd@gmail.com",
-                         password:"123456",
-                         active:true).save()
+                         password:springSecurityService.encodePassword("123456"),
+                         enabled:true,
+						 accountExpired:false,
+						 accountLocked:false,
+						 passwordExpired:false).save()
                          
 		
 		if(sandboxUser){
