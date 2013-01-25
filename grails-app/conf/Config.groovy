@@ -97,3 +97,12 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+//encryption algorithm
+//http://stackoverflow.com/a/10242791/432903
+grails.plugins.springsecurity.password.algorithm='bcrypt'
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'eccount.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'eccount.UserRole'
+grails.plugins.springsecurity.authority.className = 'eccount.Role'
