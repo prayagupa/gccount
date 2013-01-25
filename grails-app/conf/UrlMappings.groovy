@@ -12,8 +12,8 @@ class UrlMappings {
 		}
 		//default route for login
 		 "/" {
-		    controller = "user"
-		    action = "login"
+		    controller = "login"
+		    action = "auth"
  		 }
 		// "/"(view:"/index")
 		"500"(view:'/error')
