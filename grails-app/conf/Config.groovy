@@ -106,7 +106,7 @@ grails.plugins.springsecurity.authority.className = 'eccount.Role'
 //encryption algorithm
 //http://stackoverflow.com/a/10242791/432903
 grails.plugins.springsecurity.password.algorithm='bcrypt'
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/user'
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/main'
 /*
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
 grails.plugins.springsecurity.interceptUrlMap = [
