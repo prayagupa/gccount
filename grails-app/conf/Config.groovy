@@ -82,7 +82,7 @@ log4j = {
       * for hibernate logging
       */
     // Enable Hibernate SQL logging with param values
-    trace 'org.hibernate.type'
+    //trace 'org.hibernate.type'
     debug 'org.hibernate.SQL'
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
@@ -98,11 +98,20 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-//encryption algorithm
-//http://stackoverflow.com/a/10242791/432903
-grails.plugins.springsecurity.password.algorithm='bcrypt'
-
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'eccount.User'
 grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'eccount.UserRole'
 grails.plugins.springsecurity.authority.className = 'eccount.Role'
+
+//encryption algorithm
+//http://stackoverflow.com/a/10242791/432903
+grails.plugins.springsecurity.password.algorithm='bcrypt'
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/user'
+/*
+grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
+grails.plugins.springsecurity.interceptUrlMap = [
+        '/'        : ['ROLE_ADMIN'],
+       // '/main/**' : ['ROLE_ADMIN'],
+        '/**'      : ['IS_AUTHENTICATED_ANONYMOUSLY']
+]
+*/
