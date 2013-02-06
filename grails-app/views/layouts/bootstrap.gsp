@@ -27,7 +27,7 @@
 	</head>
 
 	<body>
-
+           <sec:ifLoggedIn>
 		<nav class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container-fluid">
@@ -80,21 +80,23 @@
 							</g:each>
 -->
 							<li>
-							   <a href="${createLink(uri: '/')}">Logout</a>
+							   <g:link controller="logout" action="index">Logout</g:link>
+							   <!--<a href="${createLink(uri: '/logout')}">Logout</a>-->
 							 </li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</nav>
-
+	      </sec:ifLoggedIn>
 		<div class="container-fluid">
+		<sec:ifLoggedIn>
 			<g:layoutBody/>
-
+		</sec:ifLoggedIn>
 			<hr>
 
 			<footer>
-				<p>&copy; Company 2012</p>
+				<p>&copy; zazzercode inc., 2012</p>
 			</footer>
 		</div>
 
