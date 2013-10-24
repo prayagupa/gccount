@@ -46,24 +46,10 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
+	runtime 'org.elasticsearch:elasticsearch:0.90.3'
+        runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
-                runtime 'mysql:mysql-connector-java:5.1.20'
-	
-	    runtime(
-            //[group: 'mysql', name:'mysql-connector-java', version: '5.1.20'], 
-            [group: 'org.apache.hadoop', name: 'hadoop-core', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hadoop', name: 'hadoop-examples', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hadoop', name: 'hadoop-streaming', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hadoop', name: 'hadoop-tools', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hadoop', name: 'hadoop-mrunit', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hadoop', name: 'hadoop-test', version: '0.20.2-cdh3u0'],
-            [group: 'org.apache.hbase', name: 'hbase', version: '0.90.1-cdh3u0'],
-            [group: 'org.apache.zookeeper', name: 'zookeeper', version: '3.3.3-cdh3u0'],
-            [group: 'org.elasticsearch', name: 'elasticsearch', version: '0.90.2'],
-            //logback configuration
-            'ch.qos.logback:logback-core:0.9.17', 'ch.qos.logback:logback-classic:0.9.17','org.slf4j:log4j-over-slf4j:1.5.8','org.mockito:mockito-core:1.9.5','org.mockito:mockito-all:1.9.5'
-    )	
+                runtime 'mysql:mysql-connector-java:5.1.20'	
 	
     }
 
@@ -102,5 +88,10 @@ grails.project.dependency.resolution = {
 
 	//spring sec plugin
 	compile ':spring-security-core:1.2.7.3'
+
+        compile (":elasticsearch:0.17.8.1") {
+            excludes   'elasticsearch','elasticsearch-lang-groovy'
+        }
+
     }
 }
