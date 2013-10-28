@@ -4,6 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class TransactionController {
 
+    def transactionService
+
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
     def index() {
@@ -189,4 +191,7 @@ class TransactionController {
          }//end of switch
     }//end of anyRange
 
+   def requestES = {
+       transactionService.requestES("http://", "transactionCode=TRXN1")
+   }
 }
