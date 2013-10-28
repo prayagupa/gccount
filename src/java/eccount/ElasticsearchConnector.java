@@ -50,20 +50,11 @@ public class ElasticsearchConnector {
                         .put("cluster.name", esClusterName).build();
         TransportClient client = new TransportClient(settings);
         for(ElasticServerConfig serverConfig : clusterConfig.getNodes().values()){
-            System.out.println(dt.format(new Date()) + " ElasticSearchConnectionManager.getInstance: Adding cluster node: "+serverConfig.getName()+" HostName: "+serverConfig.getHostname()+" Port: "+serverConfig.getPort());
+            //log.info(dt.format(new Date()) + " ElasticSearchConnector.getInstance: Adding cluster node: "+serverConfig.getName()+" HostName: "+serverConfig.getHostname()+" Port: "+serverConfig.getPort());
             client.addTransportAddress(new InetSocketTransportAddress(serverConfig.getHostname(),serverConfig.getPort()));
         }
         return client;
     }
 
-    public static synchronized Client getClientWithDynamicCluster(ElasticClusterConfig clusterConfig) {
-        String clusterName=clusterConfig.getClusterName();
-        if (!clusterClients.containsKey(clusterName)||clusterClients.get(clusterName)==null) {
-
-            clusterClients.put(clusterName, getInstance(clusterConfig));
-
-        }
-        return clusterClients.get(clusterName);
-    }
 
 }
