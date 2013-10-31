@@ -16,11 +16,14 @@ import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.facet.statistical.StatisticalFacetBuilder;
 import org.elasticsearch.search.facet.termsstats.TermsStatsFacetBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public abstract class TransactionAnalysisQueryBuilder implements EccountQueryBuilder {
 
 	protected String[] periods;
         protected Map<Long, Long> ranges;
-	Logger logger = Logger.getLogger(TransactionAnalysisQueryBuilder.class.getName());
+	Logger logger = LoggerFactory.getLogger(TransactionAnalysisQueryBuilder.class.getName());
 
 
     @Override
@@ -40,6 +43,26 @@ public abstract class TransactionAnalysisQueryBuilder implements EccountQueryBui
         builder.setTypes("Transaction");
         logger.info("builder = " + builder);
         return builder;
+    }
+
+    public static String[] getRequestRange(ClientRequest state) {
+        String paramFrom = state.request.param(state.period() + "From");
+        String paramTo = state.request.param(state.period() + "To");
+        return new String[]{paramFrom, paramTo};
+    }
+
+    public static Map<Long, Long> getPeriods(final ClientRequest state, String[] periods) {
+        if (periods == null) periods = getRequestRange(state);
+        Map<Long, Long> ranges = new HashMap<Long, Long>() {
+            {
+                put(state.request.param(state.period() + "From"), state.request.param(state.period() + "To"));
+            }
+        };
+        return ranges;
+    }
+
+    protected SearchRequestBuilder buildTrendQuery(ClientRequest state, Client client, Object periodFrom, Object periodTo, FilterBuilder filter, String... types) {
+        return new SearchRequestBuilder();
     }
 }
 
