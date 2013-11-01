@@ -15,7 +15,7 @@ import org.elasticsearch.rest.RestRequest
 import org.springframework.beans.factory.annotation.Autowired
 
 /*
- * @author : prayag upd
+ * @author : prayagupd
  * @created : 24 Dec, 2012
 */
 class TransactionService {
@@ -37,13 +37,26 @@ class TransactionService {
         String esClusterName = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
 
         Settings settings    = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
-        Client client        = ElasticsearchConnector.getClient(getDefaultCluster())
+        Client esClient        = ElasticsearchConnector.getClient(getDefaultCluster())
 
-        println "Client : "+client
+        log.info("Client : "+esClient)
 
         //FIXME
-        //XContentBuilder content = new TrxnAnalytics().requestES(restReq, client, settings)
-        //return content?content.bytes().toUtf8():"";
+        AtomicBoolean process = new AtomicBoolean(false)
+        AbstractAnalyticsActionListener analyticsActionListener = newActionListener(field, request, report, types, process)
+        MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(report).query(analyticsActionListener.state, esClient)
+        try {
+            Thread thread = new Thread(new BuilderExecutor(builder, analyticsActionListener))
+            thread.start()
+
+            while (!analyticsActionListener.processComplete.get()) {
+                Thread.currentThread().sleep(100)
+            }
+        } catch (Exception e) {
+            analyticsActionListener.processComplete.set(true)
+            e.printStackTrace()
+        }
+        return analyticsActionListeiner.state.contentBuilder?analyticsActionListener.state.contentBuilder.bytes().toUtf8():""
    }
 
    def getDefaultCluster(){
@@ -56,4 +69,29 @@ class TransactionService {
        cluster.clusterName  = "elasticsearch"
        cluster
    }
+
+    /**
+      * static object for executing @{SearchRequestBuilder}
+      * and stimulating respective @{ActionListener} to handle @{SearchResponse}s
+      */
+    static class BuilderExecutor implements Runnable {
+        MultiSearchRequestBuilder builder;
+        AbstractAnalyticsActionListener actionListener;
+
+        public BuilderExecutor(MultiSearchRequestBuilder builder, AbstractAnalyticsActionListener listener) {
+            this.builder = builder;
+            this.actionListener = listener;
+        }
+
+        @Override
+        public void run() {
+            try {
+                builder.execute(actionListener);
+            } catch (Exception e) {
+                actionListener.processComplete.set(true);
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
