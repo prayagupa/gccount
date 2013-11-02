@@ -1,18 +1,16 @@
 package eccount
 
+import eccount.action.AbstractAnalyticsActionListener
+import eccount.action.AnalyticsActionListeners
+import eccount.action.AnalyticsQueryBuilders
 import eccount.config.ElasticClusterConfig
 import eccount.config.ElasticServerConfig
+import org.elasticsearch.action.search.MultiSearchRequestBuilder
 import org.elasticsearch.client.Client
-import org.elasticsearch.common.netty.handler.codec.http.DefaultHttpRequest
-import org.elasticsearch.common.netty.handler.codec.http.HttpMethod
-import org.elasticsearch.common.netty.handler.codec.http.HttpRequest
-import org.elasticsearch.common.netty.handler.codec.http.HttpVersion
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.settings.Settings
-import org.elasticsearch.common.xcontent.XContentBuilder
-import org.elasticsearch.http.netty.NettyHttpRequest
-import org.elasticsearch.rest.RestRequest
-import org.springframework.beans.factory.annotation.Autowired
+
+import java.util.concurrent.atomic.AtomicBoolean
 
 /*
  * @author : prayagupd
@@ -27,23 +25,23 @@ class TransactionService {
 		    eq("created", fromDate)
 		}
         }//end of dailyTrxns
-  
-   def requestES(String url, String requestParams){
-        HttpVersion version  = new HttpVersion("http", 2, 1)
-        HttpMethod method    = new HttpMethod("GET")
-        HttpRequest req      = new DefaultHttpRequest(version, method, url + "?" + requestParams);
-        RestRequest restReq  = new NettyHttpRequest(req);
 
-        String esClusterName = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
-
-        Settings settings    = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
+    /**
+     * get es results
+     * @param request
+     * @return
+     */
+   def getResults(SearchRequest request){
+        String esClusterName   = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
+        Settings settings      = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         Client esClient        = ElasticsearchConnector.getClient(getDefaultCluster())
-
         log.info("Client : "+esClient)
 
-        //FIXME
         AtomicBoolean process = new AtomicBoolean(false)
-        AbstractAnalyticsActionListener analyticsActionListener = newActionListener(field, request, report, types, process)
+        String report         = request.hasParameter("report") ? request.get("report") : "transaction"
+        final String field    = request.hasParameter("keyField") ? request.get("keyField") : "customerId"
+
+        AbstractAnalyticsActionListener analyticsActionListener = newActionListener(field, request, report, process)
         MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(report).query(analyticsActionListener.state, esClient)
         try {
             Thread thread = new Thread(new BuilderExecutor(builder, analyticsActionListener))
@@ -56,7 +54,7 @@ class TransactionService {
             analyticsActionListener.processComplete.set(true)
             e.printStackTrace()
         }
-        return analyticsActionListeiner.state.contentBuilder?analyticsActionListener.state.contentBuilder.bytes().toUtf8():""
+        return analyticsActionListener.state.contentBuilder?analyticsActionListener.state.contentBuilder.bytes().toUtf8():""
    }
 
    def getDefaultCluster(){
@@ -93,5 +91,14 @@ class TransactionService {
             }
         }
     }
+
+    protected AbstractAnalyticsActionListener newActionListener(String field, SearchRequest request, String report, AtomicBoolean processComplete) throws Exception {
+        ClientRequest state = new ClientRequest(report, field, request, null);
+        state.noFilter = false;
+        AbstractAnalyticsActionListener actionListener = AnalyticsActionListeners.newActionListener(report, state, client, logger, processComplete);
+        return actionListener;
+    }
+
+
 
 }

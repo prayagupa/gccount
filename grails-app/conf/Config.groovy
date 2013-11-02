@@ -73,9 +73,10 @@ environments {
 log4j = {
     // Example of changing the log pattern for the default console appender:
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        rollingFile name: 'eccount', maxFileSize: 1024, file: '/var/log/eccount/eccount.log', layout: pattern(conversionPattern: "%d{HH:mm:ss} %C %m%n")
+        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    }
     
     /**
       * @author : Prayag Upd
@@ -83,19 +84,13 @@ log4j = {
       */
     // Enable Hibernate SQL logging with param values
     //trace 'org.hibernate.type'
-    debug 'org.hibernate.SQL'
+    //debug 'org.hibernate.SQL'
+    info eccount:
+            ['grails.app.controller.eccount.TransactionController',
+            'grails.app.service.eccount.TransactionService',
+            'eccount'
+            ]
 
-    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
-           'org.codehaus.groovy.grails.web.pages',          // GSP
-           'org.codehaus.groovy.grails.web.sitemesh',       // layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-           'org.codehaus.groovy.grails.web.mapping',        // URL mapping
-           'org.codehaus.groovy.grails.commons',            // core / classloading
-           'org.codehaus.groovy.grails.plugins',            // plugins
-           'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
 }
 
 // Added by the Spring Security Core plugin:
@@ -113,5 +108,12 @@ grails.plugins.springsecurity.interceptUrlMap = [
         '/'        : ['ROLE_ADMIN'],
        // '/main/**' : ['ROLE_ADMIN'],
         '/**'      : ['IS_AUTHENTICATED_ANONYMOUSLY']
+]
+*/
+
+/*
+elasticSearch.client.hosts = [
+       [host:'127.0.0.1', port:9300],
+       [host:'127.0.0.1', port:9300]
 ]
 */

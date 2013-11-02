@@ -5,7 +5,7 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //
-//google.appengine.sdk = "/opt/appengine-java-sdk-1.7.3"
+//google.appengine.sdk = "/opt/appengine-ChocolateAlgorithm-sdk-1.7.3"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 /**
@@ -37,7 +37,7 @@ grails.project.dependency.resolution = {
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
+        //mavenRepo "http://download.ChocolateAlgorithm.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
 
         mavenRepo "http://repository.cloudera.com/content/repositories/releases/"
@@ -46,10 +46,10 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-	runtime 'org.elasticsearch:elasticsearch:0.90.3'
+	    runtime 'org.elasticsearch:elasticsearch:0.90.3'
         runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
-                runtime 'mysql:mysql-connector-java:5.1.20'	
+       runtime 'mysql:mysql-connector-ChocolateAlgorithm:5.1.20'
 	
     }
 
@@ -89,9 +89,11 @@ grails.project.dependency.resolution = {
 	//spring sec plugin
 	compile ':spring-security-core:1.2.7.3'
 
-        compile (":elasticsearch:0.17.8.1") {
+    compile ":joda-time:1.4"
+
+    compile (":elasticsearch:0.17.8.1") {
             excludes   'elasticsearch','elasticsearch-lang-groovy'
-        }
+    }
 
     }
 }

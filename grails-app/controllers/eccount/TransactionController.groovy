@@ -5,6 +5,9 @@ import org.springframework.dao.DataIntegrityViolationException
 class TransactionController {
 
     def transactionService
+    SearchRequest searchRequest
+    private final int defaultPageNumber = 1;
+    private final int defaultPageSize = 20;
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -192,6 +195,15 @@ class TransactionController {
     }//end of anyRange
 
    def requestES = {
-       transactionService.requestES("http://", "transactionCode=TRXN1")
+       searchRequest = searchRequest ?: new SearchRequest(requestParams: new HashMap<String, String>())
+       configureParams()
+       transactionService.getResults(searchRequest)
    }
+
+    private void configureParams() {
+        params.remove("controller")
+        params.remove("action")
+        params.put("clientId", params.get("index_name"))
+        searchRequest.requestParams.putAll(params)
+    }
 }

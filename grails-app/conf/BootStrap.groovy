@@ -12,7 +12,7 @@ class BootStrap {
 	
 	def init = { servletContext ->
 		
-		println("initialising bootstrap")
+		log.info("initialising bootstrap")
 
 		User sandboxUser = new User(firstName:"Prayag",
 			 middleName:"",			 
@@ -41,7 +41,7 @@ class BootStrap {
 						        user:sandboxUser)
 			println("stall created with a user")
 		}else{
-			println("user already exists")
+            log.error("user already exists")
 		}
 	}
 	def destroy = {
