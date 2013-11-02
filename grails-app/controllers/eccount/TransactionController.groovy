@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class TransactionController {
 
     def transactionService
+
     SearchRequest searchRequest
     private final int defaultPageNumber = 1;
     private final int defaultPageSize = 20;

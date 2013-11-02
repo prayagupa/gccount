@@ -49,7 +49,7 @@ grails.project.dependency.resolution = {
 	    runtime 'org.elasticsearch:elasticsearch:0.90.3'
         runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
-       runtime 'mysql:mysql-connector-ChocolateAlgorithm:5.1.20'
+        runtime 'mysql:mysql-connector-java:5.1.20'
 	
     }
 

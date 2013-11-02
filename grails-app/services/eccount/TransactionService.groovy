@@ -7,6 +7,8 @@ import eccount.config.ElasticClusterConfig
 import eccount.config.ElasticServerConfig
 import org.elasticsearch.action.search.MultiSearchRequestBuilder
 import org.elasticsearch.client.Client
+import org.elasticsearch.common.logging.ESLogger
+import org.elasticsearch.common.logging.Loggers
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.settings.Settings
 
@@ -18,6 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 */
 class TransactionService {
 
+    Client esClient
+    Settings settings
+    ESLogger logger
+
     def getDailyTrxns() {
 		def fromDate  = new Date(); 
 		def trxnCriteria = Transaction.createCriteria()
@@ -28,21 +34,21 @@ class TransactionService {
 
     /**
      * get es results
-     * @param request
+     * @param searchRequest
      * @return
      */
-   def getResults(SearchRequest request){
+   def getResults(SearchRequest searchRequest){
         String esClusterName   = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
-        Settings settings      = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
-        Client esClient        = ElasticsearchConnector.getClient(getDefaultCluster())
+        settings      = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
+        esClient               = ElasticsearchConnector.getClient(getDefaultCluster())
         log.info("Client : "+esClient)
 
         AtomicBoolean process = new AtomicBoolean(false)
-        String report         = request.hasParameter("report") ? request.get("report") : "transaction"
-        final String field    = request.hasParameter("keyField") ? request.get("keyField") : "customerId"
+        String reportName         = searchRequest.hasParameter("reportName") ? searchRequest.get("reportName") : "transaction"
+        final String keyField    = searchRequest.hasParameter("keyField") ? searchRequest.get("keyField") : "customerId"
 
-        AbstractAnalyticsActionListener analyticsActionListener = newActionListener(field, request, report, process)
-        MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(report).query(analyticsActionListener.state, esClient)
+        AbstractAnalyticsActionListener analyticsActionListener = newActionListener(keyField, searchRequest, reportName, process)
+        MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(reportName).query(analyticsActionListener.state, esClient)
         try {
             Thread thread = new Thread(new BuilderExecutor(builder, analyticsActionListener))
             thread.start()
@@ -92,10 +98,18 @@ class TransactionService {
         }
     }
 
-    protected AbstractAnalyticsActionListener newActionListener(String field, SearchRequest request, String report, AtomicBoolean processComplete) throws Exception {
-        ClientRequest state = new ClientRequest(report, field, request, null);
+    protected AbstractAnalyticsActionListener newActionListener(String field,
+                                                                SearchRequest requestParams,
+                                                                String reportName,
+                                                                AtomicBoolean processComplete) throws Exception {
+        this.logger = Loggers.getLogger(AbstractAnalyticsActionListener.class.getName(), settings);
+        ClientRequest state = new ClientRequest(reportName, field, requestParams, null);
         state.noFilter = false;
-        AbstractAnalyticsActionListener actionListener = AnalyticsActionListeners.newActionListener(report, state, client, logger, processComplete);
+        AbstractAnalyticsActionListener actionListener = AnalyticsActionListeners.newActionListener(reportName,
+                                                                                                    state,
+                                                                                                    esClient,
+                                                                                                    logger,
+                                                                                                    processComplete);
         return actionListener;
     }
 

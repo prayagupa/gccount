@@ -1,6 +1,5 @@
 package eccount;
 
-import eccount.SearchRequest;
 import eccount.action.AbstractAnalyticsActionListener;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
@@ -9,7 +8,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
-  * State object for report requests.
+  * State object for reportName requests.
   * @author prayagupd
   */
 
@@ -32,8 +31,8 @@ public class ClientRequest {
     public String report;
     public Map<String, FilterBuilder> filterBuilders;
 
-    public ClientRequest(String report, String field, SearchRequest request, String[] types) {
-        this.report = report;
+    public ClientRequest(String reportName, String field, SearchRequest request, String[] types) {
+        this.report = reportName;
         this.field = field;
         this.request = request;
         this.types = types;
@@ -94,7 +93,7 @@ public class ClientRequest {
 
     @Override
     public String toString(){
-        return "type :"+(types.length==1?types[0]:types.length)+", report Count :"+reportCount;
+        return "type :"+(types.length==1?types[0]:types.length)+", reportName Count :"+reportCount;
     }
 
     public boolean isPaidThrough(){
