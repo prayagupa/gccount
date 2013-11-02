@@ -35,18 +35,18 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * Current state of request in this listener
      */
     protected ClientRequest state;
+
     /**
-     * report requested. binds to requestparam: report
+     * requested report name
      */
     protected String report;
+
     /**
-     * client for ES command execution
+     * index for ES command execution
      */
     protected Client client;
 
-    /**
-     * Default constructor  to be used in factory
-     */
+
     public AbstractAnalyticsActionListener() {
     }
 
@@ -135,9 +135,9 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
             return;
         }
         if (state.reportCount == 1) {
-            if (prefix.contains("medicalCost"))
+            if (prefix.contains("customerCost"))
                 state.recordIds.get(stringEntry.getTerm().toString().toString()).first = stringEntry.getTotal();
-            else if (prefix.contains("inpatientCost"))
+            else if (prefix.contains("customerCost"))
                 state.recordIds.get(stringEntry.getTerm().toString().toString()).third = stringEntry.getTotal();
             else
                 state.recordIds.get(stringEntry.getTerm().toString().toString()).fourth = stringEntry.getTotal();
@@ -157,25 +157,19 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     @Override
     public void onResponse(MultiSearchResponse multiSearchResponse) {
         long first = new Date().getTime();
-        logger.debug("querying completed at " + (first - state.time));
         logger.info("Response : "+multiSearchResponse);
 
-        logger.debug("response parsing started after " + first);
         try {
-            logger.debug("total hits " + multiSearchResponse.getResponses().length);
             if (state.reportCount == 0 && state.repeat) {
                 initState();
             }
             processResponse(multiSearchResponse);
-            logger.debug("response parsing completed after " + ((new Date()).getTime() - first));
-            if (doReprocess()) {//check if we need to run more queries on the period
+            if (doReprocess()) {
                 logger.debug("reprocessing abstract...");
                 reprocess();
             } else {
-
                 if (repeat()) {
-                    logger.debug("Response filled for reporting period. Now executing for comparison period");
-
+                    logger.debug("After reporting period, Now executing for comparison period");
                     processAgain();
                 } else { //child will write to response upon completion
                     logger.debug("comparison period executed. Now writing content to response");
@@ -236,25 +230,20 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     }
 
     protected void processAgain() throws Exception {
-//        long first=new Date().getTime();
-//        logger.info("repeat query started at "+first);
         AbstractAnalyticsActionListener child = newActionListener(this);
         ClientRequest childState = child.state;
         childState.repeat = false;
         childState.reportCount = 0;
         childState.noFilter = false;//reset filtering
-//                    logger.info("setting current records for childs old records " + state.recordIds.SIZE() );
+
         childState.oldRecordIds = state.recordIds;
         childState.recordIds = createRecordMap();
         //build query for child
         final AnalyticsQueryBuilder builder = AnalyticsQueryBuilders.getBuilder(report);
         logger.debug("This is query at comparision side " + builder.toString());
-//                    logger.info("this is child :"+child.state.toString());
-
         final MultiSearchRequestBuilder query = builder.query(child.state, client);
-//        logger.info("This is repeat query " + query.toString() );
         query.execute(child);
-//        logger.info("repeat query completed at "+(new Date().getTime()));
+
     }
 
     protected void addTotalEntry(double totalSum) {
@@ -280,16 +269,11 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * @throws Exception
      */
     protected void reprocess() throws Exception {
-        long first = new Date().getTime();
-//        logger.info("reprocessing started at "+first);
         AbstractAnalyticsActionListener child = newActionListener(this);
-//        logger.info("Now executing for " + child.state.reportCount);
         //build query for child
-
         MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(report).query(child.state, client);
         logger.debug("child query " + builder.toString());
         builder.execute(child);
-//        logger.info("reprocessed querying completed at "+(new Date().getTime()));
     }
 
     /**
@@ -355,7 +339,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
             }
             contentBuilder.field("total", AmountUtils.getAmount(member.total));
             if (member.field_string_1 != null) {
-                contentBuilder.field("primaryDiagnosisCodeDesc", member.field_string_1);
+                contentBuilder.field("primaryPaymentCodeDesc", member.field_string_1);
             }
             if (member.field_long_1 > -1)
                 contentBuilder.field("riskScore", AmountUtils.getAmount(member.field_long_1));
@@ -363,7 +347,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
                 contentBuilder.field("relationshipId", member.field_string_2);
             }
             if (member.field_string_3 != null) {
-                contentBuilder.field("memberGender", member.field_string_3);
+                contentBuilder.field("customerGender", member.field_string_3);
             }
             if (member.field_string_4 != null) {
                 contentBuilder.field("currentStatus", member.field_string_4);
@@ -372,10 +356,10 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
                 contentBuilder.field("groupId", member.field_string_5);
             }
             if (member.field_string_6 != null) {
-                contentBuilder.field("unblindMemberId", member.field_string_6);
+                contentBuilder.field("unblindCustomerId", member.field_string_6);
             }
             if (member.field_int_1 >= 0) {
-                contentBuilder.field("memberAge", member.field_int_1);
+                contentBuilder.field("customerAge", member.field_int_1);
             }
             if (member.types != null && !member.getProgramTypes().isEmpty())
                 contentBuilder.field("program_type", member.getProgramTypes());
@@ -385,7 +369,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         contentBuilder.field(first, AmountUtils.getAmount(first_total));
         if (!second.isEmpty()) contentBuilder.field(second, AmountUtils.getAmount(second_total));
         contentBuilder.field("total", AmountUtils.getAmount(first_total + second_total));
-        contentBuilder.field("countOfMember", memberIds.size());
+        contentBuilder.field("countOfCustomer", memberIds.size());
         contentBuilder.endObject();
         contentBuilder.endArray();
         logger.debug("content generated");
@@ -395,7 +379,6 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     public void onFailure(Throwable e) {
         try {
             processComplete.set(true);
-            //state.channel.sendResponse(new XContentThrowableRestResponse(state.request, e));
             e.printStackTrace();
         } catch (Exception e1) {
             processComplete.set(true);
@@ -445,21 +428,34 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         contentBuilder.endObject();
         processComplete.set(true);
         logger.debug("writing response");
-//        state.channel.sendResponse(new XContentRestResponse(state.request, OK, state.contentBuilder));
     }
 
+
+
+    private static String getConcatenatedString(Set<String> programsSet) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String program : programsSet) {
+            stringBuilder.append(program).append(",");
+        }
+
+        String program = stringBuilder.toString();
+        if (!program.isEmpty())
+            program = program.substring(0, program.length() - 1);
+        return program;
+    }
+
+    /**
+     * Record
+     */
     public static class Record {
         public String Id;
         public double total;
-        //    public String aggregator = "";
-        //cannot use array for making this dynamic, it costs a lot in performance
-        //time to fetch 1 records in ms:4761 vs//time to fetch 1 records in ms:947 for very small record SIZE of 3000 lives
 
         public double first = Double.MIN_VALUE;
         public double second = Double.MIN_VALUE;
         public double third = Double.MIN_VALUE;
         public double fourth = Double.MIN_VALUE;
-        public double fifth = Double.MIN_VALUE;
 
         public long field_long_1 = -2;
 
@@ -469,8 +465,6 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         public String field_string_4;
         public String field_string_5;
         public String field_string_6;
-        public Object field_object_1;
-        public Object field_object_2;
 
         public int field_int_1;
 
@@ -485,19 +479,6 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         public String getProgramTypes() {
             return getConcatenatedString(types);
         }
-    }
-
-    private static String getConcatenatedString(Set<String> programsSet) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (String program : programsSet) {
-            stringBuilder.append(program).append(",");
-        }
-
-        String program = stringBuilder.toString();
-        if (!program.isEmpty())
-            program = program.substring(0, program.length() - 1);
-        return program;
     }
 
     public Record getRecord(String id) {
