@@ -16,7 +16,7 @@ public class ClientRequest {
     public long time;
     public int requestSize;
     public boolean filterByValue;
-    public String field;
+    public String keyField;
     public double value;
     public SearchRequest request;
     public boolean repeat = true;           //repeat same query for comparison period
@@ -31,9 +31,9 @@ public class ClientRequest {
     public String report;
     public Map<String, FilterBuilder> filterBuilders;
 
-    public ClientRequest(String reportName, String field, SearchRequest request, String[] types) {
+    public ClientRequest(String reportName, String keyField, SearchRequest request, String[] types) {
         this.report = reportName;
-        this.field = field;
+        this.keyField = keyField;
         this.request = request;
         this.types = types;
     }
@@ -51,7 +51,7 @@ public class ClientRequest {
 
     public ClientRequest(String report,
                          int requestSize,
-                         String field,
+                         String keyField,
                          boolean filterByValue,
                          double value,
                          SearchRequest request,
@@ -59,7 +59,7 @@ public class ClientRequest {
         this.report=report;
         this.requestSize = requestSize;
         this.filterByValue = filterByValue;
-        this.field = field;
+        this.keyField = keyField;
         this.value = value;
         this.request = request;
         this.types = types;
@@ -76,7 +76,7 @@ public class ClientRequest {
         this.report=copy.report;
         this.requestSize = copy.requestSize;
         this.filterByValue = copy.filterByValue;
-        this.field = copy.field;
+        this.keyField = copy.keyField;
         this.value = copy.value;
         this.request = copy.request;
         this.types = copy.types;

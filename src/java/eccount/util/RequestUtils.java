@@ -23,6 +23,11 @@ public class RequestUtils {
         return (request.startsWith("[")&& request.endsWith("]"));
     }
 
+    /**
+     * check if the request is an Array
+     * @param request
+     * @return
+     */
     public static String[] getArrayRequest(String request){
         String requestParams=isArrayRequest(request)?request.replace("[","").replace("]",""):request;
         return requestParams.split(",");

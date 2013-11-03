@@ -1,7 +1,7 @@
 package eccount.action;
 
 import eccount.ClientRequest;
-import eccount.action.search.AnalyticsQueryBuilder;
+import eccount.action.search.AnalyticsRequestBuilder;
 import eccount.util.AmountUtils;
 import eccount.util.RequestUtils;
 
@@ -239,7 +239,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         childState.oldRecordIds = state.recordIds;
         childState.recordIds = createRecordMap();
         //build query for child
-        final AnalyticsQueryBuilder builder = AnalyticsQueryBuilders.getBuilder(report);
+        final AnalyticsRequestBuilder builder = AnalyticsRequestBuilders.getBuilder(report);
         logger.debug("This is query at comparision side " + builder.toString());
         final MultiSearchRequestBuilder query = builder.query(child.state, client);
         query.execute(child);
@@ -271,7 +271,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     protected void reprocess() throws Exception {
         AbstractAnalyticsActionListener child = newActionListener(this);
         //build query for child
-        MultiSearchRequestBuilder builder = AnalyticsQueryBuilders.getBuilder(report).query(child.state, client);
+        MultiSearchRequestBuilder builder = AnalyticsRequestBuilders.getBuilder(report).query(child.state, client);
         logger.debug("child query " + builder.toString());
         builder.execute(child);
     }
@@ -312,12 +312,12 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     /**
      * Builds content {@link XContentBuilder} for a period using the records
      *
-     * @param memberIds      record map holding the report for a period
+     * @param customerIds      record map holding the report for a period
      * @param contentBuilder
      * @param period
      * @throws Exception
      */
-    protected void writeContent(Map<String, Record> memberIds, XContentBuilder contentBuilder, String period) throws Exception {
+    protected void writeContent(Map<String, Record> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
         contentBuilder.startArray(period);
         String first = state.types[0].toLowerCase();
         String second = "";
@@ -327,49 +327,49 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         long first_total = 0l;
         long second_total = 0l;
 
-        for (Record member : memberIds.values()) {
+        for (Record customer : customerIds.values()) {
 
             contentBuilder.startObject();
-            contentBuilder.field(state.field, member.Id);
-            first_total += AmountUtils.getLong(member.first);
-            contentBuilder.field(first, AmountUtils.getAmount(member.first));
+            contentBuilder.field(state.keyField, customer.Id);
+            first_total += AmountUtils.getLong(customer.first);
+            contentBuilder.field(first, AmountUtils.getAmount(customer.first));
             if (!second.isEmpty()) {
-                second_total += AmountUtils.getLong(member.second);
-                contentBuilder.field(second, AmountUtils.getAmount(member.second));
+                second_total += AmountUtils.getLong(customer.second);
+                contentBuilder.field(second, AmountUtils.getAmount(customer.second));
             }
-            contentBuilder.field("total", AmountUtils.getAmount(member.total));
-            if (member.field_string_1 != null) {
-                contentBuilder.field("primaryPaymentCodeDesc", member.field_string_1);
+            contentBuilder.field("total", AmountUtils.getAmount(customer.total));
+            if (customer.field_string_1 != null) {
+                contentBuilder.field("primaryPaymentCodeDesc", customer.field_string_1);
             }
-            if (member.field_long_1 > -1)
-                contentBuilder.field("riskScore", AmountUtils.getAmount(member.field_long_1));
-            if (member.field_string_2 != null) {
-                contentBuilder.field("relationshipId", member.field_string_2);
+            if (customer.field_long_1 > -1)
+                contentBuilder.field("riskScore", AmountUtils.getAmount(customer.field_long_1));
+            if (customer.field_string_2 != null) {
+                contentBuilder.field("relationshipId", customer.field_string_2);
             }
-            if (member.field_string_3 != null) {
-                contentBuilder.field("customerGender", member.field_string_3);
+            if (customer.field_string_3 != null) {
+                contentBuilder.field("customerGender", customer.field_string_3);
             }
-            if (member.field_string_4 != null) {
-                contentBuilder.field("currentStatus", member.field_string_4);
+            if (customer.field_string_4 != null) {
+                contentBuilder.field("currentStatus", customer.field_string_4);
             }
-            if (member.field_string_5 != null) {
-                contentBuilder.field("groupId", member.field_string_5);
+            if (customer.field_string_5 != null) {
+                contentBuilder.field("groupId", customer.field_string_5);
             }
-            if (member.field_string_6 != null) {
-                contentBuilder.field("unblindCustomerId", member.field_string_6);
+            if (customer.field_string_6 != null) {
+                contentBuilder.field("unblindCustomerId", customer.field_string_6);
             }
-            if (member.field_int_1 >= 0) {
-                contentBuilder.field("customerAge", member.field_int_1);
+            if (customer.field_int_1 >= 0) {
+                contentBuilder.field("customerAge", customer.field_int_1);
             }
-            if (member.types != null && !member.getProgramTypes().isEmpty())
-                contentBuilder.field("program_type", member.getProgramTypes());
+            if (customer.types != null && !customer.getProgramTypes().isEmpty())
+                contentBuilder.field("program_type", customer.getProgramTypes());
             contentBuilder.endObject();
         }
         contentBuilder.startObject();
         contentBuilder.field(first, AmountUtils.getAmount(first_total));
         if (!second.isEmpty()) contentBuilder.field(second, AmountUtils.getAmount(second_total));
         contentBuilder.field("total", AmountUtils.getAmount(first_total + second_total));
-        contentBuilder.field("countOfCustomer", memberIds.size());
+        contentBuilder.field("countOfCustomer", customerIds.size());
         contentBuilder.endObject();
         contentBuilder.endArray();
         logger.debug("content generated");

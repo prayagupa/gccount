@@ -48,13 +48,13 @@ public class ElasticsearchConnector {
         }
         String esClusterName = !clusterConfig.getClusterName().isEmpty()?clusterConfig.getClusterName():ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
 
+        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println(dt.format(new Date()) + " ElasticSearchConnector.getInstance: Connection attempt to cluster: "+ esClusterName);
         logger.info("", dt.format(new Date()) + " ElasticSearchConnector.getInstance: Connection attempt to cluster: "+ esClusterName);
 
-        Settings settings = ImmutableSettings.settingsBuilder()
-                        .put("cluster.name", esClusterName).build();
+        Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         TransportClient client = new TransportClient(settings);
         for(ElasticServerConfig serverConfig : clusterConfig.getNodes().values()){
-            //log.info(dt.format(new Date()) + " ElasticSearchConnector.getInstance: Adding cluster node: "+serverConfig.getName()+" HostName: "+serverConfig.getHostname()+" Port: "+serverConfig.getPort());
             client.addTransportAddress(new InetSocketTransportAddress(serverConfig.getHostname(),serverConfig.getPort()));
         }
         return client;

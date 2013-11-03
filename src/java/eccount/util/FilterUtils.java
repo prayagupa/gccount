@@ -10,8 +10,9 @@ import org.elasticsearch.search.facet.termsstats.TermsStatsFacetBuilder;
  */
 public class FilterUtils {
 
-    public static TermsStatsFacetBuilder getFacet(String name, String keyField, String valueField, int size) {
-        TermsStatsFacetBuilder termsStatsFacet = FacetBuilders.termsStatsFacet(name);
+
+    public static TermsStatsFacetBuilder getTermsStatsFacet(String facetName, String keyField, String valueField, int size) {
+        TermsStatsFacetBuilder termsStatsFacet = FacetBuilders.termsStatsFacet(facetName);
         termsStatsFacet.keyField(keyField);
         termsStatsFacet.valueField(valueField);
         termsStatsFacet.size(size);
@@ -23,13 +24,14 @@ public class FilterUtils {
      * get a TermsStatsFacetBuilder based on keyField and valueField
      * <pre>
              "facets" : {
-             "customerGender:eligibilityTrend_6-2013" : {
-             "terms_stats" : {
-             "key_field" : "customerGender",
-             "value_field" : "customerAge",
-             "order" : "total",
-             "size" : 0
-             }
+                 "customerGender:eligibilityTrend_6-2013" : {
+                     "terms_stats" : {
+                         "key_field" : "customerGender",
+                         "value_field" : "customerAge",
+                         "order" : "total",
+                         "size" : 0
+                     }
+                  }
              }
      * </pre>
      * @param name
@@ -39,7 +41,7 @@ public class FilterUtils {
      * @return
      */
     public static TermsStatsFacetBuilder getFacet(String name, String keyField, String valueField, FilterBuilder filterBuilders) {
-        TermsStatsFacetBuilder facet = getFacet(name, keyField, valueField, QueryUtils.SIZE);
+        TermsStatsFacetBuilder facet = getTermsStatsFacet(name, keyField, valueField, QueryUtils.SIZE);
         if(filterBuilders!=null) facet.facetFilter(filterBuilders);
         return facet;
     }
@@ -52,11 +54,11 @@ public class FilterUtils {
      * @return
      * <pre>
            "facets" : {
-            "totalAmount_stats" : {
-            "statistical" : {
-                "field" : "paidAmount"
-            }
-            }
+                "totalAmount_stats" : {
+                    "statistical" : {
+                        "keyField" : "paidAmount"
+                    }
+                }
             }
      * </pre>
      */
