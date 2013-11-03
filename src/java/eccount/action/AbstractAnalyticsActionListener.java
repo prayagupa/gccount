@@ -80,11 +80,11 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
 
     /**
      * Makes decision to term the loop
-     * The ordered facets output can be neglected below the required value or SIZE
+     * The ordered facets output can be neglected below the required value( or SIZE )
      *
      * @param i
      * @param entry
-     * @return
+     * @return boolean
      */
     protected boolean termLoop(int i, TermsStatsFacet.Entry entry) {
         return !state.noFilter && (i >= state.requestSize || (state.filterByValue && entry.getTotal() <= state.value));
@@ -198,14 +198,14 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
             double totalSum = 0d;
             String prefix = "";
 
-            for (Facet entry : response.getFacets().facets()) {
-                TermsStatsFacet termFacet = (TermsStatsFacet) entry;
-                if (termFacet.getName().contains(":")) {
-                    prefix = termFacet.getName();
+            for (Facet facetEntry : response.getFacets().facets()) {
+                TermsStatsFacet termsStatsFacet = (TermsStatsFacet) facetEntry;
+                if (termsStatsFacet.getName().contains(":")) {
+                    prefix = termsStatsFacet.getName();
                 }
-                for (TermsStatsFacet.Entry stringEntry : termFacet.getEntries()) {
+                for (TermsStatsFacet.Entry stringEntry : termsStatsFacet.getEntries()) {
                     if (!state.findTotal && termLoop(i, stringEntry)) {
-                        break;//avoid all subsequent results
+                        break; //avoid all subsequent results
                     }
                     if (state.reportCount == 0) {
                         if (!termLoop(i, stringEntry)) {

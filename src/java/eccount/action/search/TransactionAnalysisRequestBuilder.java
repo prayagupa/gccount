@@ -58,16 +58,16 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
 
 
     private SearchRequestBuilder preparePaidAmountStatisticalFacet(ClientRequest state, Client client) {
-        SearchRequestBuilder builder3 = QueryUtils.prepareRequest(client,
-                                                                  state.request,
-                                                                  state.period() + "From",
-                                                                  state.period() + "To",
-                                                                  state, null,
-                                                                  ESTYPE_TRANSACTION);
+        SearchRequestBuilder dateRangeRequestBuilder = QueryUtils.prepareRequestBuilder(client,
+                state.request,
+                state.period() + "From",
+                state.period() + "To",
+                state, null,
+                ESTYPE_TRANSACTION);
         StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet("totalAmount_stats", "paidAmount", null);
-        builder3.addFacet(transactionAmountFacet);
-        builder3.addField("paidAmount");
-        return builder3;
+        dateRangeRequestBuilder.addFacet(transactionAmountFacet);
+        dateRangeRequestBuilder.addField("paidAmount");
+        return dateRangeRequestBuilder;
     }
 
     private void addCustomerMonthsFacet(SearchRequestBuilder builder, ClientRequest state) {

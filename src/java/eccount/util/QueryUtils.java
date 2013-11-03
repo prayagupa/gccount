@@ -18,6 +18,7 @@ import org.elasticsearch.search.facet.termsstats.TermsStatsFacetBuilder;
  */
 
 public class QueryUtils {
+
     public static final String DEFAULT_DATE_UPPER_END = "2013-12-31";
     public static final int FIXED_DAY_OF_MONTH=15;
     public static int SIZE = 0;
@@ -166,14 +167,24 @@ public class QueryUtils {
         return request.hasParameter("keyField") ? request.get("keyField") : "customerId";
     }
 
-
-    public static SearchRequestBuilder prepareRequest(Client client,
-                                                      final SearchRequest request,
-                                                      String paramFrom,
-                                                      String paramTo,
-                                                      ClientRequest state,
-                                                      FilterBuilder filter,
-                                                      String... esTypes) {
+    /**
+     *
+     * @param client
+     * @param request
+     * @param paramFrom
+     * @param paramTo
+     * @param state
+     * @param filter
+     * @param esTypes
+     * @return
+     */
+    public static SearchRequestBuilder prepareRequestBuilder(Client client,
+                                                             final SearchRequest request,
+                                                             String paramFrom,
+                                                             String paramTo,
+                                                             ClientRequest state,
+                                                             FilterBuilder filter,
+                                                             String... esTypes) {
         SearchRequestBuilder builder = prepareSearchQuery(client, request, paramFrom, paramTo, state, filter, esTypes);
         setSize(builder);
         return builder;
@@ -185,10 +196,10 @@ public class QueryUtils {
                                                           String paramTo,
                                                           ClientRequest state,
                                                           FilterBuilder filter,
-                                                          String[] types) {
+                                                          String[] esTypes) {
         String dateRangeFrom = request.hasParameter(paramFrom) ? request.get(paramFrom) : "2010-11-01";
-        String dateRangeTo   = request.hasParameter(paramTo) ? request.get(paramTo) : DEFAULT_DATE_UPPER_END;
-        return buildQuery(client,state,parseBasis(request),dateRangeFrom,dateRangeTo,state.isPaidThrough(),filter,types);
+        String dateRangeTo   = request.hasParameter(paramTo)   ? request.get(paramTo)   : DEFAULT_DATE_UPPER_END;
+        return buildQuery(client, state, parseBasis(request), dateRangeFrom, dateRangeTo, state.isPaidThrough(), filter, esTypes);
 
     }
 
@@ -210,7 +221,7 @@ public class QueryUtils {
     }
 
     public static SearchRequestBuilder buildEndSearch(Client client, final SearchRequest request) {
-        String index = request.hasParameter("clientId") ? request.get("clientId") : "0005";
+        String index                 = request.hasParameter("clientId") ? request.get("clientId") : "0005";
         SearchRequestBuilder builder = client.prepareSearch(index);
         builder.setSearchType(SearchType.QUERY_THEN_FETCH);
         return builder;
