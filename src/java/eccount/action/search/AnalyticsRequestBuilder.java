@@ -9,7 +9,7 @@ import org.elasticsearch.client.Client;
  * @author prayagupd
  */
  
-public interface AnalyticsQueryBuilder {
+public interface AnalyticsRequestBuilder {
     MultiSearchRequestBuilder query(ClientRequest request, Client client);
 }
 
