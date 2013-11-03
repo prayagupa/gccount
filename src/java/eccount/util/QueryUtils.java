@@ -173,10 +173,9 @@ public class QueryUtils {
                                                       String paramTo,
                                                       ClientRequest state,
                                                       FilterBuilder filter,
-                                                      String... types) {
-        SearchRequestBuilder builder = prepareSearchQuery(client, request, paramFrom, paramTo, state, filter, types);
+                                                      String... esTypes) {
+        SearchRequestBuilder builder = prepareSearchQuery(client, request, paramFrom, paramTo, state, filter, esTypes);
         setSize(builder);
-
         return builder;
     }
 
@@ -188,7 +187,7 @@ public class QueryUtils {
                                                           FilterBuilder filter,
                                                           String[] types) {
         String dateRangeFrom = request.hasParameter(paramFrom) ? request.get(paramFrom) : "2010-11-01";
-        String dateRangeTo = request.hasParameter(paramTo) ? request.get(paramTo) : DEFAULT_DATE_UPPER_END;
+        String dateRangeTo   = request.hasParameter(paramTo) ? request.get(paramTo) : DEFAULT_DATE_UPPER_END;
         return buildQuery(client,state,parseBasis(request),dateRangeFrom,dateRangeTo,state.isPaidThrough(),filter,types);
 
     }

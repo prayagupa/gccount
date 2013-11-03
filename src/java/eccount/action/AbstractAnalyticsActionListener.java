@@ -157,13 +157,13 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     @Override
     public void onResponse(MultiSearchResponse multiSearchResponse) {
         long first = new Date().getTime();
-        logger.info("Response : "+multiSearchResponse);
+        logger.info("Response : " + multiSearchResponse);
 
         try {
             if (state.reportCount == 0 && state.repeat) {
                 initState();
             }
-            processResponse(multiSearchResponse);
+            processSearchResponse(multiSearchResponse);
             if (doReprocess()) {
                 logger.debug("reprocessing abstract...");
                 reprocess();
@@ -190,7 +190,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      *
      * @param multiSearchResponse
      */
-    protected void processResponse(MultiSearchResponse multiSearchResponse) {
+    protected void processSearchResponse(MultiSearchResponse multiSearchResponse) {
         for (MultiSearchResponse.Item responseItem : multiSearchResponse.getResponses()) {
             SearchResponse response = responseItem.getResponse();
 

@@ -23,6 +23,8 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     Logger logger = LoggerFactory.getLogger(TransactionAnalysisRequestBuilder.class.getName());
 
     public final String ESTYPE_CUSTOMER_SEARCH = "CustomerSearch";
+    public final String ESTYPE_CUSTOMER        = "Customer";
+    public final String ESTYPE_TRANSACTION     = "Transaction";
 
     @Override
     protected MultiSearchRequestBuilder executeMultiSearchQuery(ClientRequest state, Client client) {
@@ -34,19 +36,19 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
                                                                      state.period() + "To",
                                                                      state,
                                                                      null,
-                                                                     "Customer");
-        SearchRequestBuilder countRequestBuilder = prepareCountFacets(state, client);
-        SearchRequestBuilder builder3 = query2(state, client);
+                                                                     ESTYPE_CUSTOMER);
+        SearchRequestBuilder countRequestBuilder       = prepareTermsStatsFacetsForCount(state, client); //statistical = Count
+        SearchRequestBuilder paidAmountRequestBuilder  = preparePaidAmountStatisticalFacet(state, client);
 
         multiSearchRequestBuilder.add(servicewiseAmountRequestBuilder);
         multiSearchRequestBuilder.add(countRequestBuilder);
-        multiSearchRequestBuilder.add(builder3);
+        multiSearchRequestBuilder.add(paidAmountRequestBuilder);
         System.out.println("multiSearchRequestBuilder="+multiSearchRequestBuilder);
         return multiSearchRequestBuilder;
     }
 
 
-    private SearchRequestBuilder prepareCountFacets(ClientRequest state, Client client) {
+    private SearchRequestBuilder prepareTermsStatsFacetsForCount(ClientRequest state, Client client) {
         SearchRequestBuilder searchRequestBuilder = prepareSearchRequestBuilder(state, client);
         addCustomerMonthsFacet(searchRequestBuilder, state);
         addCustomerCountFacet(searchRequestBuilder, state);
@@ -55,13 +57,13 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     }
 
 
-    private SearchRequestBuilder query2(ClientRequest state, Client client) {
+    private SearchRequestBuilder preparePaidAmountStatisticalFacet(ClientRequest state, Client client) {
         SearchRequestBuilder builder3 = QueryUtils.prepareRequest(client,
                                                                   state.request,
                                                                   state.period() + "From",
                                                                   state.period() + "To",
                                                                   state, null,
-                                                                  "Transaction");
+                                                                  ESTYPE_TRANSACTION);
         StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet("totalAmount_stats", "paidAmount", null);
         builder3.addFacet(transactionAmountFacet);
         builder3.addField("paidAmount");
@@ -80,7 +82,7 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     }
 
     private void addCustomerCountFacet(SearchRequestBuilder builder, ClientRequest state) {
-        builder.addFacet(termsStatsFacetBuilder(state, state.periodTo(), "memberCount"));
+        builder.addFacet(termsStatsFacetBuilder(state, state.periodTo(), "customerCount"));
     }
 
     private SearchRequestBuilder prepareSearchRequestBuilder(ClientRequest state, Client esClient) {

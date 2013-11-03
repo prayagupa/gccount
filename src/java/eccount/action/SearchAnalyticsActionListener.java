@@ -1,15 +1,11 @@
 package eccount.action;
 
-import eccount.util.AmountUtils;
-import eccount.util.SummableMap;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.search.facet.Facet;
-import org.elasticsearch.search.facet.statistical.StatisticalFacet;
 import org.elasticsearch.search.facet.termsstats.TermsStatsFacet;
 
-import java.net.URL;
 import java.util.Map;
 
 /**
@@ -23,7 +19,7 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
     }
 
     @Override
-    protected void processResponse(MultiSearchResponse multiSearchResponse) {
+    protected void processSearchResponse(MultiSearchResponse multiSearchResponse) {
         MultiSearchResponse.Item[] responseItems = multiSearchResponse.getResponses();
         MultiSearchResponse.Item item1 = responseItems[0];
         SearchResponse response1 = item1.getResponse();
@@ -64,10 +60,10 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
 
 
     @Override
-    protected void writeContent(Map<String, Record> records, XContentBuilder contentBuilder, String period) throws Exception {
+    protected void writeContent(Map<String, Record> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
         contentBuilder.startArray(period);
         contentBuilder.startObject();
-        for (Record record : records.values()) {
+        for (Record record : customerIds.values()) {
             if (record.Id == null)
                 contentBuilder.field("recordId", "null");
             else

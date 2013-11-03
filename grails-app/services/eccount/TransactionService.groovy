@@ -50,9 +50,9 @@ class TransactionService {
 
         AbstractAnalyticsActionListener analyticsActionListenerBasedOnReportName = newActionListener(keyField, searchRequest, reportName, processFlag)
         // in following case, by default DefaultRequestBuilder#query(request, esClient) will be executed
-        MultiSearchRequestBuilder builder = AnalyticsRequestBuilders.getBuilder(reportName).query(analyticsActionListenerBasedOnReportName.state, esClient)
+        MultiSearchRequestBuilder multiSearchRequestBuilder = AnalyticsRequestBuilders.getBuilder(reportName).query(analyticsActionListenerBasedOnReportName.state, esClient)
         try {
-            Thread thread = new Thread(new BuilderExecutor(builder, analyticsActionListenerBasedOnReportName))
+            Thread thread = new Thread(new RequestBuilderExecutor(multiSearchRequestBuilder, analyticsActionListenerBasedOnReportName))
             thread.start()
 
             while (!analyticsActionListenerBasedOnReportName.processComplete.get()) {
@@ -66,9 +66,9 @@ class TransactionService {
    }
 
    def getDefaultCluster(){
-       def server = new ElasticServerConfig(name :"Node1",
-                                            hostname :"localhost",
-                                            port : 9300,
+       def server = new ElasticServerConfig(name     : "Node1",
+                                            hostname : "localhost",
+                                            port     : 9300,
                                             httpPort : 9200)
        def cluster   = new ElasticClusterConfig()
        cluster.nodes = ["Node1":server]
@@ -80,12 +80,12 @@ class TransactionService {
       * static object for executing @{SearchRequestBuilder}
       * and stimulating respective @{ActionListener} to handle @{SearchResponse}s
       */
-    static class BuilderExecutor implements Runnable {
+    static class RequestBuilderExecutor implements Runnable {
         MultiSearchRequestBuilder builder;
         AbstractAnalyticsActionListener actionListener;
 
-        public BuilderExecutor(MultiSearchRequestBuilder builder, AbstractAnalyticsActionListener listener) {
-            this.builder = builder;
+        public RequestBuilderExecutor(MultiSearchRequestBuilder builder, AbstractAnalyticsActionListener listener) {
+            this.builder        = builder;
             this.actionListener = listener;
         }
 
