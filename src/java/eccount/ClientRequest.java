@@ -24,8 +24,8 @@ public class ClientRequest {
     public Map<String, AbstractAnalyticsActionListener.Record> recordIds;
     public Map<String, AbstractAnalyticsActionListener.Record> oldRecordIds;
     public int reportCount = 0;
-    public boolean noFilter = true;//by default no filtering
-    public String[] types;
+    public boolean noFilter = true;   //by default no filtering
+    public String[] types;            // recordTypes (eg "Customer", "Transaction")
     public boolean findTotal = false; // make this true only when you want to iterate all values to find total
     public boolean preprocess = true;
     public String report;
