@@ -26,22 +26,25 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     public final String ESTYPE_CUSTOMER        = "Customer";
     public final String ESTYPE_TRANSACTION     = "Transaction";
 
+    public static String FIELD_BALANCE = "balance";
+    public static String BALANCE_FACETNAME = "balance_stats";
+
     @Override
     protected MultiSearchRequestBuilder executeMultiSearchQuery(ClientRequest state, Client client) {
         MultiSearchRequestBuilder multiSearchRequestBuilder = new MultiSearchRequestBuilder(client);
 
-        SearchRequestBuilder servicewiseAmountRequestBuilder = QueryUtils.buildSearchRequest(client,
-                                                                     state.request,
-                                                                     state.period() + "From",
-                                                                     state.period() + "To",
-                                                                     state,
-                                                                     null,
-                                                                     ESTYPE_CUSTOMER);
-        SearchRequestBuilder countRequestBuilder       = prepareTermsStatsFacetsForCount(state, client); //statistical = Count
+//        SearchRequestBuilder servicewiseAmountRequestBuilder = QueryUtils.buildSearchRequest(client,
+//                                                                     state.request,
+//                                                                     state.period() + "From",
+//                                                                     state.period() + "To",
+//                                                                     state,
+//                                                                     null,
+//                                                                     ESTYPE_CUSTOMER);
+        //SearchRequestBuilder countRequestBuilder       = prepareTermsStatsFacetsForCount(state, client); //statistical = Count
         SearchRequestBuilder paidAmountRequestBuilder  = preparePaidAmountStatisticalFacet(state, client);
 
-        multiSearchRequestBuilder.add(servicewiseAmountRequestBuilder);
-        multiSearchRequestBuilder.add(countRequestBuilder);
+        //multiSearchRequestBuilder.add(servicewiseAmountRequestBuilder);
+        //multiSearchRequestBuilder.add(countRequestBuilder);
         multiSearchRequestBuilder.add(paidAmountRequestBuilder);
         System.out.println("multiSearchRequestBuilder="+multiSearchRequestBuilder);
         return multiSearchRequestBuilder;
@@ -63,10 +66,10 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
                 state.period() + "From",
                 state.period() + "To",
                 state, null,
-                ESTYPE_TRANSACTION);
-        StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet("totalAmount_stats", "paidAmount", null);
+                ESTYPE_CUSTOMER);       //ESTYPE_TRANSACTION
+        StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet(BALANCE_FACETNAME, FIELD_BALANCE, null);
         dateRangeRequestBuilder.addFacet(transactionAmountFacet);
-        dateRangeRequestBuilder.addField("paidAmount");
+        dateRangeRequestBuilder.addField(FIELD_BALANCE);
         return dateRangeRequestBuilder;
     }
 

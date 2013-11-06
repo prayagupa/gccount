@@ -22,6 +22,8 @@ public class QueryUtils {
     public static final String DEFAULT_DATE_UPPER_END = "2013-12-31";
     public static final int FIXED_DAY_OF_MONTH=15;
     public static int SIZE = 0;
+    public static String CUSTOMER_FIELD = "customerId";
+    public static String BALANCE_FIELD = "balance";
 
     /**
      *
@@ -88,8 +90,9 @@ public class QueryUtils {
         String dateRangeTo   = request.hasParameter(paramTo)   ? request.get(paramTo)   : DEFAULT_DATE_UPPER_END;
 
         //get type field(ie column) and set range filter on that
-        String reportingBasis = request.hasParameter("reportingBasis") ? request.get("reportingBasis") : "serviceDate";
-        String field_         = reportingBasis.equalsIgnoreCase("serviceDate") ? "serviceDate" : "paidDate";
+        //String reportingBasis = request.hasParameter("reportingBasis")         ? request.get("reportingBasis") : "serviceDate";
+        //String field_         = reportingBasis.equalsIgnoreCase("serviceDate") ? "serviceDate" : "paidDate";
+        String field_         = "created";
         RangeFilterBuilder rangeFilter = FilterBuilders.rangeFilter(field_);
         rangeFilter.from(dateRangeFrom);
         rangeFilter.to(dateRangeTo);
@@ -99,8 +102,8 @@ public class QueryUtils {
         requestBuilder.setQuery(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), andFilter));
         requestBuilder.setTypes(esTypes);
 
-        final String typeField      = request.hasParameter("keyField")   ? request.get("keyField")  : "customerId";
-        final String valueField = request.hasParameter("valueField") ? request.get("valueField") : "paidAmount";
+        final String typeField      = request.hasParameter("keyField")   ? request.get("keyField")   : CUSTOMER_FIELD;
+        final String valueField     = request.hasParameter("valueField") ? request.get("valueField") : BALANCE_FIELD;
         TermsStatsFacetBuilder termsStatsFacet;
 
         if(RequestUtils.isArrayRequest(valueField)){

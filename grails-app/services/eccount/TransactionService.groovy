@@ -37,11 +37,11 @@ class TransactionService {
      * @param searchRequest
      * @return
      */
-   def getResults(SearchRequest searchRequest){
+   def getSearchResponse(SearchRequest searchRequest){
         String esClusterName   = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
-        settings      = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
+        settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         esClient               = ElasticsearchConnector.getClient(getDefaultCluster())
-        System.out.println("SOP ES Client : "+esClient)
+        System.out.println(TransactionService.class.getName()+" : ES Client : " + esClient)
         log.info("ES Client : "+esClient)
 
         AtomicBoolean processFlag = new AtomicBoolean(false)
