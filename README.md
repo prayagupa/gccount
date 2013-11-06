@@ -1,5 +1,9 @@
 <b>CASHLESS PAYMENT SYSTEM</b>
 
+Run Test Cases
+==============
+`$ grails test-app unit: TransactionControllerTests`
+
 degug-app
 =========
 
