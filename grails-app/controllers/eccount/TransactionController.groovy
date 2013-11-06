@@ -1,6 +1,9 @@
 package eccount
 
+
+import org.codehaus.groovy.grails.web.json.JSONObject
 import org.springframework.dao.DataIntegrityViolationException
+import grails.converters.JSON
 
 class TransactionController {
 
@@ -8,7 +11,7 @@ class TransactionController {
 
     SearchRequest searchRequest
     private final int defaultPageNumber = 1;
-    private final int defaultPageSize = 20;
+    private final int defaultPageSize   = 20;
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -195,16 +198,22 @@ class TransactionController {
          }//end of switch
     }//end of anyRange
 
-   def requestES = {
+   def transactionAnalytics = {
        searchRequest = searchRequest ?: new SearchRequest(requestParams: new HashMap<String, String>())
-       configureParams()
-       transactionService.getResults(searchRequest)
+       configureRequestParams()
+       def responseBytes = transactionService.getSearchResponse(searchRequest)
+       def jsonResponse
+       if (responseBytes)
+            jsonResponse = JSON.parse(responseBytes)
+       else
+           jsonResponse = new JSONObject()
+       render jsonResponse as JSON
    }
 
-    private void configureParams() {
+    private void configureRequestParams() {
         params.remove("controller")
         params.remove("action")
-        params.put("clientId", params.get("index_name"))
+        params.put("clientId", params.get("indexName"))
         searchRequest.requestParams.putAll(params)
     }
 }

@@ -23,7 +23,7 @@ public class QueryUtils {
     public static final int FIXED_DAY_OF_MONTH=15;
     public static int SIZE = 0;
     public static String CUSTOMER_FIELD = "customerId";
-    public static String BALANCE_FIELD = "balance";
+    public static String BALANCE_FIELD  = "balance";
 
     /**
      *

@@ -26,7 +26,7 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     public final String ESTYPE_CUSTOMER        = "Customer";
     public final String ESTYPE_TRANSACTION     = "Transaction";
 
-    public static String FIELD_BALANCE = "balance";
+    public static String FIELD_BALANCE     = "balance";
     public static String BALANCE_FACETNAME = "balance_stats";
 
     @Override

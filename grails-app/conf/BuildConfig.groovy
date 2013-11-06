@@ -40,6 +40,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.ChocolateAlgorithm.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
 
+        mavenRepo "http://repo.typesafe.com/typesafe/releases/"
         mavenRepo "http://repository.cloudera.com/content/repositories/releases/"
         mavenRepo " https://repository.cloudera.com/artifactory/cloudera-repos/"
 
@@ -50,7 +51,7 @@ grails.project.dependency.resolution = {
         runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
         runtime 'mysql:mysql-connector-java:5.1.20'
-	
+
     }
 
     plugins {
@@ -69,31 +70,34 @@ grails.project.dependency.resolution = {
 
         compile ':cache:1.0.0'
 	
-	// install twitter-bootstrap resources plugin
-	// https://github.com/iPrayag/twitter-bootstrap-scaffolding
-	runtime ":twitter-bootstrap:2.1.1"
-		
-	// install Fields plugin
-	runtime ":fields:1.3"
-	
-	//compile ":mongodb:1.0.0.GA"
-	
-	//Test Code Coverage Plugin
-	test ":code-coverage:1.2.5"
-	
-	//		
-	//compile ":neo4j:1.0.0.M5"
-	//
-	//compile ":neo4j:latest.version"
+        // install twitter-bootstrap resources plugin
+        // https://github.com/iPrayag/twitter-bootstrap-scaffolding
+        runtime ":twitter-bootstrap:2.1.1"
 
-	//spring sec plugin
-	compile ':spring-security-core:1.2.7.3'
+        // install Fields plugin
+        runtime ":fields:1.3"
 
-    compile ":joda-time:1.4"
+        //compile ":mongodb:1.0.0.GA"
 
-    compile (":elasticsearch:0.17.8.1") {
-            excludes   'elasticsearch','elasticsearch-lang-groovy'
-    }
+        //Test Code Coverage Plugin
+        test ":code-coverage:1.2.5"
 
+        //
+        //compile ":neo4j:1.0.0.M5"
+        //
+        //compile ":neo4j:latest.version"
+
+        //spring sec plugin
+        compile ':spring-security-core:1.2.7.3'
+
+        compile ":joda-time:1.4"
+
+        compile (":elasticsearch:0.17.8.1") {
+                excludes   'elasticsearch','elasticsearch-lang-groovy'
+        }
+
+        compile ":scala:0.9.2"
+
+        compile ":clojure:0.6"
     }
 }

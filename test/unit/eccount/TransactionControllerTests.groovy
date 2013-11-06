@@ -6,8 +6,9 @@ import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(TransactionController)
-@Mock(Transaction)
+//@Mock(Transaction)
 class TransactionControllerTests {
+    def INDEX_NAME = "gccount"
 
     def populateValidParams(params) {
         assert params != null
@@ -151,5 +152,15 @@ class TransactionControllerTests {
         assert Transaction.count() == 0
         assert Transaction.get(transaction.id) == null
         assert response.redirectedUrl == '/transaction/list'
+    }
+
+    void testTransactionAnalytics(){
+        Map<String, String> params = new HashMap<String, String>()
+        params.put("indexName",INDEX_NAME)
+        println params.get("indexName")
+        controller.params.indexName          = "gccount"
+        controller.transactionAnalytics()
+        def jsonResponse = controller.response.json
+        println jsonResponse
     }
 }
