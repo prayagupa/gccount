@@ -199,6 +199,8 @@ class TransactionController {
     }//end of anyRange
 
    def transactionAnalytics = {
+       println "clojure : "+clj['eccount'].getElasticsearchConnection()
+
        searchRequest = searchRequest ?: new SearchRequest(requestParams: new HashMap<String, String>())
        configureRequestParams()
        def responseBytes = transactionService.getSearchResponse(searchRequest)
