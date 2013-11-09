@@ -1,8 +1,8 @@
 <b>CASHLESS PAYMENT SYSTEM</b>
 
-Run Test Cases
+[Run Test Cases](http://stackoverflow.com/a/2219029/432903)
 ==============
-`$ grails test-app unit: TransactionControllerTests`
+`$ grails test-app unit: TransactionControllerTests.testMethodName -echoOut`
 
 degug-app
 =========

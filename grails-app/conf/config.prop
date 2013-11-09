@@ -1,0 +1,3 @@
+app.tomcat.version=7.0.40.1
+app.hibernate.version=3.6.10.M3
+

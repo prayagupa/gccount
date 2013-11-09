@@ -4,7 +4,18 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.6
 grails.project.source.level = 1.6
-//
+grails.project.dependency.resolver = "maven" // or ivy
+
+
+forkConfig = [maxMemory: 1024, minMemory: 64, debug: false, maxPerm: 256]
+grails.project.fork = [
+        test: forkConfig, // configure settings for the test-app JVM
+        run: forkConfig, // configure settings for the run-app JVM
+        war: forkConfig, // configure settings for the run-war JVM
+        console: forkConfig // configure settings for the Swing console JVM
+]
+
+
 //google.appengine.sdk = "/opt/appengine-ChocolateAlgorithm-sdk-1.7.3"
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
@@ -12,6 +23,11 @@ grails.project.source.level = 1.6
   * @author   : Prayag Upd
   * @created  : Nov, 2012
   */
+def props = new Properties()
+new File("grails-app/conf/config.prop").withReader{
+    props.load(it)
+}
+def slurp = new ConfigSlurper().parse(props)
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -48,25 +64,29 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 	    runtime 'org.elasticsearch:elasticsearch:0.90.3'
-        runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
+        //runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
         runtime 'mysql:mysql-connector-java:5.1.20'
+        compile "net.sf.ehcache:ehcache-core:2.4.6"
 
     }
 
     plugins {
-       // runtime ":hibernate:$grailsVersion"
+
+        runtime ":hibernate:$slurp.app.hibernate.version"
+        build   ":tomcat:$slurp.app.tomcat.version"
+        compile ':scaffolding:1.0.0'
+
         runtime ":jquery:1.8.0"
-        runtime ":resources:1.1.6"
+        runtime ":resources:1.2.1"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
         //runtime ":cached-resources:1.0"
         //runtime ":yui-minify-resources:0.1.4"
 
-        build ":tomcat:$grailsVersion"
 
-        runtime ":database-migration:1.1"
+        runtime ":database-migration:1.3.6"
 
         compile ':cache:1.0.0'
 	
@@ -92,12 +112,8 @@ grails.project.dependency.resolution = {
 
         compile ":joda-time:1.4"
 
-        compile (":elasticsearch:0.17.8.1") {
-                excludes   'elasticsearch','elasticsearch-lang-groovy'
-        }
-
         compile ":scala:0.9.2"
 
-        compile ":clojure:0.6"
+        //compile ":clojure:0.6"
     }
 }
