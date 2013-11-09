@@ -3,14 +3,18 @@ package eccount
 import eccount.action.AbstractAnalyticsActionListener
 import eccount.action.AnalyticsActionListeners
 import eccount.action.AnalyticsRequestBuilders
-import eccount.config.ElasticClusterConfig
-import eccount.config.ElasticServerConfig
+import eccount.config.AbstractConfManager
+import eccount.config.ElasticCluster
+import eccount.config.ElasticServer
 import org.elasticsearch.action.search.MultiSearchRequestBuilder
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.logging.ESLogger
 import org.elasticsearch.common.logging.Loggers
 import org.elasticsearch.common.settings.ImmutableSettings
 import org.elasticsearch.common.settings.Settings
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -18,11 +22,23 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @author : prayagupd
  * @created : 24 Dec, 2012
 */
+
 class TransactionService {
 
     Client esClient
     Settings settings
     ESLogger logger
+    Logger log = LoggerFactory.getLogger(TransactionService.class.getName())
+
+    @Autowired
+    private AbstractConfManager confManager
+
+    AbstractConfManager getConfManager() {
+        return confManager
+    }
+    void setConfManager(AbstractConfManager confManager) {
+        this.confManager = confManager
+    }
 
     def getDailyTrxns() {
 		def fromDate  = new Date(); 
@@ -30,7 +46,7 @@ class TransactionService {
 		def results = trxnCriteria.list {
 		    eq("created", fromDate)
 		}
-        }//end of dailyTrxns
+    }//end of dailyTrxns
 
     /**
      * get es results
@@ -38,11 +54,13 @@ class TransactionService {
      * @return
      */
    def getSearchResponse(SearchRequest searchRequest){
-        String esClusterName   = ElasticClusterConfig.ES_DEFAULT_CLUSTER_NAME;
+        String esClusterName   = ElasticCluster.ES_DEFAULT_CLUSTER_NAME;
         settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
-        esClient               = ElasticsearchConnector.getClient(getDefaultCluster())
-        System.out.println(TransactionService.class.getName()+" : ES Client : " + esClient)
-        log.info("ES Client : "+esClient)
+        esClient               = EsConnector.getClient(getDefaultCluster())
+//        System.out.println(TransactionService.class.getName()+" : ES Client : " + esClient)
+       System.out.println("println ES logger name : " + log.getName())
+       log.info("ES logger name : " + log.getName())
+       log.info("ES Client : " + esClient)
 
         AtomicBoolean processFlag = new AtomicBoolean(false)
         String reportName         = searchRequest.hasParameter("reportName") ? searchRequest.get("reportName") : "transaction"
@@ -66,11 +84,11 @@ class TransactionService {
    }
 
    def getDefaultCluster(){
-       def server = new ElasticServerConfig(name     : "Node1",
-                                            hostname : "localhost",
-                                            port     : 9300,
-                                            httpPort : 9200)
-       def cluster   = new ElasticClusterConfig()
+       def server = new ElasticServer(name     : "Node1",
+                                      hostname : "localhost",
+                                      port     : 9300,
+                                      httpPort : 9200)
+       def cluster   = new ElasticCluster()
        cluster.nodes = ["Node1":server]
        cluster.clusterName  = "elasticsearch"
        cluster

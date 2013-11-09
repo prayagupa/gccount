@@ -2,12 +2,15 @@ package eccount
 
 
 import org.codehaus.groovy.grails.web.json.JSONObject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 
 class TransactionController {
 
     def transactionService
+    Logger log = LoggerFactory.getLogger(TransactionController.class.name)
 
     SearchRequest searchRequest
     private final int defaultPageNumber = 1;
@@ -199,7 +202,7 @@ class TransactionController {
     }//end of anyRange
 
    def transactionAnalytics = {
-       println "clojure : "+clj['eccount'].getElasticsearchConnection()
+       //println "clojure : "+clj['eccount'].getElasticsearchConnection()
 
        searchRequest = searchRequest ?: new SearchRequest(requestParams: new HashMap<String, String>())
        configureRequestParams()
@@ -209,6 +212,11 @@ class TransactionController {
             jsonResponse = JSON.parse(responseBytes)
        else
            jsonResponse = new JSONObject()
+       log.info("jsonResponse=>"+jsonResponse)
+       log.debug("jsonResponse=>"+jsonResponse)
+
+       println "print tc jsonResponse=>"+jsonResponse
+       println "print tc logger=>"+log.getName()
        render jsonResponse as JSON
    }
 

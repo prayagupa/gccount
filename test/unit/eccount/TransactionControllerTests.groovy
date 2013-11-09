@@ -1,14 +1,16 @@
 package eccount
 
-
-
+import grails.test.GrailsUnitTestCase
 import org.junit.*
 import grails.test.mixin.*
 
 @TestFor(TransactionController)
 //@Mock(Transaction)
-class TransactionControllerTests {
+class TransactionControllerTests{
+
     def INDEX_NAME = "gccount"
+    Map<String, String> requestParams
+    def TransactionService transactionService
 
     def populateValidParams(params) {
         assert params != null
@@ -155,12 +157,22 @@ class TransactionControllerTests {
     }
 
     void testTransactionAnalytics(){
+        // requestParams = prepareRequestParams()
+        if (!transactionService){
+            transactionService = new TransactionService()
+        }
+        controller.transactionService = transactionService
+        controller.params.indexName = INDEX_NAME
+        controller.transactionAnalytics()
+        println "response being returned"
+        def jsonResponse = controller.response.json
+        println "json response => "+jsonResponse
+        log.info("json response => "+jsonResponse)
+    }
+
+    void prepareRequestParams(){
         Map<String, String> params = new HashMap<String, String>()
         params.put("indexName",INDEX_NAME)
-        println params.get("indexName")
-        controller.params.indexName          = "gccount"
-        controller.transactionAnalytics()
-        def jsonResponse = controller.response.json
-        println jsonResponse
+        params
     }
 }
