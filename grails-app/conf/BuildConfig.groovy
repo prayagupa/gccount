@@ -73,7 +73,7 @@ grails.project.dependency.resolution = {
 
     plugins {
 
-        runtime ":hibernate:$slurp.app.hibernate.version"
+        compile ":hibernate:$slurp.app.hibernate.version"
         build   ":tomcat:$slurp.app.tomcat.version"
         compile ':scaffolding:1.0.0'
 
