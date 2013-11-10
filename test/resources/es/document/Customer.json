@@ -1,0 +1,10 @@
+{
+ "0": {
+    "customerId" : "01",
+    "firstName"  : "Prayag",
+    "middleName" : "R",
+    "lastName"   : "Upd",
+    "balance"    : 100.90,
+    "created"    : "2013-10-28 00:00:00"
+ }
+}

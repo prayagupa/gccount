@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 
 public class AbstractAnalyticsActionListener implements ActionListener<MultiSearchResponse> {
-    public AtomicBoolean processComplete;
+    public AtomicBoolean processCompleted;
 
     /**
      * Logger propagated down so as to write correctly to configured ES log
@@ -54,18 +54,18 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         this.logger = logger;
         this.state = state;
         this.client = client;
-        this.processComplete = processComplete;
+        this.processCompleted = processComplete;
     }
 
     /**
-     * copy present listener and progress record execution by default. For example: increment reportCount
+     * duplicate present listener and progress record execution by default. For example: increment reportCount
      *
-     * @param copy
+     * @param duplicate
      * @return
      * @throws Exception
      */
-    public AbstractAnalyticsActionListener newActionListener(AbstractAnalyticsActionListener copy) throws Exception {
-        return AnalyticsActionListeners.newActionListener(copy);
+    public AbstractAnalyticsActionListener newActionListener(AbstractAnalyticsActionListener duplicate) throws Exception {
+        return AnalyticsActionListeners.newActionListener(duplicate);
     }
 
     /**
@@ -94,18 +94,18 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * Initialize the Records from the search response of first query
      * The records are kept by state variable so that the output from other child queries are updated on the same records.
      *
-     * @param entry
+     * @param facetEntry
      */
-    protected void initRecord(TermsStatsFacet.Entry entry) {
-        Record m = new Record();
-        m.Id = entry.getTerm().toString();
-        m.total = entry.getTotal();
-        state.recordIds.put(m.Id, m);
+    protected void initRecord(TermsStatsFacet.Entry facetEntry) {
+        Record customer = new Record();
+        customer.Id = facetEntry.getTerm().toString();
+        customer.total = facetEntry.getTotal();
+        state.recordsMap.put(customer.Id, customer);
     }
 
-    protected void initState() {
+    protected void initRequestState() {
         try {
-            state.recordIds = createRecordMap();
+            state.recordsMap = createRecordMap();
             state.contentBuilder = XContentFactory.jsonBuilder();
         } catch (Exception e) {
             onFailure(e);
@@ -116,34 +116,34 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * Process the facet output from the child queries.
      * The output need to be updated on the existing records
      *
-     * @param stringEntry
+     * @param statsFacetEntry
      */
-    protected void processEntry(TermsStatsFacet.Entry stringEntry) {
-        if (!state.recordIds.containsKey(stringEntry.getTerm().toString().toString())) {
+    protected void processEntry(TermsStatsFacet.Entry statsFacetEntry) {
+        if (!state.recordsMap.containsKey(statsFacetEntry.getTerm().toString().toString())) {
             return;
         }
         if (state.reportCount == 1) {
-            state.recordIds.get(stringEntry.getTerm().toString().toString()).first = stringEntry.getTotal();
+            state.recordsMap.get(statsFacetEntry.getTerm().toString().toString()).first = statsFacetEntry.getTotal();
         }
         if (state.reportCount == 2) {
-            state.recordIds.get(stringEntry.getTerm().toString().toString()).second = stringEntry.getTotal();
+            state.recordsMap.get(statsFacetEntry.getTerm().toString().toString()).second = statsFacetEntry.getTotal();
         }
     }
 
-    protected void processEntry(String prefix, TermsStatsFacet.Entry stringEntry) {
-        if (!state.recordIds.containsKey(stringEntry.getTerm().toString().toString())) {
+    protected void processStatsFacetEntry(String prefix, TermsStatsFacet.Entry facetEntry) {
+        if (!state.recordsMap.containsKey(facetEntry.getTerm().toString().toString())) {
             return;
         }
         if (state.reportCount == 1) {
             if (prefix.contains("customerCost"))
-                state.recordIds.get(stringEntry.getTerm().toString().toString()).first = stringEntry.getTotal();
+                state.recordsMap.get(facetEntry.getTerm().toString().toString()).first = facetEntry.getTotal();
             else if (prefix.contains("customerCost"))
-                state.recordIds.get(stringEntry.getTerm().toString().toString()).third = stringEntry.getTotal();
+                state.recordsMap.get(facetEntry.getTerm().toString().toString()).third = facetEntry.getTotal();
             else
-                state.recordIds.get(stringEntry.getTerm().toString().toString()).fourth = stringEntry.getTotal();
+                state.recordsMap.get(facetEntry.getTerm().toString().toString()).fourth = facetEntry.getTotal();
         }
         if (state.reportCount == 2) {
-            state.recordIds.get(stringEntry.getTerm().toString().toString()).second = stringEntry.getTotal();
+            state.recordsMap.get(facetEntry.getTerm().toString().toString()).second = facetEntry.getTotal();
         }
     }
 
@@ -161,14 +161,14 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
 
         try {
             if (state.reportCount == 0 && state.repeat) {
-                initState();
+                initRequestState();
             }
             processSearchResponse(multiSearchResponse);
-            if (doReprocess()) {
+            if (isReprocess()) {
                 logger.debug("reprocessing abstract...");
                 reprocess();
             } else {
-                if (repeat()) {
+                if (isRepeat()) {
                     logger.debug("After reporting period, Now executing for comparison period");
                     processAgain();
                 } else { //child will write to response upon completion
@@ -220,7 +220,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
                     if (prefix == "")
                         processEntry(stringEntry);
                     else
-                        processEntry(prefix, stringEntry);
+                        processStatsFacetEntry(prefix, stringEntry);
                 }
             }
             if (state.findTotal) {
@@ -230,19 +230,19 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     }
 
     protected void processAgain() throws Exception {
-        AbstractAnalyticsActionListener child = newActionListener(this);
-        ClientRequest childState = child.state;
+        AbstractAnalyticsActionListener childActionListener = newActionListener(this);
+        ClientRequest childState = childActionListener.state;
         childState.repeat = false;
         childState.reportCount = 0;
         childState.noFilter = false;//reset filtering
 
-        childState.oldRecordIds = state.recordIds;
-        childState.recordIds = createRecordMap();
+        childState.oldRecordsMap = state.recordsMap;
+        childState.recordsMap = createRecordMap();
         //build query for child
         final AnalyticsRequestBuilder builder = AnalyticsRequestBuilders.getBuilder(report);
         logger.debug("This is query at comparision side " + builder.toString());
-        final MultiSearchRequestBuilder query = builder.query(child.state, client);
-        query.execute(child);
+        final MultiSearchRequestBuilder query = builder.query(childActionListener.state, client);
+        query.execute(childActionListener);
 
     }
 
@@ -250,15 +250,16 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         Record m = new Record();
         m.Id = "total";
         m.total = totalSum;
-        state.recordIds.put(m.Id, m);
+        state.recordsMap.put(m.Id, m);
     }
 
     /**
-     * Checks whether to recursively run for next query. Defaults to checking the number of types
+     * Checks whether to recursively run for next query.
+     * Defaults to "checking the number of types"
      *
      * @return
      */
-    protected boolean doReprocess() {
+    protected boolean isReprocess() {
         return state.reportCount < state.types.length && state.types.length > 1;
     }
 
@@ -281,7 +282,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      *
      * @return
      */
-    protected boolean repeat() {
+    protected boolean isRepeat() {
         return state.repeat;
     }
 
@@ -296,14 +297,14 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
             XContentBuilder contentBuilder = state.contentBuilder.startObject();
 
             if (period.length > 1) {
-                writeContent(state.oldRecordIds, contentBuilder, RequestUtils.REPORTING);
-                writeContent(state.recordIds, contentBuilder, RequestUtils.COMPARISON);
-            } else writeContent(state.recordIds, contentBuilder, RequestUtils.REPORTING);
+                writeContent(state.oldRecordsMap, contentBuilder, RequestUtils.REPORTING);
+                writeContent(state.recordsMap, contentBuilder, RequestUtils.COMPARISON);
+            } else writeContent(state.recordsMap, contentBuilder, RequestUtils.REPORTING);
             contentBuilder.endObject();
-            processComplete.set(true);
+            processCompleted.set(true);
             //state.channel.sendResponse(new XContentRestResponse(state.request, OK, state.contentBuilder));
         } catch (Exception e) {
-            processComplete.set(true);
+            processCompleted.set(true);
             logger.error("error in writing " + e.getMessage());
             onFailure(e);
         }
@@ -378,10 +379,10 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     @Override
     public void onFailure(Throwable e) {
         try {
-            processComplete.set(true);
+            processCompleted.set(true);
             e.printStackTrace();
         } catch (Exception e1) {
-            processComplete.set(true);
+            processCompleted.set(true);
             logger.error("Failed to send failure response", e1);
         }
     }
@@ -422,11 +423,11 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     protected void render() throws Exception {
         String[] period = RequestUtils.getPeriod(state.request);
         XContentBuilder contentBuilder = state.contentBuilder.startObject();
-        writeContent(state.oldRecordIds, contentBuilder, RequestUtils.REPORTING);
+        writeContent(state.oldRecordsMap, contentBuilder, RequestUtils.REPORTING);
         if (period.length > 1)
-            writeContent(state.recordIds, contentBuilder, RequestUtils.COMPARISON);
+            writeContent(state.recordsMap, contentBuilder, RequestUtils.COMPARISON);
         contentBuilder.endObject();
-        processComplete.set(true);
+        processCompleted.set(true);
         logger.debug("writing response");
     }
 

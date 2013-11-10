@@ -18,6 +18,6 @@ class Stall{
          items()
          user(blank:true);
        	 created(display:false)
-	 active(display:false)
+	     active(display:false)
     }
 }

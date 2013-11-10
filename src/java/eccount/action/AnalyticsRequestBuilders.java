@@ -52,7 +52,7 @@ public class AnalyticsRequestBuilders {
         protected MultiSearchRequestBuilder executeMultiSearchQuery(ClientRequest state, Client client) {
             MultiSearchRequestBuilder multiSearchRequestBuilder = new MultiSearchRequestBuilder(client);
             //
-            FilterBuilder filterOnKeyField = QueryUtils.buildFacetFilter(state.keyField, state.recordIds.keySet());
+            FilterBuilder filterOnKeyField = QueryUtils.buildFacetFilter(state.keyField, state.recordsMap.keySet());
             return multiSearchRequestBuilder.add(QueryUtils.buildSearchRequest(client,
                                                                                state.request,
                                                                                state.period() + "From",

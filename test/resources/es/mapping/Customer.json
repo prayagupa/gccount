@@ -1,0 +1,48 @@
+{
+
+    "Customer": {
+        "dynamic_templates": [
+            {
+                "template_string": {
+                    "mapping": {
+                        "index": "not_analyzed",
+                        "type": "string"
+                    },
+                    "match": "*",
+                    "match_mapping_type": "string"
+                }
+            },
+            {
+                "template_date": {
+                    "mapping": {
+                        "format": "dateOptionalTime"
+                    },
+                    "match": "*",
+                    "match_mapping_type": "date"
+                }
+            }
+        ],
+        "properties": {
+            "balance": {
+                "type": "double"
+            },
+            "created": {
+                "type": "date",
+                "format": "yyyy-MM-dd HH:mm:ss"
+            },
+            "customerId": {
+                "type": "string"
+            },
+            "firstName": {
+                "type": "string"
+            },
+            "lastName": {
+                "type": "string"
+            },
+            "middleName": {
+                "type": "string"
+            }
+        }
+    }
+
+}

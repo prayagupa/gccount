@@ -29,12 +29,8 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
 
 
     private void processCounts(SearchResponse response) {
-
         long customerCount = 0l;
-
         for (Facet entry : response.getFacets().facets()) {
-
-
             //customerCount facet...
             if (entry.getName().equalsIgnoreCase("customerCount")) {
                 TermsStatsFacet termFacet = (TermsStatsFacet) entry;
@@ -44,16 +40,15 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
             }
         }
 
-
-        Record _memberCount = new Record();
-        _memberCount.Id = "customers";
-        _memberCount.first = customerCount;
-        state.recordIds.put(_memberCount.Id, _memberCount);
+        Record _customersCount = new Record();
+        _customersCount.Id = "customers";
+        _customersCount.first = customerCount;
+        state.recordsMap.put(_customersCount.Id, _customersCount);
     }
 
 
     @Override
-    protected boolean doReprocess() {
+    protected boolean isReprocess() {
         return  false;
 
     }

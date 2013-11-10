@@ -1,0 +1,34 @@
+{
+    "template": "*",
+    "order": 0,
+    "settings": {
+        "index": {
+            "analysis": {
+                "analyzer": {
+                    "containsAnalyzer": {
+                        "type": "custom",
+                        "tokenizer": "standard",
+                        "filter": "standard,lowercase,containsFilter"
+                    },
+                    "standardAnalyzer": {
+                        "type": "custom",
+                        "tokenizer": "standard",
+                        "filter": "standard,lowercase"
+                    },
+                    "sortable": {
+                        "type": "custom",
+                        "tokenizer": "keyword",
+                        "filter": "lowercase"
+                    }
+                },
+                "filter": {
+                    "containsFilter": {
+                        "type": "nGram",
+                        "min_gram": 1,
+                        "max_gram": 50
+                    }
+                }
+            }
+        }
+    }
+}

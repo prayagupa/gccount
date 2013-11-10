@@ -62,12 +62,20 @@ grails.project.dependency.resolution = {
 
     }
     dependencies {
+        def scalaVersion = '2.9.1'
+        def elasticsearchVersion = '0.90.3'
+
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-	    runtime 'org.elasticsearch:elasticsearch:0.90.3'
+	    runtime "org.elasticsearch:elasticsearch:$elasticsearchVersion"
         //runtime 'org.elasticsearch:elasticsearch-lang-groovy:1.5.0'
 		//mysql_dependency:off
         runtime 'mysql:mysql-connector-java:5.1.20'
         compile "net.sf.ehcache:ehcache-core:2.4.6"
+
+        //compile 'org.clojure:clojure-contrib:1.2.0'
+
+        compile "org.scala-lang:scala-compiler:$scalaVersion",
+                "org.scala-lang:scala-library:$scalaVersion"
 
     }
 

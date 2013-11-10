@@ -46,7 +46,7 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
         //multiSearchRequestBuilder.add(servicewiseAmountRequestBuilder);
         //multiSearchRequestBuilder.add(countRequestBuilder);
         multiSearchRequestBuilder.add(paidAmountRequestBuilder);
-        System.out.println("multiSearchRequestBuilder="+multiSearchRequestBuilder);
+        System.out.println("paidAmountRequestBuilder="+paidAmountRequestBuilder);
         return multiSearchRequestBuilder;
     }
 

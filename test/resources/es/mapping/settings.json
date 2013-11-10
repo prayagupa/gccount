@@ -1,0 +1,17 @@
+{
+    "settings": {
+        "index.analysis.analyzer.sortable.type": "custom",
+        "index.refresh_interval": "1s",
+        "index.analysis.analyzer.containsAnalyzer.filter": "standard,lowercase,containsFilter",
+        "index.analysis.analyzer.containsAnalyzer.tokenizer": "standard",
+        "index.analysis.filter.containsFilter.type": "nGram",
+        "index.analysis.analyzer.sortable.tokenizer": "keyword",
+        "index.analysis.analyzer.sortable.filter": "lowercase",
+        "index.analysis.analyzer.containsAnalyzer.type": "custom",
+        "index.analysis.analyzer.standardAnalyzer.tokenizer": "standard",
+        "index.analysis.analyzer.standardAnalyzer.type": "custom",
+        "index.analysis.analyzer.standardAnalyzer.filter": "standard,lowercase",
+        "index.analysis.filter.containsFilter.min_gram": "1",
+        "index.analysis.filter.containsFilter.max_gram": "50"
+    }
+}

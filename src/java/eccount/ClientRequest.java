@@ -21,8 +21,8 @@ public class ClientRequest {
     public SearchRequest request;
     public boolean repeat = true;           //repeat same query for comparison period
     public XContentBuilder contentBuilder;
-    public Map<String, AbstractAnalyticsActionListener.Record> recordIds;
-    public Map<String, AbstractAnalyticsActionListener.Record> oldRecordIds;
+    public Map<String, AbstractAnalyticsActionListener.Record> recordsMap;
+    public Map<String, AbstractAnalyticsActionListener.Record> oldRecordsMap;
     public int reportCount = 0;
     public boolean noFilter = true;   //by default no filtering
     public String[] types;            // recordTypes (eg "Customer", "Transaction")
@@ -81,8 +81,8 @@ public class ClientRequest {
         this.request = copy.request;
         this.types = copy.types;
         //add copy non-construct parameters
-        this.recordIds = copy.recordIds;
-        this.oldRecordIds = copy.oldRecordIds;
+        this.recordsMap = copy.recordsMap;
+        this.oldRecordsMap = copy.oldRecordsMap;
         this.contentBuilder = copy.contentBuilder;
         this.repeat = copy.repeat;
         this.reportCount = copy.reportCount + 1;
