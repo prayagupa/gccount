@@ -39,7 +39,7 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
 //                                                                     state.period() + "To",
 //                                                                     state,
 //                                                                     null,
-//                                                                     ESTYPE_CUSTOMER);
+//                                                                     ES_TYPE_CUSTOMER);
         //SearchRequestBuilder countRequestBuilder       = prepareTermsStatsFacetsForCount(state, client); //statistical = Count
         SearchRequestBuilder paidAmountRequestBuilder  = preparePaidAmountStatisticalFacet(state, client);
 

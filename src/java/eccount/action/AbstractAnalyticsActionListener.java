@@ -73,8 +73,8 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      *
      * @return
      */
-    public static Map<String, Record> createRecordMap() {
-        return new LinkedHashMap<String, Record>();
+    public static Map<String, ResponseRecord> createRecordMap() {
+        return new LinkedHashMap<String, ResponseRecord>();
 
     }
 
@@ -97,7 +97,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * @param facetEntry
      */
     protected void initRecord(TermsStatsFacet.Entry facetEntry) {
-        Record customer = new Record();
+        ResponseRecord customer = new ResponseRecord();
         customer.Id = facetEntry.getTerm().toString();
         customer.total = facetEntry.getTotal();
         state.recordsMap.put(customer.Id, customer);
@@ -247,7 +247,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     }
 
     protected void addTotalEntry(double totalSum) {
-        Record m = new Record();
+        ResponseRecord m = new ResponseRecord();
         m.Id = "total";
         m.total = totalSum;
         state.recordsMap.put(m.Id, m);
@@ -318,7 +318,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * @param period
      * @throws Exception
      */
-    protected void writeContent(Map<String, Record> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
+    protected void writeContent(Map<String, ResponseRecord> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
         contentBuilder.startArray(period);
         String first = state.types[0].toLowerCase();
         String second = "";
@@ -328,7 +328,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         long first_total = 0l;
         long second_total = 0l;
 
-        for (Record customer : customerIds.values()) {
+        for (ResponseRecord customer : customerIds.values()) {
 
             contentBuilder.startObject();
             contentBuilder.field(state.keyField, customer.Id);
@@ -447,9 +447,9 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
     }
 
     /**
-     * Record
+     * ResponseRecord
      */
-    public static class Record {
+    public static class ResponseRecord {
         public String Id;
         public double total;
 
@@ -482,8 +482,8 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
         }
     }
 
-    public Record getRecord(String id) {
-        Record r = new Record();
+    public ResponseRecord getRecord(String id) {
+        ResponseRecord r = new ResponseRecord();
         r.Id = id;
         return r;
     }

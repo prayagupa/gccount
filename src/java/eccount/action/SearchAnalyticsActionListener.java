@@ -40,7 +40,7 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
             }
         }
 
-        Record _customersCount = new Record();
+        ResponseRecord _customersCount = new ResponseRecord();
         _customersCount.Id = "customers";
         _customersCount.first = customerCount;
         state.recordsMap.put(_customersCount.Id, _customersCount);
@@ -55,14 +55,14 @@ public class SearchAnalyticsActionListener extends AbstractAnalyticsActionListen
 
 
     @Override
-    protected void writeContent(Map<String, Record> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
+    protected void writeContent(Map<String, ResponseRecord> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
         contentBuilder.startArray(period);
         contentBuilder.startObject();
-        for (Record record : customerIds.values()) {
-            if (record.Id == null)
+        for (ResponseRecord responseRecord : customerIds.values()) {
+            if (responseRecord.Id == null)
                 contentBuilder.field("recordId", "null");
             else
-                contentBuilder.field(record.Id, record.first);
+                contentBuilder.field(responseRecord.Id, responseRecord.first);
         }
         contentBuilder.endObject();
         contentBuilder.endArray();

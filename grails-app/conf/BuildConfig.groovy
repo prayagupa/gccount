@@ -72,7 +72,7 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.20'
         compile "net.sf.ehcache:ehcache-core:2.4.6"
 
-        //compile 'org.clojure:clojure-contrib:1.2.0'
+        compile 'org.clojure:clojure-contrib:1.2.0'
 
         compile "org.scala-lang:scala-compiler:$scalaVersion",
                 "org.scala-lang:scala-library:$scalaVersion"

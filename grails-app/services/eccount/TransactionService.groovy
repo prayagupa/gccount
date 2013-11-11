@@ -4,8 +4,8 @@ import eccount.action.AbstractAnalyticsActionListener
 import eccount.action.AnalyticsActionListeners
 import eccount.action.AnalyticsRequestBuilders
 import eccount.config.AbstractConfManager
-import eccount.config.ElasticCluster
-import eccount.config.ElasticServer
+import eccount.config.EsCluster
+import eccount.config.EsServer
 import org.elasticsearch.action.search.MultiSearchRequestBuilder
 import org.elasticsearch.client.Client
 import org.elasticsearch.common.logging.ESLogger
@@ -54,7 +54,7 @@ class TransactionService {
      * @return
      */
    def getSearchResponse(SearchRequest searchRequest){
-        String esClusterName   = ElasticCluster.ES_DEFAULT_CLUSTER_NAME;
+        String esClusterName   = EsCluster.ES_DEFAULT_CLUSTER_NAME;
         settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         esClient               = EsConnector.getClient(getDefaultCluster())
 //        System.out.println(TransactionService.class.getName()+" : ES Client : " + esClient)
@@ -73,22 +73,22 @@ class TransactionService {
             Thread thread = new Thread(new RequestBuilderExecutor(multiSearchRequestBuilder, analyticsActionListenerBasedOnReportName))
             thread.start()
 
-            while (!analyticsActionListenerBasedOnReportName.processComplete.get()) {
+            while (!analyticsActionListenerBasedOnReportName.processCompleted.get()) {
                 Thread.currentThread().sleep(100)
             }
         } catch (Exception e) {
-            analyticsActionListenerBasedOnReportName.processComplete.set(true)
+            analyticsActionListenerBasedOnReportName.processCompleted.set(true)
             e.printStackTrace()
         }
         return analyticsActionListenerBasedOnReportName.state.contentBuilder?analyticsActionListenerBasedOnReportName.state.contentBuilder.bytes().toUtf8():""
    }
 
    def getDefaultCluster(){
-       def server = new ElasticServer(name     : "Node1",
+       def server = new EsServer(name     : "Node1",
                                       hostname : "localhost",
                                       port     : 9300,
                                       httpPort : 9200)
-       def cluster   = new ElasticCluster()
+       def cluster   = new EsCluster()
        cluster.nodes = ["Node1":server]
        cluster.clusterName  = "elasticsearch"
        cluster
@@ -112,7 +112,7 @@ class TransactionService {
             try {
                 builder.execute(actionListener);
             } catch (Exception e) {
-                actionListener.processComplete.set(true);
+                actionListener.processCompleted.set(true);
                 e.printStackTrace();
             }
         }

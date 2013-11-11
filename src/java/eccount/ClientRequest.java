@@ -21,8 +21,8 @@ public class ClientRequest {
     public SearchRequest request;
     public boolean repeat = true;           //repeat same query for comparison period
     public XContentBuilder contentBuilder;
-    public Map<String, AbstractAnalyticsActionListener.Record> recordsMap;
-    public Map<String, AbstractAnalyticsActionListener.Record> oldRecordsMap;
+    public Map<String, AbstractAnalyticsActionListener.ResponseRecord> recordsMap;
+    public Map<String, AbstractAnalyticsActionListener.ResponseRecord> oldRecordsMap;
     public int reportCount = 0;
     public boolean noFilter = true;   //by default no filtering
     public String[] types;            // recordTypes (eg "Customer", "Transaction")
