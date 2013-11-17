@@ -57,10 +57,6 @@ class TransactionService {
         String esClusterName   = EsCluster.ES_DEFAULT_CLUSTER_NAME;
         settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         esClient               = EsConnector.getClient(getDefaultCluster())
-//        System.out.println(TransactionService.class.getName()+" : ES Client : " + esClient)
-       System.out.println("println ES logger name : " + log.getName())
-       log.info("ES logger name : " + log.getName())
-       log.info("ES Client : " + esClient)
 
         AtomicBoolean processFlag = new AtomicBoolean(false)
         String reportName         = searchRequest.hasParameter("reportName") ? searchRequest.get("reportName") : "transaction"

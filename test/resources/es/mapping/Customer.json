@@ -41,6 +41,30 @@
             },
             "middleName": {
                 "type": "string"
+            },
+            "dob": {
+                "type": "date",
+                "format": "dateOptionalTime"
+            },
+            "status": {
+                "type": "nested",
+                "include_in_root": true,
+                "properties": {
+                    "fromDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "status": {
+                        "type": "string",
+                        "index": "not_analyzed",
+                        "omit_norms": true,
+                        "index_options": "docs"
+                    },
+                    "toDate": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    }
+                }
             }
         }
     }

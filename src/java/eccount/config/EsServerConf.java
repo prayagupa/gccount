@@ -6,7 +6,7 @@ package eccount.config;
  * Time: 10:49
  */
 public class EsServerConf {
-    public static String activeServer = "EsServersConfX";    //located at grails-app/conf/
+    public static String CURRENT_CLUSTER = "EsServersConfX";    //located at grails-app/conf/
 
 
     public static final String clusterX="EsServersConfX";

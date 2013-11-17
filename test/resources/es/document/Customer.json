@@ -1,28 +1,46 @@
 {
     "0": {
-        "customerId": "01",
+        "customerId": "0xca631af4d2c66f446fa8617114fae510",
         "firstName" : "Prayag",
         "middleName": "R",
         "lastName"  : "Upd",
         "balance"   : 1.0,
-        "created"   : "2011-10-28 00:00:00"
+        "dob"       : "805766400000",
+        "created"   : "2011-10-28 00:00:00",
+        "status"    : [ {
+            "status"   : "ACTIVE",
+            "fromDate" : "2011-10-28",
+            "toDate"   : "2011-12-28"
+        }]
     },
 
     "1": {
-        "customerId": "02",
+        "customerId": "0xca631af4d2c66f446fa8617114fae511",
         "firstName" : "Prerana",
         "middleName": "",
         "lastName"  : "Upd",
         "balance"   : 2.0,
-        "created"   : "2012-10-28 00:00:00"
+        "dob"       : "805766400000",
+        "created"   : "2012-10-28 00:00:00",
+        "status"    : [ {
+            "status"   : "ACTIVE",
+            "fromDate" : "2011-10-28",
+            "toDate"   : "2011-12-28"
+        }]
     },
 
     "2": {
-        "customerId" : "01",
+        "customerId" : "0xca631af4d2c66f446fa8617114fae610",
         "firstName"  : "Gokarna",
         "middleName" : "",
         "lastName"   : "Upd",
         "balance"    : 3.0,
-        "created"    : "2013-10-28 00:00:00"
+        "dob"        : "805766400000",
+        "created"    : "2013-10-28 00:00:00",
+        "status"    : [ {
+            "status"   : "ACTIVE",
+            "fromDate" : "2011-10-28",
+            "toDate"   : "2011-12-28"
+        }]
     }
 }

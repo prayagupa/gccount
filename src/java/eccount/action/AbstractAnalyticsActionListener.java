@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
- * @author: prayagupd
+ * @author prayagupd
  */
 
 public class AbstractAnalyticsActionListener implements ActionListener<MultiSearchResponse> {
