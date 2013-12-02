@@ -76,7 +76,8 @@ grails.project.dependency.resolution = {
 
         compile "org.scala-lang:scala-compiler:$scalaVersion",
                 "org.scala-lang:scala-library:$scalaVersion"
-
+        
+        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
     }
 
     plugins {
@@ -123,5 +124,9 @@ grails.project.dependency.resolution = {
         compile ":scala:0.9.2"
 
         //compile ":clojure:0.6"
+        
+        test(":spock:0.7") {
+               exclude "spock-grails-support"
+        }  
     }
 }
