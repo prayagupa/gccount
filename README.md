@@ -1,8 +1,13 @@
 <b>CASHLESS PAYMENT SYSTEM</b>
 
-[Run Test Cases](http://stackoverflow.com/a/2219029/432903)
+[Run UnitTestCases](http://stackoverflow.com/a/2219029/432903)
 ==============
 `$ grails test-app unit: TransactionControllerTests.testMethodName -echoOut`
+
+[Run spock test cases](http://grails101.wordpress.com/2012/04/22/test-grails-application-with-spock/)
+=====================
+`$ grails test-app unit:spock CategorySpec -echoOut`
+
 
 degug-app
 =========
