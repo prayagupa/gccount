@@ -20,7 +20,12 @@ run-app
 =======
 
 ```
-$ grails run-app
+$ grails -Dserver.port=8080 run-app
+```
+
+or
+```
+$ bash grails.sh
 ```
 
 
