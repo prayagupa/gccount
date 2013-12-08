@@ -51,15 +51,16 @@ grails.project.dependency.resolution = {
 	//neo4j
 	//mavenRepo "http://repo.grails.org/grails/repo/"
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
+        mavenRepo "http://snapshots.repository.codehaus.org"
+        mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.ChocolateAlgorithm.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
 
         mavenRepo "http://repo.typesafe.com/typesafe/releases/"
         mavenRepo "http://repository.cloudera.com/content/repositories/releases/"
         mavenRepo " https://repository.cloudera.com/artifactory/cloudera-repos/"
-
+       
+       
     }
     dependencies {
         def scalaVersion = '2.9.1'
@@ -77,7 +78,6 @@ grails.project.dependency.resolution = {
         compile "org.scala-lang:scala-compiler:$scalaVersion",
                 "org.scala-lang:scala-library:$scalaVersion"
         
-        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
     }
 
     plugins {
@@ -125,8 +125,6 @@ grails.project.dependency.resolution = {
 
         //compile ":clojure:0.6"
         
-        test(":spock:0.7") {
-               exclude "spock-grails-support"
-        }  
+        compile ":console-enhancements:1.0"
     }
 }
