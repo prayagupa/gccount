@@ -26,7 +26,7 @@ public class AnalyticsActionListeners {
 
     static {
         actionListeners = new ConcurrentHashMap<String, Class>();
-        actionListeners.put(TRANSACTION, SearchAnalyticsActionListener.class);
+        actionListeners.put(TRANSACTION, CustomerAnalyticsActionListener.class);
     }
 
 
