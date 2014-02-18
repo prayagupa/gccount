@@ -1,0 +1,36 @@
+{
+    "Customer" : {
+                  "settings" : {
+                  }, 
+                  "properties"  : { 
+                    "customerId" : { "type":"String" }, 
+                    "firstName"  : { "type":"String" }, 
+                    "middleName" : { "type":"String" }, 
+                    "lastName"   : { "type":"String" }, 
+                    "balance"   : { "type":"Double" }, 
+                    "created": {
+                         "type" : "date",
+                         "format" : "yyyy-MM-dd HH:mm:ss"
+                     },
+                     "transactions": {
+                       "type": "nested",
+                       "include_in_root": true,
+                       "properties": {
+                          "transactionId": {
+                             "type" : "string"
+                           },                           
+                          "createdDate": {
+                             "type" : "date",
+                             "format" : "dateOptionalTime"
+                          },
+                          "amount": {
+                             "type" : "Double"
+                          },
+                          "status": {
+                              "type" : "string"
+                          }
+                      } 
+                   }
+              }
+      }
+}

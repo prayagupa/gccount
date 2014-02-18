@@ -3,39 +3,7 @@ type="Customer"
 #################################################
 ################# mapping #######################
 #################################################
-curl -X PUT localhost:9200/gccount/Customer/_mapping -d '{
-    "Customer" : { "properties"  : { 
-                    "customerId" : { "type":"String" }, 
-                    "firstName"  : { "type":"String" }, 
-                    "middleName" : { "type":"String" }, 
-                    "lastName"   : { "type":"String" }, 
-                    "balance"   : { "type":"Double" }, 
-                    "created": {
-                         "type" : "date",
-                         "format" : "yyyy-MM-dd HH:mm:ss"
-                     },
-		     "transactions": {
-                       "type": "nested",
-                       "include_in_root": true,
-                       "properties": {
-                          "transactionId": {
-                             "type" : "string"
-                           },                           
-                          "createdDate": {
-                             "type" : "date",
-                             "format" : "dateOptionalTime"
-                          },
-                          "amount": {
-                             "type" : "Double"
-                          },
-                          "status": {
-                              "type" : "string"
-                          }
-                      } 
-	           }
-              }
-      }
-}'
+curl -X PUT localhost:9200/gccount/ --data-binary @customer_mapping.json; echo
 
 echo
 echo "$type mapping created"
