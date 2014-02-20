@@ -14,7 +14,6 @@
                      },
                      "transactions": {
                        "type": "nested",
-                       "include_in_root": true,
                        "properties": {
                           "transactionId": {
                              "type"  : "string", 
