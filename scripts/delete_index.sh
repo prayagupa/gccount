@@ -1,11 +1,14 @@
 curl -XDELETE 'http://localhost:9200/gccount/Customer/_mapping'
-echo "mapping deleted"
+echo "customer mapping deleted"
+
+curl -XDELETE 'http://localhost:9200/gccount/Customer/'
+echo "customer deleted"
 echo
 
 curl -XDELETE 'http://localhost:9200/gccount/'
-echo "index deleted"
+echo "gccount index deleted"
 echo
 
-curl -XDELETE 'http://localhost:9200/g/'
-echo "index deleted"
-echo
+#curl -XDELETE 'http://localhost:9200/g/'
+#echo "index alias deleted"
+#echo
