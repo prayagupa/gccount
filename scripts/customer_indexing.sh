@@ -3,13 +3,13 @@ type="Customer"
 #################################################
 ################# mapping #######################
 #################################################
-curl -X PUT localhost:9200/gccount/ --data-binary @customer_mapping.json; echo
+#curl -X PUT localhost:9200/gccount/ --data-binary @customer_mapping.json; echo
 
-echo
-echo "$type mapping created"
-echo
+#echo
+#echo "$type mapping created"
+#echo
 
-
+#exit 0
 #####################################################
 ################### document ########################
 #####################################################
