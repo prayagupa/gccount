@@ -25,8 +25,12 @@ $ grails -Dserver.port=8080 run-app
 
 or
 ```
-$ bash grails.sh
+$ bash run-app.sh
 ```
+
+es analytics
+==============
+hit `http://localhost:8080/gccount/transaction/transactionAnalytics`
 
 
 <b>DEMO</b>
