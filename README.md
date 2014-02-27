@@ -28,9 +28,9 @@ or
 $ bash run-app.sh
 ```
 
-es analytics
+es report analytics
 ==============
-hit `http://localhost:8080/gccount/transaction/transactionAnalytics`
+hit `http://localhost:8080/gccount/transaction/transactionAnalytics?indexName=gccount&reportName=transaction`
 
 
 <b>DEMO</b>
