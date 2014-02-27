@@ -4,11 +4,9 @@ import eccount.config.AbstractConfManager
 beans = {
 
     confManager(AbstractConfManager){ bean->
-        hBaseQualifier="" //qualifier used for hBase tables
 
         qualifier="" //qualifier used for index in ES
 
-        hBaseTables=["Customer","Transaction"]
     }
 
 }

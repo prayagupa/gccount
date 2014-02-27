@@ -20,19 +20,19 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class AnalyticsRequestBuilders {
 
-    static Map<String, AnalyticsRequestBuilder> queryBuilders;
+    static Map<String, AnalyticsRequestBuilder> requestBuilders;
 
     static {
-        queryBuilders = new ConcurrentHashMap<String, AnalyticsRequestBuilder>();
-        queryBuilders.put(AnalyticsActionListeners.TRANSACTION, new TransactionAnalysisRequestBuilder());
+        requestBuilders = new ConcurrentHashMap<String, AnalyticsRequestBuilder>();
+        requestBuilders.put(AnalyticsActionListeners.TRANSACTION, new TransactionAnalysisRequestBuilder());
     }
 
     public static AnalyticsRequestBuilder getBuilder(String report) {
-        return queryBuilders.get(report);
+        return requestBuilders.get(report);
     }
 
-    public static void registerQueryBuilder(String report, AnalyticsRequestBuilder builder) {
-        queryBuilders.put(report, builder);
+    public static void registerRequestBuilder(String report, AnalyticsRequestBuilder builder) {
+        requestBuilders.put(report, builder);
     }
 
     public static class DefaultRequestBuilder implements AnalyticsRequestBuilder {

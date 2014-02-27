@@ -10,7 +10,7 @@ class ConfManager extends AbstractConfManager{
     public ConfManager(){
     }
 
-    public Map runCustomConf(Map output,ConfigType configType){
-        output
-    }
+//    public Map runCustomConf(Map output,ConfigType configType){
+//        output
+//    }
 }

@@ -10,7 +10,7 @@ export GRAILS_HOME
 #export GRAILS_OPTS
 #$GRAILS_HOME/bin/grails $*
 
-$GRAILS_HOME/bin/grails compile
+#$GRAILS_HOME/bin/grails compile
 #$GRAILS_HOME/bin/grails test-app
 #echo "TESTS SUCCESSFUL..."
-#$GRAILS_HOME/bin/grails -Dserver.port=8483 run-app
+$GRAILS_HOME/bin/grails -Dserver.port=8483 run-app

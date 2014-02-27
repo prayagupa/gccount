@@ -81,9 +81,9 @@ class TransactionService {
 
    def getDefaultCluster(){
        def server = new EsServer(name     : "Node1",
-                                      hostname : "localhost",
-                                      port     : 9300,
-                                      httpPort : 9200)
+                                  hostname : "localhost",
+                                  port     : 9300,
+                                  httpPort : 9200)
        def cluster   = new EsCluster()
        cluster.nodes = ["Node1":server]
        cluster.clusterName  = "elasticsearch"
