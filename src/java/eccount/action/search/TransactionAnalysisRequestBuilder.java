@@ -33,55 +33,33 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     protected MultiSearchRequestBuilder executeMultiSearchQuery(ClientRequest state, Client client) {
         MultiSearchRequestBuilder multiSearchRequestBuilder = new MultiSearchRequestBuilder(client);
 
-//        SearchRequestBuilder servicewiseAmountRequestBuilder = QueryUtils.buildSearchRequest(client,
-//                                                                     state.request,
-//                                                                     state.period() + "From",
-//                                                                     state.period() + "To",
-//                                                                     state,
-//                                                                     null,
-//                                                                     ES_TYPE_CUSTOMER);
-        //SearchRequestBuilder countRequestBuilder       = prepareTermsStatsFacetsForCount(state, client); //statistical = Count
         SearchRequestBuilder paidAmountRequestBuilder  = preparePaidAmountStatisticalFacet(state, client);
-
-        //multiSearchRequestBuilder.add(servicewiseAmountRequestBuilder);
         //multiSearchRequestBuilder.add(countRequestBuilder);
         multiSearchRequestBuilder.add(paidAmountRequestBuilder);
-        System.out.println("paidAmountRequestBuilder="+paidAmountRequestBuilder);
+        System.out.println("paidAmountRequestBuilder = "+paidAmountRequestBuilder);
         return multiSearchRequestBuilder;
     }
 
 
     private SearchRequestBuilder prepareTermsStatsFacetsForCount(ClientRequest state, Client client) {
         SearchRequestBuilder searchRequestBuilder = prepareSearchRequestBuilder(state, client);
-        addCustomerMonthsFacet(searchRequestBuilder, state);
         addCustomerCountFacet(searchRequestBuilder, state);
-        addSubscriberCountFacet(searchRequestBuilder, state);
         return searchRequestBuilder;
     }
 
 
-    private SearchRequestBuilder preparePaidAmountStatisticalFacet(ClientRequest state, Client client) {
+    private SearchRequestBuilder preparePaidAmountStatisticalFacet(ClientRequest clientRequest, Client client) {
         SearchRequestBuilder dateRangeRequestBuilder = QueryUtils.prepareRequestBuilder(client,
-                state.request,
-                state.period() + "From",
-                state.period() + "To",
-                state, null,
+                clientRequest.request,
+                "reportingFrom",
+                "reportingTo",
+                clientRequest, 
+                null,
                 ESTYPE_CUSTOMER);       //ESTYPE_TRANSACTION
         StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet(BALANCE_FACETNAME, FIELD_BALANCE, null);
         dateRangeRequestBuilder.addFacet(transactionAmountFacet);
         dateRangeRequestBuilder.addField(FIELD_BALANCE);
         return dateRangeRequestBuilder;
-    }
-
-    private void addCustomerMonthsFacet(SearchRequestBuilder builder, ClientRequest state) {
-        for (String month : DateUtils.getMonthsBetween(state.periodFrom(), state.periodTo())) {
-            String facetName = "customerMonths:" + month;
-            builder.addFacet(termsStatsFacetBuilder(state, month, facetName));
-        }
-    }
-
-    private void addSubscriberCountFacet(SearchRequestBuilder builder, ClientRequest state) {
-        builder.addFacet(termsStatsFacetBuilder(state, state.periodTo(), "subscriberCount"));
     }
 
     private void addCustomerCountFacet(SearchRequestBuilder builder, ClientRequest state) {

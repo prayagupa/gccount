@@ -54,7 +54,7 @@ class TransactionService {
      * @return
      */
    def getSearchResponse(SearchRequest searchRequest){
-        String esClusterName   = EsCluster.ES_DEFAULT_CLUSTER_NAME;
+        String esClusterName   = (EsCluster.ES_DEFAULT_CLUSTER_NAME!=null) ? EsCluster.ES_DEFAULT_CLUSTER_NAME : "elasticsearch";
         settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         esClient               = EsConnector.getClient(getDefaultCluster())
 
@@ -62,9 +62,13 @@ class TransactionService {
         String reportName         = searchRequest.hasParameter("reportName") ? searchRequest.get("reportName") : "transaction"
         final String keyField     = searchRequest.hasParameter("keyField")   ? searchRequest.get("keyField")   : "customerId"
 
-        AbstractAnalyticsActionListener analyticsActionListenerBasedOnReportName = newActionListener(keyField, searchRequest, reportName, processFlag)
+        AbstractAnalyticsActionListener analyticsActionListenerBasedOnReportName = newActionListener(keyField, 
+                                                                                                     searchRequest, 
+                                                                                                     reportName, 
+                                                                                                     processFlag)
         // in following case, by default DefaultRequestBuilder#query(request, esClient) will be executed
-        MultiSearchRequestBuilder multiSearchRequestBuilder = AnalyticsRequestBuilders.getBuilder(reportName).query(analyticsActionListenerBasedOnReportName.state, esClient)
+        MultiSearchRequestBuilder multiSearchRequestBuilder = AnalyticsRequestBuilders.getBuilder(reportName)
+                                                                                      .query(analyticsActionListenerBasedOnReportName.state, esClient)
         try {
             Thread thread = new Thread(new RequestBuilderExecutor(multiSearchRequestBuilder, analyticsActionListenerBasedOnReportName))
             thread.start()

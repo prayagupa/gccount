@@ -8,7 +8,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.*;
 
 import java.util.Set;
-import  eccount.SearchRequest;
+import eccount.SearchRequest;
 import org.elasticsearch.search.facet.termsstats.TermsStatsFacetBuilder;
 
 /**
@@ -81,7 +81,7 @@ public class QueryUtils {
                                                           ClientRequest state,
                                                           FilterBuilder filter,
                                                           String... esTypes) {
-        String index = request.hasParameter("clientId") ? request.get("clientId") : "0005";
+        String index = request.hasParameter("clientId") ? request.get("clientId") : "gccount";
         SearchRequestBuilder requestBuilder = client.prepareSearch(index);
         requestBuilder.setSearchType(SearchType.QUERY_THEN_FETCH);
 
@@ -89,9 +89,6 @@ public class QueryUtils {
         String dateRangeFrom = request.hasParameter(paramFrom) ? request.get(paramFrom) : "2010-11-01";
         String dateRangeTo   = request.hasParameter(paramTo)   ? request.get(paramTo)   : DEFAULT_DATE_UPPER_END;
 
-        //get type field(ie column) and set range filter on that
-        //String reportingBasis = request.hasParameter("reportingBasis")         ? request.get("reportingBasis") : "serviceDate";
-        //String field_         = reportingBasis.equalsIgnoreCase("serviceDate") ? "serviceDate" : "paidDate";
         String field_         = "created";
         RangeFilterBuilder rangeFilter = FilterBuilders.rangeFilter(field_);
         rangeFilter.from(dateRangeFrom);
@@ -224,7 +221,7 @@ public class QueryUtils {
     }
 
     public static SearchRequestBuilder buildEndSearch(Client client, final SearchRequest request) {
-        String index                 = request.hasParameter("clientId") ? request.get("clientId") : "0005";
+        String index                 = request.hasParameter("clientId") ? request.get("clientId") : "gccount";
         SearchRequestBuilder builder = client.prepareSearch(index);
         builder.setSearchType(SearchType.QUERY_THEN_FETCH);
         return builder;
