@@ -4,6 +4,7 @@ curl -XPUT localhost:9200/gccount/Customer/_mapping -d '{
                   }, 
                   "properties"   : { 
                     "customerId" : { "type":"String" , "index" : "not_analyzed"}, 
+                    "documentCount" : { "type":"Integer"}, 
                     "firstName"  : { "type":"String" , "index" : "not_analyzed"}, 
                     "middleName" : { "type":"String" , "index" : "not_analyzed"}, 
                     "lastName"   : { "type":"String" , "index" : "not_analyzed"}, 
@@ -19,6 +20,7 @@ curl -XPUT localhost:9200/gccount/Customer/_mapping -d '{
                              "type"  : "string", 
 			     "index" : "not_analyzed"
                            },                           
+                          "nestedCount" : { "type":"Integer"}, 
                           "createdDate": {
                              "type"   : "date",
                              "format" : "dateOptionalTime"

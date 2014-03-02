@@ -18,7 +18,7 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
             "bool" : {
                 "must" : [
                     {
-                        "match" : {"transactions.transactionId" : "00XX00"}
+                        "match" : {"transactions.transactionId" : "1"}
                     }
                 ]
             }
@@ -45,7 +45,7 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
               "must": [
                 {
                   "term": {
-                    "transactions.transactionId": "00XX00"
+                    "transactions.transactionId": "1"
                   }
                 }
               ]
