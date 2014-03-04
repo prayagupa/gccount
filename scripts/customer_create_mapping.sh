@@ -4,6 +4,7 @@ curl -XPUT localhost:9200/gccount/Customer/_mapping -d '{
                   }, 
                   "properties"   : { 
                     "customerId" : { "type":"String" , "index" : "not_analyzed"}, 
+                    "documentIndex" : { "type":"String"}, 
                     "documentCount" : { "type":"Integer"}, 
                     "firstName"  : { "type":"String" , "index" : "not_analyzed"}, 
                     "middleName" : { "type":"String" , "index" : "not_analyzed"}, 

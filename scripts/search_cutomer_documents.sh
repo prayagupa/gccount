@@ -109,3 +109,28 @@ FILTERED
 }
 NESTED_FILTER_EX
 
+
+<<AGGREGATOR
+POST http://localhost:9200/gccount/Customer/_search
+{
+   "size": 0, 
+   "aggregations": {
+      "firstNameAggregator": {
+         "terms": {
+            "field": "firstName",
+            "order": {
+               "balance_avg": "desc"
+            }
+         },
+         "aggregations": {
+            "balance_avg": {
+               "avg": {
+                  "field": "balance"
+               }
+            }
+         }
+      }
+   }
+}
+AGGREGATOR
+
