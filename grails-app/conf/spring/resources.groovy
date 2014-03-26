@@ -5,7 +5,7 @@ beans = {
 
     confManager(AbstractConfManager){ bean->
 
-        qualifier="" //qualifier used for index in ES
+        q="" //qualifier used for index in ES
 
     }
 
