@@ -6,31 +6,32 @@ package eccount.config
  * Time: 09:50
  */
 class AbstractConfManager {
-    def qualifier
+    def q
 
-    public EsCluster getClusterConfig(String server){
-        def script =  AbstractConfManager.classLoader.loadClass(server).newInstance()
-        script.run()
-        def ServersBuilder builder= new ServersBuilder()
+    public EsCluster getEsCluster(String server){
+        def confScript =  AbstractConfManager.classLoader.loadClass(server).newInstance()
+        confScript.run()
+        def EsServersBuilder builder= new EsServersBuilder()
         def servers = script.servers
         servers.delegate = builder
         servers()
-        EsCluster clusterConfig=new EsCluster()
+        EsCluster clusterConfig = new EsCluster()
         clusterConfig.nodes=builder.serverMaps
         clusterConfig.clusterName = builder.clusterName
         clusterConfig
     }
 
-    def getClientId(requestMap){
+    def getIndexId(requestMap){
         requestMap!=null?requestMap.get("clientId"):""
     }
+
     def setIndex(requestMap){
-        def clientId=getClientId(requestMap)
+        def clientId=getIndexId(requestMap)
         if(clientId){
             requestMap.put("index_name",clientId)
         }
         else{
-            throw new RuntimeException("ClientId is not defined.")
+            throw new RuntimeException("Index is not defined.")
         }
     }
 }
