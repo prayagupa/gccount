@@ -1,0 +1,3 @@
+ES_VERSION="1.0.0"
+DEFAULT_INSTALLATION_DIR="/usr/local"
+$DEFAULT_INSTALLATION_DIR/elasticsearch-$ES_VERSION/bin/elasticsearch

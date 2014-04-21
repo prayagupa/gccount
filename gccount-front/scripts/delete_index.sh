@@ -1,7 +1,10 @@
-curl -XDELETE 'http://localhost:9200/gccount/Customer/_mapping'
+#!/bin/bash
+. ./conf.sh
+
+curl -XDELETE "http://localhost:9200/$index/$typeCustomer/_mapping"
 echo "customer mapping deleted"
 
-curl -XDELETE 'http://localhost:9200/gccount/Customer/'
+curl -XDELETE "http://localhost:9200/gccount/Customer/"
 echo "customer deleted"
 echo
 

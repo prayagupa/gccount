@@ -1,4 +1,7 @@
-curl -XPUT localhost:9200/gccount/Customer/_mapping -d '{
+#!/bin/bash
+. ./conf.sh
+
+curl -XPUT localhost:9200/$index/$typeCustomer/_mapping -d '{
     "Customer" : {
                   "settings" : {
                   }, 

@@ -1,2 +1,5 @@
-curl -XGET http://localhost:9200/_aliases?pretty=true
+#!/bin/bash
+. ./conf.sh
+
+curl -XGET $host/_aliases?pretty=true
 echo;

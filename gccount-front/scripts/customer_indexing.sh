@@ -1,4 +1,5 @@
-type="Customer"
+#!/bin/bash
+. ./conf.sh
 
 #################################################
 ################# mapping #######################
@@ -17,6 +18,6 @@ type="Customer"
 curl -XPOST "http://localhost:9200/_bulk" --data-binary @customers.json; echo
 
 echo
-echo "$type document indexed"
+echo "$typeCustomer document indexed"
 echo
 

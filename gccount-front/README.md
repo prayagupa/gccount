@@ -35,7 +35,7 @@ hit `http://localhost:8080/gccount/transaction/transactionAnalytics?indexName=gc
 
 <b>DEMO</b>
 
-![Image Alt](https://github.com/iPrayag/gccount/raw/master/doc/main.png)
+![Image Alt](https://github.com/iPrayag/gccount/gccount-front/raw/master/doc/main.png)
 
 
 

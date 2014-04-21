@@ -1,7 +1,9 @@
-indexName="gccount"
-curl -XPUT 'http://localhost:9200/gccount/'
+#!/bin/bash
+. ./conf.sh
+
+curl -XPUT "http://localhost:9200/$index/"
 echo
-echo "$indexName created."
+echo "$index created."
 echo
 
 curl -XPOST 'http://localhost:9200/_aliases' -d '

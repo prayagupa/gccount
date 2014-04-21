@@ -17,7 +17,7 @@ class User {
 
 	static constraints = {
 		firstName(blank:false)
-        middleName(blank:true)
+        middleName(blank:true, nullable:true)
         lastName(blank:false)
          
 		username blank: false, unique: true
