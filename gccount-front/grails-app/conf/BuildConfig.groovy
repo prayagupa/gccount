@@ -6,6 +6,7 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 grails.project.dependency.resolver = "maven" // or ivy
 
+grails.plugin.location.'gccount-analytics' = "../gccount-analytics"
 
 forkConfig = [maxMemory: 1024, minMemory: 64, debug: false, maxPerm: 256]
 grails.project.fork = [
