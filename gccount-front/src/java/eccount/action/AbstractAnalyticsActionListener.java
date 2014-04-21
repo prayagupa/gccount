@@ -319,61 +319,7 @@ public class AbstractAnalyticsActionListener implements ActionListener<MultiSear
      * @throws Exception
      */
     protected void writeContent(Map<String, ResponseRecord> customerIds, XContentBuilder contentBuilder, String period) throws Exception {
-        contentBuilder.startArray(period);
-        String first = state.types[0].toLowerCase();
-        String second = "";
-        if (state.types.length > 1) {
-            second = state.types[1].toLowerCase();
-        }
-        long first_total = 0l;
-        long second_total = 0l;
-
-        for (ResponseRecord customer : customerIds.values()) {
-
-            contentBuilder.startObject();
-            contentBuilder.field(state.keyField, customer.Id);
-            first_total += AmountUtils.getLong(customer.first);
-            contentBuilder.field(first, AmountUtils.getAmount(customer.first));
-            if (!second.isEmpty()) {
-                second_total += AmountUtils.getLong(customer.second);
-                contentBuilder.field(second, AmountUtils.getAmount(customer.second));
-            }
-            contentBuilder.field("total", AmountUtils.getAmount(customer.total));
-            if (customer.field_string_1 != null) {
-                contentBuilder.field("primaryPaymentCodeDesc", customer.field_string_1);
-            }
-            if (customer.field_long_1 > -1)
-                contentBuilder.field("riskScore", AmountUtils.getAmount(customer.field_long_1));
-            if (customer.field_string_2 != null) {
-                contentBuilder.field("relationshipId", customer.field_string_2);
-            }
-            if (customer.field_string_3 != null) {
-                contentBuilder.field("customerGender", customer.field_string_3);
-            }
-            if (customer.field_string_4 != null) {
-                contentBuilder.field("currentStatus", customer.field_string_4);
-            }
-            if (customer.field_string_5 != null) {
-                contentBuilder.field("groupId", customer.field_string_5);
-            }
-            if (customer.field_string_6 != null) {
-                contentBuilder.field("unblindCustomerId", customer.field_string_6);
-            }
-            if (customer.field_int_1 >= 0) {
-                contentBuilder.field("customerAge", customer.field_int_1);
-            }
-            if (customer.types != null && !customer.getProgramTypes().isEmpty())
-                contentBuilder.field("program_type", customer.getProgramTypes());
-            contentBuilder.endObject();
-        }
-        contentBuilder.startObject();
-        contentBuilder.field(first, AmountUtils.getAmount(first_total));
-        if (!second.isEmpty()) contentBuilder.field(second, AmountUtils.getAmount(second_total));
-        contentBuilder.field("total", AmountUtils.getAmount(first_total + second_total));
-        contentBuilder.field("countOfCustomer", customerIds.size());
-        contentBuilder.endObject();
-        contentBuilder.endArray();
-        logger.debug("content generated");
+        logger.debug("writeContent");
     }
 
     @Override

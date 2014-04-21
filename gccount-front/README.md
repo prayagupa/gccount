@@ -20,7 +20,7 @@ run-app
 =======
 
 ```
-$ grails -Dserver.port=8080 run-app
+$ grails -Dserver.port=8483 run-app
 ```
 
 or
@@ -30,7 +30,7 @@ $ bash run-app.sh
 
 es report analytics
 ==============
-hit `http://localhost:8080/gccount/transaction/transactionAnalytics?indexName=gccount&reportName=transaction`
+hit `http://localhost:8483/gccount/transaction/transactionAnalytics?indexName=gccount&reportName=transaction`
 
 
 <b>DEMO</b>

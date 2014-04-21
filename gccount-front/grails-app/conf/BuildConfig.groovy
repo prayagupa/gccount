@@ -64,7 +64,7 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         def scalaVersion = '2.9.1'
-        def elasticsearchVersion = '0.90.3'
+        def elasticsearchVersion = '1.0.0'
 
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 	    runtime "org.elasticsearch:elasticsearch:$elasticsearchVersion"
