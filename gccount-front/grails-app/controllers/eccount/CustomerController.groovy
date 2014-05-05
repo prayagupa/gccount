@@ -106,4 +106,21 @@ class CustomerController {
             redirect action: 'show', id: params.id
         }
     }
+
+    def getHostUrl(){
+        boolean includePort = true;
+        String scheme     = request.getScheme();
+        String serverName = request.getServerName();
+        int serverPort    = (new org.springframework.security.web.PortResolverImpl()).getServerPort(request)
+        boolean inHttp    = "http".equals(scheme.toLowerCase());
+        boolean inHttps   = "https".equals(scheme.toLowerCase());
+
+        if (inHttp && (serverPort == 80)) {
+            includePort = false;
+        } else if (inHttps && (serverPort == 443)) {
+            includePort = false;
+        }
+        String redirectUrl = scheme + "://" + serverName + ((includePort) ? (":" + serverPort) : "");
+        return redirectUrl;
+    }
 }
