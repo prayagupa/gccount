@@ -21,7 +21,17 @@ run-app
 
 change database conf first in datasource
 
-`$ vim +47 gccount-front/grails-app/conf/DataSource.groovy`
+```
+$ vim +47 gccount-front/grails-app/conf/DataSource.groovy
+```
+
+configure mysql username/password for this app in Bootstrap
+
+```
+$ vi +20 grails-app/conf/Bootstrap.groovy
+```
+
+run-app
 
 ```
 $./run-app
