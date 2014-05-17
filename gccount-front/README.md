@@ -19,8 +19,22 @@ $ grails-debug run-app
 run-app
 =======
 
+change database conf first in datasource
+
 ```
-$ grails -Dserver.port=8483 run-app
+$ vim +47 gccount-front/grails-app/conf/DataSource.groovy
+```
+
+configure mysql username/password for this app in Bootstrap
+
+```
+$ vi +20 grails-app/conf/Bootstrap.groovy
+```
+
+run-app
+
+```
+$./run-app
 ```
 
 or
