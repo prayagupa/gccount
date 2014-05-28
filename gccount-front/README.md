@@ -1,6 +1,7 @@
 <b>CASHLESS PAYMENT SYSTEM</b>
 
-https://codeship.io/projects/aa0d2f90-c70c-0131-5e67-568348087483/status
+[![Build Status](https://codeship.io/projects/aa0d2f90-c70c-0131-5e67-568348087483/status)](https://codeship.io/projects/aa0d2f90-c70c-0131-5e67-568348087483/status)
+
 
 [Run UnitTestCases](http://stackoverflow.com/a/2219029/432903)
 ==============
@@ -44,16 +45,8 @@ or
 $ bash run-app.sh
 ```
 
-es report analytics
-==============
-hit `http://localhost:8483/gccount/transaction/transactionAnalytics?indexName=gccount&reportName=transaction`
 
 
 <b>DEMO</b>
 
-![Image Alt](https://github.com/iPrayag/gccount/gccount-front/raw/master/doc/main.png)
-
-
-
-
-
+![Image Alt](https://raw.githubusercontent.com/iPrayag/gccount/master/gccount-front/doc/main.png)
