@@ -1,0 +1,75 @@
+package ${packageName};
+
+import org.elasticsearch.action.ActionResponse;
+import org.elasticsearch.action.search.MultiSearchResponse;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.search.facet.Facet;
+import org.elasticsearch.search.facet.terms.TermsFacet;
+import org.elasticsearch.search.facet.termsstats.TermsStatsFacet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * listener template for ${inputClassName}
+ * User: prayagupd
+ * Date: 08/Apr/14
+ * Time: 12:10 PM
+ */
+
+public class ${inputClassName}ActionListener extends AbstractAnalyticsActionListener {
+
+    Logger logger = LoggerFactory.getLogger(${inputClassName}ActionListener.class);
+
+    @Override
+    protected void processResponse(ActionResponse actionResponse) {
+        if (actionResponse instanceof MultiSearchResponse){
+            logger.debug("preparing to handle multisearch response.");
+            MultiSearchResponse multiSearchResponse = (MultiSearchResponse) actionResponse;
+            MultiSearchResponse.Item[] responseItems = multiSearchResponse.getResponses();
+            int counter =1;
+            for (MultiSearchResponse.Item responseItem : responseItems) {
+                logger.debug("Response {}= {}", counter++, responseItem.getResponse().toString());
+                SearchResponse searchResponse = responseItem.getResponse();
+                processSearchResponseFacets(searchResponse);
+            }
+        }else{
+            logger.error("Failed to handle response.");
+        }
+
+    }
+
+    private void processSearchResponseFacets(SearchResponse searchResponse) {
+        List<Facet> facets   = searchResponse.getFacets().facets();
+        updateThirdLevelwiseValues(facets);
+    }
+
+    private void updateThirdLevelwiseValues(List<Facet> facets) {
+        logger.debug("size of a homo "+facets.get(0).getName()+" response=> "+facets.size());
+        for (Facet facet : facets){
+            logger.debug("listener facet = {}", facet.getName());
+        }
+    }
+
+    @Override
+    protected void writeContent(Map<String, Record> recordMaps, XContentBuilder jsonBuilder, 
+                                String period) throws Exception {
+        logger.debug("recordMap {}", recordMaps);
+        Long start = new Date().getTime();
+        jsonBuilder.startObject(period); 
+        jsonBuilder.endObject(); //"reporting"
+
+        Long end = new Date().getTime();
+        logger.error("Time taken to write json => " + (end - start) + "m sec");
+    }
+
+
+}
