@@ -1,2 +1,2 @@
-app.tomcat.version=7.0.47
-app.hibernate.version=3.6.10.4
+app.tomcat.version=7.0.52.1
+app.hibernate.version=4.3.5.2

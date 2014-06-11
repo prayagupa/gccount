@@ -74,6 +74,7 @@ grails.project.dependency.resolution = {
         runtime 'mysql:mysql-connector-java:5.1.20'
         compile "net.sf.ehcache:ehcache-core:2.4.6"
 
+		compile 'joda-time:joda-time:2.3'
         compile 'org.clojure:clojure-contrib:1.2.0'
 
         compile "org.scala-lang:scala-compiler:$scalaVersion",
@@ -83,12 +84,12 @@ grails.project.dependency.resolution = {
 
     plugins {
 
-        compile ":hibernate:$slurp.app.hibernate.version"
+        compile ":hibernate4:$slurp.app.hibernate.version"
         build   ":tomcat:$slurp.app.tomcat.version"
-        compile ':scaffolding:1.0.0'
+        compile ':scaffolding:2.1.0'
 
-        runtime ":jquery:1.8.0"
-        runtime ":resources:1.2.1"
+        runtime ":jquery:1.11.0.2"
+        runtime ":resources:1.2.8"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -96,10 +97,11 @@ grails.project.dependency.resolution = {
         //runtime ":yui-minify-resources:0.1.4"
 
 
-        runtime ":database-migration:1.3.6"
+        runtime ":database-migration:1.4.0"
 
-        compile ':cache:1.0.0'
-	
+        compile ':cache:1.1.3'
+    	compile ':asset-pipeline:1.8.3'
+
         // install twitter-bootstrap resources plugin
         // https://github.com/iPrayag/twitter-bootstrap-scaffolding
         runtime ":twitter-bootstrap:2.1.1"
@@ -118,14 +120,14 @@ grails.project.dependency.resolution = {
         //compile ":neo4j:latest.version"
 
         //spring sec plugin
-        compile ':spring-security-core:1.2.7.3'
+        compile ':spring-security-core:2.0-RC3'
 
-        compile ":joda-time:1.4"
+        //compile ":joda-time:1.4"
 
         compile ":scala:0.9.2"
 
         //compile ":clojure:0.6"
         
-        compile ":console-enhancements:1.0"
+        //compile ":console-enhancements:1.0"
     }
 }
