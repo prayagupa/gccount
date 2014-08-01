@@ -9,6 +9,31 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
   }'
 MATCH_ALL_QUERY
 
+## search document with transactionId 1 using match filter                                          
+                                                                                                     
+                                                                                                      
+  <<MATCH_ALL_QUERY_                                                                                  
+  curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '                      
+  {                                                                                                   
+      "size": 10,                                                                                     
+      "from": 0,                                                                                      
+      "query": {                                                                                      
+       "nested" : {                                                                                   
+          "path" : "transactions",                                                                    
+          "query" : {                                                                                 
+              "bool" : {                                                                              
+                  "must" : [                                                                          
+                      {                                                                               
+                          "match" : {"transactions.transactionId" : "1"}                              
+                      }                                                                               
+                  ]                                                                                   
+              }                                                                                       
+          }                                                                                           
+       }                                                                                              
+      }                                                                                               
+  }'                                                                                                  
+  MATCH_ALL_QUERY_
+
 ## search document with transactionId 1 using match filter
 
 curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
