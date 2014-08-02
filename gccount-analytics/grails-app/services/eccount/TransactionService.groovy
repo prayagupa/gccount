@@ -1,8 +1,8 @@
 package eccount
 
-import eccount.action.AbstractAnalyticsActionListener
-import eccount.action.AnalyticsActionListeners
-import eccount.action.AnalyticsRequestBuilders
+import eccount.report.AbstractAnalyticsActionListener
+import eccount.report.AnalyticsActionListeners
+import eccount.report.AnalyticsRequestBuilders
 import eccount.config.AbstractConfManager
 import eccount.config.EsCluster
 import eccount.config.EsServer

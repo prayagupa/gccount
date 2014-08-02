@@ -1,4 +1,4 @@
-package eccount.action;
+package eccount.report;
 
 
 import eccount.ClientRequest;

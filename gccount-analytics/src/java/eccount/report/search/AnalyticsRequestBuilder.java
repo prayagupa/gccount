@@ -1,4 +1,4 @@
-package eccount.action.search;
+package eccount.report.search;
 
 import eccount.ClientRequest;
 import org.elasticsearch.action.search.MultiSearchRequestBuilder;

@@ -1,7 +1,7 @@
-package eccount.action;
+package eccount.report;
 
 import eccount.ClientRequest;
-import eccount.action.search.AnalyticsRequestBuilder;
+import eccount.report.search.AnalyticsRequestBuilder;
 import eccount.util.AmountUtils;
 import eccount.util.RequestUtils;
 

@@ -1,8 +1,8 @@
-package eccount.action;
+package eccount.report;
 
 import eccount.ClientRequest;
-import eccount.action.search.AnalyticsRequestBuilder;
-import eccount.action.search.TransactionAnalysisRequestBuilder;
+import eccount.report.search.AnalyticsRequestBuilder;
+import eccount.report.search.TransactionAnalysisRequestBuilder;
 import eccount.util.QueryUtils;
 
 import org.elasticsearch.action.search.MultiSearchRequestBuilder;

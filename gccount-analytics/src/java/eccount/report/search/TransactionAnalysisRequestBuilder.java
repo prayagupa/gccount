@@ -1,9 +1,9 @@
-package eccount.action.search;
+package eccount.report.search;
 
 import eccount.ClientRequest;
 
 import eccount.SearchRequest;
-import eccount.action.AnalyticsRequestBuilders;
+import eccount.report.AnalyticsRequestBuilders;
 import eccount.util.DateUtils;
 import eccount.util.FilterUtils;
 import eccount.util.QueryUtils;

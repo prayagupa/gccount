@@ -1,6 +1,6 @@
 package eccount;
 
-import eccount.action.AbstractAnalyticsActionListener;
+import eccount.report.AbstractAnalyticsActionListener;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.FilterBuilder;
 
@@ -98,7 +98,6 @@ public class ClientRequest {
 
     public boolean isPaidThrough(){
         return true;
-        //return "serviceDate".equals(QueryUtils.parseBasis(request)) && (request.hasParameter("comparisonPaidThrough") || request.hasParameter("reportingPaidThrough"));
     }
 
     public String periodTo() {
