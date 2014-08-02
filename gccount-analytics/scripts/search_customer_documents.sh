@@ -1,3 +1,5 @@
+## select * from Customer where 1=1
+
 <<MATCH_ALL_QUERY
 curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
   {
@@ -6,6 +8,33 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
      }
   }'
 MATCH_ALL_QUERY
+
+## search document with transactionId 1 using match filter                                          
+                                                                                                     
+                                                                                                      
+  <<MATCH_ALL_QUERY_                                                                                  
+  curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '                      
+  {                                                                                                   
+      "size": 10,                                                                                     
+      "from": 0,                                                                                      
+      "query": {                                                                                      
+       "nested" : {                                                                                   
+          "path" : "transactions",                                                                    
+          "query" : {                                                                                 
+              "bool" : {                                                                              
+                  "must" : [                                                                          
+                      {                                                                               
+                          "match" : {"transactions.transactionId" : "1"}                              
+                      }                                                                               
+                  ]                                                                                   
+              }                                                                                       
+          }                                                                                           
+       }                                                                                              
+      }                                                                                               
+  }'                                                                                                  
+  MATCH_ALL_QUERY_
+
+## search document with transactionId 1 using match filter
 
 curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
 {
@@ -27,6 +56,9 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
     }
 }'
 
+
+ 
+## search document with transactionId 1 using terms filter
 
 <<FILTERED
 {
@@ -59,6 +91,8 @@ curl -X POST "http://localhost:9200/gccount/Customer/_search?pretty=true" -d '
 }
 FILTERED
 
+
+## search document with transactionType terms filter, date range filter
 
 <<NESTED_FILTER_EX
 {
@@ -110,6 +144,10 @@ FILTERED
 NESTED_FILTER_EX
 
 
+##################### aggs #########################
+## aggregate by first name and then  => gives firstName wise buckets
+## aggregate their average balance in each firstName buckets
+
 <<AGGREGATOR
 POST http://localhost:9200/gccount/Customer/_search
 {
@@ -133,4 +171,3 @@ POST http://localhost:9200/gccount/Customer/_search
    }
 }
 AGGREGATOR
-
