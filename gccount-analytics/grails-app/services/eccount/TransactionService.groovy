@@ -53,9 +53,9 @@ class TransactionService {
      * @param searchRequest
      * @return
      */
-   def getSearchResponse(SearchRequest searchRequest){
-        String esClusterName   = (EsCluster.ES_DEFAULT_CLUSTER_NAME!=null) ? EsCluster.ES_DEFAULT_CLUSTER_NAME : "elasticsearch";
-        settings               = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
+   def getSearchResponse(SearchRequest searchRequest) {
+		final String clustername = !confManager.getEsCluster("EsServersConfig").getClusterName().isEmpty() ? confManager.getEsCluster("EsServersConfig").getClusterName() : "elasticsearch"
+        settings               = ImmutableSettings.settingsBuilder().put("cluster.name", clustername).build();
         esClient               = EsConnector.getClient(getDefaultCluster())
 
         AtomicBoolean processFlag = new AtomicBoolean(false)
@@ -84,13 +84,7 @@ class TransactionService {
    }
 
    def getDefaultCluster(){
-       def server = new EsServer(name     : "Node1",
-                                  hostname : "localhost",
-                                  port     : 9300,
-                                  httpPort : 9200)
-       def cluster   = new EsCluster()
-       cluster.nodes = ["Node1":server]
-       cluster.clusterName  = "elasticsearch"
+	   def cluster = confManager.getEsCluster("EsServersConfig")
        cluster
    }
 
