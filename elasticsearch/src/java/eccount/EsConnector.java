@@ -52,10 +52,8 @@ public class EsConnector {
         }
         String esClusterName = !clusterConfig.getClusterName().isEmpty()?clusterConfig.getClusterName(): EsCluster.ES_DEFAULT_CLUSTER_NAME;
 
-        //System.out.println("----------------------------------------------------------------------------------");
-        //System.out.println(dt.format(new Date()) + " ElasticSearchConnector.getInstance: Connection attempt to cluster: "+ esClusterName);
-        System.out.println("println logger EC =>" + logger.getName());
-        logger.info("", dt.format(new Date()) + " ElasticSearchConnector.getInstance: Connection attempt to cluster: "+ esClusterName);
+        logger.error("----------------------------------------------------------------------------------");
+        logger.error("{}", "Connection attempt to cluster: "+ esClusterName);
 
         Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", esClusterName).build();
         TransportClient client = new TransportClient(settings);
