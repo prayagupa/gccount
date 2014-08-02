@@ -12,7 +12,7 @@ class AbstractConfManager {
         def confScript =  AbstractConfManager.classLoader.loadClass(server).newInstance()
         confScript.run()
         def EsServersBuilder builder= new EsServersBuilder()
-        def servers = script.servers
+        def servers = confScript.servers
         servers.delegate = builder
         servers()
         EsCluster clusterConfig = new EsCluster()
@@ -27,10 +27,9 @@ class AbstractConfManager {
 
     def setIndex(requestMap){
         def clientId=getIndexId(requestMap)
-        if(clientId){
+        if ( clientId ) {
             requestMap.put("index_name",clientId)
-        }
-        else{
+        } else {
             throw new RuntimeException("Index is not defined.")
         }
     }
