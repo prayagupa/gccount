@@ -22,6 +22,12 @@ or, do it stepwise with following commands, line 2, 3, 4
 5 } 
 ```
 
+If you already have 'gccount' index and you want to delete it along with mapping, fire following command 
+
+```bash
+./delete_index.sh
+```
+
 es report analytics
 ==============
 hit `http://localhost:8483/gccount/transaction/transactionAnalytics?indexName=gccount&reportName=transaction`
