@@ -20,6 +20,9 @@
                              "type"  : "string", 
 			     "index" : "not_analyzed"
                            },                           
+			  "ipAddress" : {
+				  "type" : "string"
+			  },
                           "createdDate": {
                              "type"   : "date",
                              "format" : "dateOptionalTime"
