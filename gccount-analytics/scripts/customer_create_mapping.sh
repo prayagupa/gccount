@@ -12,7 +12,7 @@ curl -XPUT localhost:9200/$index/$typeCustomer/_mapping -d '{
                     "firstName"  : { "type":"String" , "index" : "not_analyzed"}, 
                     "middleName" : { "type":"String" , "index" : "not_analyzed"}, 
                     "lastName"   : { "type":"String" , "index" : "not_analyzed"}, 
-                    "tags"       : { "type":"String" }, 
+                    "tags"       : { "type":"String" , "position_offset_gap": 100}, 
                     "balance"    : { "type":"Double" }, 
                     "created": {
                          "type"   : "date",
@@ -33,6 +33,9 @@ curl -XPUT localhost:9200/$index/$typeCustomer/_mapping -d '{
                           "amount" : {
                              "type" : "Double"
                           },
+			  "ipAddress":{
+			     "type" : "string"
+		          },
                           "status" : {
                               "type" : "string"
                           }
