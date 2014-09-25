@@ -92,7 +92,7 @@ class TransactionService {
       * static object for executing @{SearchRequestBuilder}
       * and stimulating respective @{ActionListener} to handle @{SearchResponse}s
       */
-    static class RequestBuilderExecutor implements Runnable {
+    public static class RequestBuilderExecutor implements Runnable {
         MultiSearchRequestBuilder builder;
         AbstractAnalyticsActionListener actionListener;
 

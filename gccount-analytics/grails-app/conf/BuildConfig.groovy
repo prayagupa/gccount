@@ -37,7 +37,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        def elasticsearchVersion = '1.0.0'
+        def elasticsearchVersion = '1.3.2'
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
         // runtime 'mysql:mysql-connector-java:5.1.24'
 		runtime "org.elasticsearch:elasticsearch:$elasticsearchVersion"
