@@ -6,7 +6,6 @@ import eccount.SearchRequest;
 import eccount.report.AnalyticsRequestBuilders;
 import eccount.util.DateUtils;
 import eccount.util.FilterUtils;
-import eccount.util.QueryUtils;
 import org.elasticsearch.action.search.MultiSearchRequestBuilder;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchType;
@@ -27,44 +26,27 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
     public final String ESTYPE_TRANSACTION     = "Transaction";
 
     public static String FIELD_BALANCE     = "balance";
-    public static String BALANCE_FACETNAME = "balance_stats";
+    public static String BALANCE_AGGSNAME = "balance_stats";
 
     @Override
     protected MultiSearchRequestBuilder executeMultiSearchQuery(ClientRequest state, Client client) {
         MultiSearchRequestBuilder multiSearchRequestBuilder = new MultiSearchRequestBuilder(client);
 
-        SearchRequestBuilder paidAmountRequestBuilder  = preparePaidAmountStatisticalFacet(state, client);
+        SearchRequestBuilder builder  = prepareAggs(state, client);
         //multiSearchRequestBuilder.add(countRequestBuilder);
-        multiSearchRequestBuilder.add(paidAmountRequestBuilder);
-        System.out.println("paidAmountRequestBuilder = "+paidAmountRequestBuilder);
+        multiSearchRequestBuilder.add(builder);
+        System.out.println("paidAmountRequestBuilder = "+builder);
         return multiSearchRequestBuilder;
     }
 
-
-    private SearchRequestBuilder prepareTermsStatsFacetsForCount(ClientRequest state, Client client) {
-        SearchRequestBuilder searchRequestBuilder = prepareSearchRequestBuilder(state, client);
-        addCustomerCountFacet(searchRequestBuilder, state);
+    private SearchRequestBuilder prepareAggs(ClientRequest clientRequest, Client client) {
+        SearchRequestBuilder searchRequestBuilder = buildEndSearch(client, clientRequest.request);
+        searchRequestBuilder.setTypes(ESTYPE_CUSTOMER);
+        searchRequestBuilder.addFacet(FilterUtils.getStatisticalFacet(BALANCE_AGGSNAME, FIELD_BALANCE, null));
+        searchRequestBuilder.addField(FIELD_BALANCE);
         return searchRequestBuilder;
     }
 
-
-    private SearchRequestBuilder preparePaidAmountStatisticalFacet(ClientRequest clientRequest, Client client) {
-        SearchRequestBuilder dateRangeRequestBuilder = QueryUtils.prepareRequestBuilder(client,
-                clientRequest.request,
-                "reportingFrom",
-                "reportingTo",
-                clientRequest, 
-                null,
-                ESTYPE_CUSTOMER);       //ESTYPE_TRANSACTION
-        StatisticalFacetBuilder transactionAmountFacet = FilterUtils.getStatisticalFacet(BALANCE_FACETNAME, FIELD_BALANCE, null);
-        dateRangeRequestBuilder.addFacet(transactionAmountFacet);
-        dateRangeRequestBuilder.addField(FIELD_BALANCE);
-        return dateRangeRequestBuilder;
-    }
-
-    private void addCustomerCountFacet(SearchRequestBuilder builder, ClientRequest state) {
-        builder.addFacet(termsStatsFacetBuilder(state, state.periodTo(), "customerCount"));
-    }
 
     private SearchRequestBuilder prepareSearchRequestBuilder(ClientRequest state, Client esClient) {
         SearchRequest request = state.request;
@@ -77,12 +59,11 @@ public class TransactionAnalysisRequestBuilder extends AnalyticsRequestBuilders.
         return builder;
     }
 
-
-    private TermsStatsFacetBuilder termsStatsFacetBuilder(ClientRequest state, String month, String facetName) {
-        Long longDate = DateUtils.getTimeFromDateWrtTimeZone(month);
-        AndFilterBuilder andFilter = null;
-        Long periodTo = DateUtils.getTimeFromDateWrtTimeZone(state.periodTo());
-        return FilterUtils.getFacet(facetName, "searchKey", "valueField", andFilter);
+    public SearchRequestBuilder buildEndSearch(Client client, final SearchRequest request) {
+        String index                 = request.hasParameter("clientId") ? request.get("clientId") : "gccount";
+        SearchRequestBuilder builder = client.prepareSearch(index);
+        builder.setSearchType(SearchType.QUERY_THEN_FETCH);
+        return builder;
     }
 }
 

@@ -4,6 +4,7 @@ import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.search.facet.Facet;
+import org.elasticsearch.search.facet.statistical.StatisticalFacet;
 import org.elasticsearch.search.facet.termsstats.TermsStatsFacet;
 
 import java.util.HashMap;
@@ -33,11 +34,15 @@ public class CustomerAnalyticsActionListener extends AbstractAnalyticsActionList
         double customerCount = 0d;
         for (Facet facet : response.getFacets().facets()) {
             //customerCount facet...
-            if (facet.getName().equalsIgnoreCase("customerCount")) {
+            if (facet instanceof  TermsStatsFacet) {
                 TermsStatsFacet termFacet = (TermsStatsFacet) facet;
                 for (TermsStatsFacet.Entry stringEntry : termFacet.getEntries()) {
                     customerCount += stringEntry.getCount();
                 }
+            } else {
+                StatisticalFacet statisticalFacet = (StatisticalFacet) facet;
+                customerCount = statisticalFacet.getCount();
+                System.out.print("StatisticalFacet => " + customerCount);
             }
         }
 
